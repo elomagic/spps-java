@@ -44,6 +44,12 @@
             <artifactId>shiro-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>openejb-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Helpful artifact for Intellij IDE ( https://www.jetbrains.com/help/idea/annotating-source-code.html ) -->
         <dependency>
             <groupId>org.jetbrains</groupId>
