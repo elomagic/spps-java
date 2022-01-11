@@ -1,8 +1,11 @@
 package de.elomagic.spps.bc;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class SppsPasswordCipherTest {
@@ -36,5 +39,13 @@ public class SppsPasswordCipherTest {
 
     }
 
+    @Test
+    void testMetaInf() throws IOException {
+
+        String className = IOUtils.resourceToString("/META-INF/org.apache.openejb.cipher.PasswordCipher/spps", StandardCharsets.UTF_8);
+
+        Assertions.assertEquals(SppsPasswordCipher.class.getName(), className.trim());
+
+    }
 
 }
