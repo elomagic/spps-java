@@ -9,7 +9,11 @@ to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-* Project jbc and jshiro merged into this project as modules  
+* Project [spps-jbc]https://github.com/elomagic/spps-jbc and [spps-jshiro]https://github.com/elomagic/spps-jshiro merged into this project as modules
+
+### Added
+
+* Web application tool "spps-wet" for encrypting secret in service context.
 
 ## Previous Releases
 

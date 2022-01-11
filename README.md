@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://img.shields.io/travis/com/elomagic/spps-jbc)](https://travis-ci.com/github/elomagic/spps-java)
 [![Coverage Status](https://coveralls.io/repos/github/elomagic/spps-jbc/badge.svg)](https://coveralls.io/github/elomagic/spps-java)
-[![GitHub issues](https://img.shields.io/github/issues-raw/elomagic/spps-jbc)](https://github.com/elomagic/spps-javac/issues)
+[![GitHub issues](https://img.shields.io/github/issues-raw/elomagic/spps-jbc)](https://github.com/elomagic/spps-java/issues)
 
 The SPPS is a lightweight solution to protect / hide your password or anything else from your code.
 
@@ -169,8 +169,8 @@ class Sample {
 *Supported since version 1.3.0*
 
 Note if your Tomee run with a different account then yours. In this case you have to encrypt your secret in context of 
-the account which will run the service in the future. One solution idea is to provide a webservice which will do this 
-job. 
+the account which will run the service in the future. One solution idea is to deploy the spps-wet web application tool. This 
+app provides a simple UI for encryption secret.  
 
 Set ```spps``` as password cipher and the encrypted secret in property ```password``` WITHOUT the surrounding brackets
 in the ```[tomme_inst_folder]\conf\tomee.xml``` file.
@@ -201,6 +201,15 @@ For more information see https://tomee.apache.org/latest/docs/datasource-passwor
 ### Requirements 
 
 Put all JAR files in the latest version into the lib folder of your Tomee. Usually ```[tomme_inst_folder]\lib```
+
+### SPPS WebEncryption Tool
+
+*Supported since version 2.0.0*
+
+The tool offers the feature to generate passwords in the service context of the application server.
+Just deploy the latest version of the tool to your application server and open web-browser with the
+URL ```[BASE_URL]/spps-wet-[VERSION]```, enter your secret, press the "Encrypt" button and the encrypted secret will be generated
+and presented.
 
 #### SPPS with Bouncy Castle support
 
