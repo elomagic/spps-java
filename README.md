@@ -98,6 +98,8 @@ key=5C/Yi6+hbgRwIBhXT9PQGi83EVw2Oe6uttRSl4/kLzc=
 relocation=
 ```
 
+As a feature, if the private key does not exist, it will be created automatically when you encrypt a new secret!
+
 ### Alternative, create a private key file on a removable device:
 
 Enter following command in your terminal:
@@ -121,6 +123,9 @@ relocation=
 ```
 
 ## How to create an encrypted password
+
+Important Note: Usually you do not need to execute this command unless you want to create a new private key. 
+Remember, secrets which are already encrypted with the old key cannot be decrypted with the new key!
 
 Enter following command in your terminal:
 

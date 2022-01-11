@@ -60,6 +60,15 @@ public final class SimpleCrypt {
     }
 
     /**
+     * Check is the settings file exists.
+     *
+     * @return Returns true when exists otherwise false
+     */
+    private static boolean existsSettingsFile() {
+        return Files.exists(SETTINGS_FILE.get());
+    }
+
+    /**
      * Read private key from default location.
      *
      * @return Returns the private key as byte array.
@@ -193,6 +202,10 @@ public final class SimpleCrypt {
     public static String encrypt(byte[] decrypted) throws SimpleCryptException {
         if (decrypted == null) {
             return null;
+        }
+
+        if (!existsSettingsFile()) {
+            createPrivateKey(null, null, false);
         }
 
         try {
