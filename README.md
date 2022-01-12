@@ -222,7 +222,7 @@ and presented.
 #### SPPS with Apache Shiro support
 
 * spps-jshiro-1.x.x.jar - https://github.com/elomagic/spps-jbc
-* bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
+* shiro-all-1.x.x.jar - https://shiro.apache.org/download.html
 * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
