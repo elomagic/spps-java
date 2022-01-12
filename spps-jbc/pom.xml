@@ -16,14 +16,6 @@
     <description>Simple Password Protection Solution for Java with Bouncy Castle</description>
 
     <properties>
-        <java.version>1.8</java.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.scm.id>github</project.scm.id>
-
-        <junit-jupiter.version>5.8.2</junit-jupiter.version>
-        <maven-surefire.version>3.0.0-M5</maven-surefire.version>
-        <maven-release-plugin>3.0.0-M4</maven-release-plugin>
     </properties>
 
     <dependencies>
