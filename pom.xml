@@ -34,6 +34,7 @@
     </developers>
 
     <modules>
+        <module>spps-shared</module>
         <module>spps-jbc</module>
         <module>spps-jshiro</module>
         <module>spps-wet</module>
@@ -104,7 +105,7 @@
                     <configuration>
                         <skip>false</skip>
 
-                        <header>${project.basedir}/src/templates/APACHE-2.txt</header>
+                        <!--<header>${project.basedir}/src/templates/APACHE-2.txt</header>-->
                         <mapping>
                             <java>SLASHSTAR_STYLE</java>
                         </mapping>
@@ -264,6 +265,12 @@
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>2.11.0</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>4.2.0</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

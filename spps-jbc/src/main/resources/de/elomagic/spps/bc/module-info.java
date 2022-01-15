@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 module spps.jbc {
+    requires de.elomagic.spps.shared;
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
     requires org.jetbrains.annotations;

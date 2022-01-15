@@ -62,7 +62,7 @@ Add following dependency to your project
 ## Example
 
 ```java
-import de.elomagic.spps.bc.SimpleCrypt;
+import de.elomagic.spps.bc.SimpleCryptBC;
 
 class Sample {
 
@@ -146,7 +146,7 @@ The method ```SimpleCrypt.setSettingsFile([file])``` can be used to set applicat
 users home folder.
 
 ```java
-import de.elomagic.spps.bc.SimpleCrypt;
+import de.elomagic.spps.bc.SimpleCryptBC;
 
 import java.nio.file.Paths;
 

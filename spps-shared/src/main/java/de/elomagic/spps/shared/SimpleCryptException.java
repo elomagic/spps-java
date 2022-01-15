@@ -1,9 +1,9 @@
 /*
- * Simple Password Protection Solution with Bouncy Castle
+ * Simple Password Protection Solution Shared Classes
  *
  * Copyright © 2021-present Carsten Rambow (spps.dev@elomagic.de)
  *
- * This file is part of Simple Password Protection Solution with Bouncy Castle.
+ * This file is part of Simple Password Protection Solution Shared Classes.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.elomagic.spps.bc;
+package de.elomagic.spps.shared;
 
 public class SimpleCryptException extends RuntimeException {
 

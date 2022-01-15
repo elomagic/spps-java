@@ -3,6 +3,10 @@ Usage:
 * java -jar spps-jbc-x.x.x.jar -Secret <secret> [-File <file>]
 * java -jar spps-jbc-x.x.x.jar -Help | -?
 
+* java -jar spps-jshiro-x.x.x.jar -CreatePrivateKey [-Force] [-Relocation <file>]|[-File <file>]
+* java -jar spps-jshiro-x.x.x.jar -Secret <secret> [-File <file>]
+* java -jar spps-jshiro-x.x.x.jar -Help | -?
+
 More SPPS online help on https://github.com/elomagic/spps-jshiro
 
 -CreatePrivateKey
