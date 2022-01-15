@@ -36,6 +36,9 @@ public class SimpleCryptFactory {
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptFactory.class);
     private static final AtomicReference<SimpleCryptProvider> ACTIVE_PROVIDER_INSTANCE = new AtomicReference<>();
 
+    private SimpleCryptFactory() {
+    }
+
     @NotNull
     private static String readProviderClassNameFromMataInf() {
          InputStream in = SimpleCryptFactory.class.getResourceAsStream(META_INF_PATH);
@@ -62,7 +65,7 @@ public class SimpleCryptFactory {
         if (ACTIVE_PROVIDER_INSTANCE.get() == null) {
             String className = readProviderClassNameFromMataInf();
             try {
-                LOGGER.debug("Creating default instance of SPPS provider '" + className + "'.");
+                LOGGER.debug("Creating default instance of SPPS provider '{}'.", className);
                 Class<? extends SimpleCryptProvider> providerClass = (Class<? extends SimpleCryptProvider>)Class.forName(className);
                 SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
                 ACTIVE_PROVIDER_INSTANCE.set(instance);
