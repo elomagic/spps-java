@@ -14,7 +14,7 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 
 * AES 256 GCM en-/decryption
 * Bouncy Castle support
-* Apache Shiro
+* Apache Shiro support
 * Cross programming languages support
   * [Java](https://github.com/elomagic/spps-java)
   * [Python](https://github.com/elomagic/spps-py)
@@ -37,7 +37,8 @@ Keep in mind that anyone who has access to the user home or relocation folder al
 
 ## Using in your Maven project
 
-Add following dependency to your project
+Add following dependency to your project. Replace the value of the attribute ```artefactId``` according to the used 
+crypto engine in your project.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -49,8 +50,8 @@ Add following dependency to your project
     <dependencies>
         <dependency>
             <groupId>de.elomagic</groupId>
-            <artifactId>spps-jbc</artifactId>
-            <version>1.3.0</version>
+            <artifactId>[spps-jbc | spps-jshiro]</artifactId>
+            <version>2.0.0</version>
         </dependency>
     </dependencies>
     
@@ -59,21 +60,23 @@ Add following dependency to your project
 </project>
 ```
 
-## Example
+## Simple example for encrypting and decrypting a secret
 
 ```java
-import de.elomagic.spps.bc.SimpleCryptBC;
+import de.elomagic.spps.shared.SimpleCryptFactory;
 
 class Sample {
 
     void testEncryptDecryptWithString() throws Exception {
         String value = "My Secret";
+        
+        SimpleCryptProvider provider = SimpleCryptFactory.getInstance(); 
 
-        String encrypted = SimpleCrypt.encrypt(value);
+        String encrypted = provider.encrypt(value);
 
         System.out.println("My encrypted secret is " + encryptedSecret);
 
-        String decrypted = SimpleCrypt.decryptToString(encrypted);
+        String decrypted = provider.decryptToString(encrypted);
 
         System.out.println("...and my secret is " + decrypted);
     }
@@ -85,10 +88,14 @@ class Sample {
 
 ### Create a private in your home folder:
 
+As a feature, if the private key does not exist, it will be created automatically when you encrypt a new secret!
+
+If you want to create it manually then continue with the following steps.
+
 Enter following command in your terminal:
 
 ```bash  
-java -jar spps-jbc-1.0.0.jar -CreatePrivateKey
+java -jar spps-jbc-2.0.0.jar -CreatePrivateKey
 ```
 
 The settings file ```'~/.spps/settings'``` in your home folder will look like:
@@ -146,17 +153,19 @@ The method ```SimpleCrypt.setSettingsFile([file])``` can be used to set applicat
 users home folder.
 
 ```java
-import de.elomagic.spps.bc.SimpleCryptBC;
+import de.elomagic.spps.shared.SimpleCryptFactory;
 
 import java.nio.file.Paths;
 
 class Sample {
 
     void testEncryptDecryptWithString() throws Exception {
-        
-        SimpleCrypt.setSettingsFile(Paths.get("./configuration/privateKey"));
 
-        String decrypted = SimpleCrypt.decryptToString(SimpleCrypt.encrypt("secret"));
+        SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
+
+        provider.setSettingsFile(Paths.get("./configuration/privateKey"));
+
+        String decrypted = provider.decryptToString(SimpleCrypt.encrypt("secret"));
         System.out.println("...and my secret is " + decrypted);
         
     }
@@ -213,7 +222,8 @@ and presented.
 
 #### SPPS with Bouncy Castle support
 
-* spps-jbc-1.x.x.jar - https://github.com/elomagic/spps-jbc
+* spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
+* spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
 * bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
 * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
@@ -221,8 +231,9 @@ and presented.
 
 #### SPPS with Apache Shiro support
 
-* spps-jshiro-1.x.x.jar - https://github.com/elomagic/spps-jbc
-* bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
+* spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
+* spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
+* shiro-all-1.x.0.jar - https://shiro.apache.org/download.html#latestBinary
 * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
