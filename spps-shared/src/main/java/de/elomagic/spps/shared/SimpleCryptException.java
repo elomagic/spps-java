@@ -19,12 +19,30 @@
  */
 package de.elomagic.spps.shared;
 
+/**
+ * Signals that a SimpleCrypt exception of some sort has occurred.
+ *
+ * This class is the general class of exceptions produced by failed SimpleCrypt operations.
+ */
 public class SimpleCryptException extends RuntimeException {
 
+    /**
+     * Constructs an SimpleCryptException with the specified detail message.
+
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     */
     public SimpleCryptException(String message) {
         super(message);
     }
 
+    /**
+     * Constructs an SimpleCryptException with the specified detail message and cause.
+     *
+     * Note that the detail message associated with cause is not automatically incorporated into this exception's detail message.
+     *
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause The cause (which is saved for later retrieval by the getCause() method). (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
+     */
     public SimpleCryptException(String message, Throwable cause) {
         super(message, cause);
     }
