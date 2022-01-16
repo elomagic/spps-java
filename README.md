@@ -10,6 +10,19 @@
 
 The SPPS is a lightweight solution to protect / hide your password or anything else from your code.
 
+## Table of Contents
+
+- [Features](#features)
+- [Concept](#concept)
+- [Using the library](#Using the library)
+  * [Maven](#Maven)
+  * [Create a private key file](#Create a private key file)
+  * [Encrypt a secret](#Encrypt a secret)
+  * [Apache Tomee integration](#Apache Tomee integration)
+  * [WebEncryption Tool](#WebEncryption Tool)
+- [Migration](#migration)
+- [Contributing](#contributing)
+
 ## Features
 
 * AES 256 GCM en-/decryption
@@ -35,7 +48,9 @@ By default, the private key is stored in a file "/.spps/settings" of the user ho
 
 Keep in mind that anyone who has access to the user home or relocation folder also has access to the private key !!!!
 
-## Using in your Maven project
+## Using the library
+
+### Maven
 
 Add following dependency to your project. Replace the value of the attribute ```artefactId``` according to the used 
 crypto engine in your project.
@@ -60,7 +75,7 @@ crypto engine in your project.
 </project>
 ```
 
-## Simple example for encrypting and decrypting a secret
+#### Simple example for encrypting and decrypting a secret
 
 ```java
 import de.elomagic.spps.shared.SimpleCryptFactory;
@@ -84,9 +99,9 @@ class Sample {
 }
 ```
 
-## How to create a private key file
+### Create a private key file
 
-### Create a private in your home folder:
+#### Create a private in your home folder:
 
 As a feature, if the private key does not exist, it will be created automatically when you encrypt a new secret!
 
@@ -107,7 +122,7 @@ relocation=
 
 As a feature, if the private key does not exist, it will be created automatically when you encrypt a new secret!
 
-### Alternative, create a private key file on a removable device:
+#### Alternative, create a private key file on a removable device:
 
 Enter following command in your terminal:
 
@@ -129,7 +144,7 @@ key=5C/Yi6+hbgRwIBhXT9PQGi83EVw2Oe6uttRSl4/kLzc=
 relocation=
 ```
 
-## How to create an encrypted password
+### Encrypt a secret
 
 Important Note: Usually you do not need to execute this command unless you want to create a new private key. 
 Remember, secrets which are already encrypted with the old key cannot be decrypted with the new key!
@@ -145,7 +160,7 @@ Output should look like:
 {MLaFzwpNyKJbJSCg4xY5g70WDAKnOhVe3oaaDAGWtH4KXR4=}
 ```
 
-## How can my application use an alternative settings file instead of the default
+### How can my application use an alternative settings file instead of the default
 
 *Supported since version 1.1.0*
 
@@ -173,7 +188,7 @@ class Sample {
 }
 ```
 
-## Apache Tomee integration
+### Apache Tomee integration
 
 *Supported since version 1.3.0*
 
@@ -187,7 +202,7 @@ in the ```[tomme_inst_folder]\conf\tomee.xml``` file.
 For some unknown reason, Tomee removes the closing bracket from the encrypted SPPS secret when try to decrypt, so we 
 have to remove the brackets in the ```tomee.xml``` file.
 
-### Example resource in the tomee.xml
+#### Example resource in the tomee.xml
 ```xml
 <Resource id="MySQL Database" type="DataSource">
     #  MySQL example
@@ -207,11 +222,11 @@ have to remove the brackets in the ```tomee.xml``` file.
 
 For more information see https://tomee.apache.org/latest/docs/datasource-password-encryption.html or
 
-### Requirements 
+## Requirements 
 
 Put all JAR files in the latest version into the lib folder of your Tomee. Usually ```[tomme_inst_folder]\lib```
 
-### SPPS WebEncryption Tool
+## WebEncryption Tool
 
 *Supported since version 2.0.0*
 
@@ -220,7 +235,7 @@ Just deploy the latest version of the tool to your application server and open w
 URL ```[BASE_URL]/spps-wet-[VERSION]```, enter your secret, press the "Encrypt" button and the encrypted secret will be generated
 and presented.
 
-#### SPPS with Bouncy Castle support
+### SPPS with Bouncy Castle support
 
 * spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
 * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
@@ -229,7 +244,7 @@ and presented.
 * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
 
-#### SPPS with Apache Shiro support
+### SPPS with Apache Shiro support
 
 * spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
 * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
@@ -238,7 +253,13 @@ and presented.
 * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
 * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
 
-## Contribution
+## Migration
+
+tbd Migration from 1.x to 2.0
+
+## Contributing
+
+Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
 ### Releasing new version / hotfix (Only for users who have repository permissions)
 
@@ -248,3 +269,9 @@ Steps for release a new version / hotfix
 mvn clean install release:prepare -P release
 mvn release:perform -P release
 ```
+
+## License
+
+Copyright © 2022, [C. Rambow](https://github.com/elomagic).
+Released under the [Apache License, Version 2.0](LICENSE).
+
