@@ -1,5 +1,6 @@
 package de.elomagic.spps.shared;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.security.Key;
@@ -8,6 +9,7 @@ import java.util.Base64;
 public class SimpleCryptProviderMock extends SimpleCryptProvider {
 
     @Override
+    @NotNull
     protected Key createPrivateKey() throws SimpleCryptException {
         return new Key() {
             @Override
