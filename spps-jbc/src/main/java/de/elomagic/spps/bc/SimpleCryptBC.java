@@ -59,6 +59,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
     }
 
     @Override
+    @NotNull
     protected Key createPrivateKey() throws SimpleCryptException {
         try {
             KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM_AES);

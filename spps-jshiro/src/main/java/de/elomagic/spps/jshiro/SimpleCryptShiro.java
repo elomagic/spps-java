@@ -27,6 +27,7 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.crypto.DefaultBlockCipherService;
 import org.apache.shiro.util.ByteSource;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
@@ -41,6 +42,7 @@ public final class SimpleCryptShiro extends SimpleCryptProvider {
     private static final DefaultBlockCipherService CIPHER = new AesCipherService();
 
     @Override
+    @NotNull
     protected Key createPrivateKey() {
         return CIPHER.generateNewKey(PRIVATE_KEY_SIZE);
     }

@@ -35,6 +35,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class to be used as a simple command line tool.
+ */
 public final class SimpleCrypt {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCrypt.class);

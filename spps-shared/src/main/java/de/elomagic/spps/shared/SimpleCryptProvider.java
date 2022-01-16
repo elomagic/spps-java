@@ -46,7 +46,13 @@ public abstract class SimpleCryptProvider {
     protected static final Path DEFAULT_SETTINGS_FILE = Paths.get(System.getProperty("user.home"), ".spps", "settings");
     protected static final AtomicReference<Path> SETTINGS_FILE = new AtomicReference<>(DEFAULT_SETTINGS_FILE);
 
-    // TODO JavaDoc
+    /**
+     * Creates a random AES key with 256 ke size.
+     *
+     * @return Returns the key
+     * @throws SimpleCryptException Thrown when something went wring on creation of the key.
+     */
+    @NotNull
     protected abstract Key createPrivateKey() throws SimpleCryptException;
 
     /**
