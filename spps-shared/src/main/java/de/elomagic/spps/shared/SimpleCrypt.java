@@ -28,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -45,6 +44,12 @@ public final class SimpleCrypt {
     SimpleCrypt() {
     }
 
+    boolean hasArgumentForOption(@NotNull List<String> args, @NotNull String option) {
+        int index = args.indexOf(option);
+
+        return (index != -1 && args.size() > index+1);
+    }
+
     String getArgument(@NotNull List<String> args, @NotNull String option) {
         int index = args.indexOf(option);
 
@@ -53,6 +58,10 @@ public final class SimpleCrypt {
         }
 
         return args.get(index+1);
+    }
+
+    private char[] getPasswordInput() {
+        return System.console().readPassword("Enter secret to encrypt: ");
     }
 
     private PrintWriter out() {
@@ -67,7 +76,12 @@ public final class SimpleCrypt {
             SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
 
             if (argList.contains("-Secret")) {
-                byte[] secret = getArgument(argList, "-Secret").getBytes(StandardCharsets.UTF_8);
+                char[] secret;
+                if (hasArgumentForOption(argList,"-Secret")) {
+                    secret = getArgument(argList, "-Secret").toCharArray();
+                } else {
+                    secret = getPasswordInput();
+                }
                 out().println(provider.encrypt(secret));
             } else if (argList.contains("-CreatePrivateKey")) {
                 boolean force = argList.contains("-Force");

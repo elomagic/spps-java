@@ -32,6 +32,15 @@ class SimpleCryptTest {
     }
 
     @Test
+    void testHasArgumentForOption() {
+        Assertions.assertFalse(sc.hasArgumentForOption(Collections.emptyList(), ""));
+        Assertions.assertFalse(sc.hasArgumentForOption(Collections.emptyList(), "-Secret"));
+        Assertions.assertFalse(sc.hasArgumentForOption(Collections.emptyList(), "-Test"));
+        Assertions.assertFalse(sc.hasArgumentForOption(Arrays.asList("test", "test", "-Secret"), "-Secret"));
+        Assertions.assertTrue(sc.hasArgumentForOption(Arrays.asList("test", "test", "-Secret", "mySecret"), "-Secret"));
+    }
+
+    @Test
     void testGetArgument() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> sc.getArgument(Collections.emptyList(), null));
         Assertions.assertThrows(IllegalArgumentException.class, () -> sc.getArgument(Collections.emptyList(), "test"));
