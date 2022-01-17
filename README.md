@@ -16,9 +16,12 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 - [Concept](#concept)
 - [Using the library](#using-the-library)
   * [Maven](#Maven)
+  * [JAR libraries](#jar-libraries)
+- [Using the API](#using-the-api)
   * [Create a private key file](#create-a-private-key-file)
   * [Encrypt a secret](#encrypt-a-secret)
-  * [Apache Tomee integration](#apache-tomee-integration)
+  * [Apache Tomee](#apache-tomee)
+  * [Hibernate C3PO Connection Provider](#hibernate-c3po-connection-provider)
   * [WebEncryption Tool](#webencryption-tool)
 - [Migration](#migration)
 - [Contributing](#contributing)
@@ -28,11 +31,12 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 * AES 256 GCM en-/decryption
 * Bouncy Castle support
 * Apache Shiro support
+* Apache Tomee - DataSource password cipher support
+* Hibernate ORM - C3PO connection provider support
 * Cross programming languages support
   * [Java](https://github.com/elomagic/spps-java)
   * [Python](https://github.com/elomagic/spps-py)
   * [Node.js](https://github.com/elomagic/spps-npm)
-* Apache Tomee - DataSource password cipher support
 
 ## Concept
 
@@ -75,6 +79,26 @@ crypto engine in your project.
 </project>
 ```
 
+### JAR libraries
+
+Instead of using Maven, put all JAR files in the latest version into the lib folder of your application like Tomee.
+
+* SPPS with Bouncy Castle support
+  * spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
+  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
+
+* SPPS with Apache Shiro support
+  * spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * shiro-all-1.x.0.jar - https://shiro.apache.org/download.html#latestBinary
+  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
+
 #### Simple example for encrypting and decrypting a secret
 
 ```java
@@ -98,6 +122,8 @@ class Sample {
     
 }
 ```
+
+## Using the API
 
 ### Create a private key file
 
@@ -190,7 +216,7 @@ class Sample {
 }
 ```
 
-### Apache Tomee integration
+### Apache Tomee
 
 *Supported since version 1.3.0*
 
@@ -227,25 +253,18 @@ have to remove the brackets in the ```tomee.xml``` file.
 
 For more information see https://tomee.apache.org/latest/docs/datasource-password-encryption.html or
 
-#### Requirements 
+### Hibernate C3PO Connection Provider
 
-Put all JAR files in the latest version into the lib folder of your Tomee. Usually ```[tomme_inst_folder]\lib```
+*Supported since version 2.0.0*
 
-* SPPS with Bouncy Castle support
-  * spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
-  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
-  * bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
-  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
+Add Maven artefact as described [above](#maven) or add dependencies to your lib folder of your application as described 
+in chapter [Requirements](#jar-libraries).
 
-* SPPS with Apache Shiro support
-  * spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
-  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
-  * shiro-all-1.x.0.jar - https://shiro.apache.org/download.html#latestBinary
-  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
+Supported attributes in your ```persistence.xml``` are:
+* hibernate.connection.driver_class
+* hibernate.connection.url
+* hibernate.connection.username
+* hibernate.connection.password
 
 ## WebEncryption Tool
 
