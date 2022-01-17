@@ -17,7 +17,7 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 - [Using the library](#using-the-library)
   * [Maven](#Maven)
   * [Create a private key file](#create-a-private-key-file)
-  * [Encrypt a secret](#Encrypt a secret)
+  * [Encrypt a secret](#encrypt-a-secret)
   * [Apache Tomee integration](#apache-tomee-integration)
   * [WebEncryption Tool](#webencryption-tool)
 - [Migration](#migration)
