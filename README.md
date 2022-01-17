@@ -20,7 +20,7 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 - [Using the API](#using-the-api)
   * [Create a private key file](#create-a-private-key-file)
   * [Encrypt a secret](#encrypt-a-secret)
-  * [Apache Tomee](#apache-tomee)
+  * [Apache Tomee Password Cipher](#apache-tomee-password-cipher)
   * [Hibernate C3PO Connection Provider](#hibernate-c3po-connection-provider)
   * [WebEncryption Tool](#webencryption-tool)
 - [Migration](#migration)
@@ -216,7 +216,7 @@ class Sample {
 }
 ```
 
-### Apache Tomee
+### Apache Tomee Password Cipher
 
 *Supported since version 1.3.0*
 
