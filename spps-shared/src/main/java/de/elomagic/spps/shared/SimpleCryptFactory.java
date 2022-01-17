@@ -77,11 +77,11 @@ public class SimpleCryptFactory {
         return ACTIVE_PROVIDER_INSTANCE.get();
     }
 
-    public static void setProvider(@Nullable SimpleCryptProvider provider) {
+    public static void setProvider(@Nullable final SimpleCryptProvider provider) {
         ACTIVE_PROVIDER_INSTANCE.set(provider);
     }
 
-    public static void setProvider(@NotNull Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
+    public static void setProvider(@NotNull final Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
         try {
             SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
 

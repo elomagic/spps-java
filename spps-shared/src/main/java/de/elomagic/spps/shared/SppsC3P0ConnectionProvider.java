@@ -34,6 +34,7 @@ public final class SppsC3P0ConnectionProvider extends C3P0ConnectionProvider {
      */
     public void configure(@NotNull final Properties cfg) {
 
+        // Make a copy. Don't work with the original properties class!
         Properties props = new Properties(cfg);
 
         final SimpleCryptProvider provider = SimpleCryptFactory.getInstance();

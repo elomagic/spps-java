@@ -277,7 +277,7 @@ and presented.
 
 ## Migration
 
-tbd Migration from 1.x to 2.0
+tbd @TODO Migration from 1.x to 2.0
 
 ## Contributing
 

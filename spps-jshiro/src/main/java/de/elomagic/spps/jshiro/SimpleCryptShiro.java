@@ -56,7 +56,7 @@ public final class SimpleCryptShiro extends SimpleCryptProvider {
      */
     @Nullable
     @Override
-    public String encrypt(byte[] decrypted) throws SimpleCryptException {
+    public String encrypt(final byte[] decrypted) throws SimpleCryptException {
         if (decrypted == null) {
             return null;
         }
@@ -83,7 +83,7 @@ public final class SimpleCryptShiro extends SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    public String encrypt(String decrypted) throws SimpleCryptException {
+    public String encrypt(final String decrypted) throws SimpleCryptException {
         return decrypted == null ? null : encrypt(decrypted.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -97,7 +97,7 @@ public final class SimpleCryptShiro extends SimpleCryptProvider {
      */
     @Nullable
     @Override
-    public byte[] decrypt(@Nullable String encryptedBase64) throws SimpleCryptException {
+    public byte[] decrypt(@Nullable final String encryptedBase64) throws SimpleCryptException {
         if(!isEncryptedValue(encryptedBase64)) {
             return encryptedBase64 == null ? null : encryptedBase64.getBytes(StandardCharsets.UTF_8);
         }
@@ -122,7 +122,7 @@ public final class SimpleCryptShiro extends SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    public String decryptToString(@Nullable String encryptedBase64) throws SimpleCryptException {
+    public String decryptToString(@Nullable final String encryptedBase64) throws SimpleCryptException {
         return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8);
     }
 

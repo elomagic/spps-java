@@ -41,7 +41,7 @@ public class SppsPasswordCipher implements PasswordCipher {
      * @return The encoded password.
      */
     @Override
-    public char[] encrypt(String secret) {
+    public char[] encrypt(final String secret) {
         LOGGER.debug("Encrypt secret into SPPS encrypted secret");
 
         return secret == null ? null : SimpleCryptFactory
@@ -57,7 +57,7 @@ public class SppsPasswordCipher implements PasswordCipher {
      * @return The plain text password.
      */
     @Override
-    public String decrypt(char[] chars) {
+    public String decrypt(final char[] chars) {
         LOGGER.debug("Decrypt SPPS encrypted password");
 
         if (chars == null) {

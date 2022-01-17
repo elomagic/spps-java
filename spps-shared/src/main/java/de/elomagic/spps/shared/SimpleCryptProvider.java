@@ -63,7 +63,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    public abstract String encrypt(byte[] decrypted) throws SimpleCryptException;
+    public abstract String encrypt(final byte[] decrypted) throws SimpleCryptException;
 
     /**
      * Decrypt an encrypted, Base64 encoded data string.
@@ -73,7 +73,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    public abstract byte[] decrypt(@Nullable String encryptedBase64) throws SimpleCryptException;
+    public abstract byte[] decrypt(@Nullable final String encryptedBase64) throws SimpleCryptException;
 
     /**
      * Check is the settings file exists.
@@ -102,7 +102,7 @@ public abstract class SimpleCryptProvider {
      *
      * @param file Alternative settings file or null to use the default file.
      */
-    public void setSettingsFile(@Nullable Path file) {
+    public void setSettingsFile(@Nullable final Path file) {
         LOGGER.info("Changing default settings file to {}", SETTINGS_FILE.get());
         SETTINGS_FILE.set(file == null ? DEFAULT_SETTINGS_FILE : file);
     }
@@ -110,14 +110,14 @@ public abstract class SimpleCryptProvider {
     /**
      * Creates a private key file.
      *
-     * @param file File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
+     * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    public void createPrivateKeyFile(@Nullable Path file, @Nullable Path relocationFile, boolean force) throws SimpleCryptException {
+    public void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
         try {
-            file = file == null ? SETTINGS_FILE.get() : file;
+            Path file = settingsFile == null ? SETTINGS_FILE.get() : settingsFile;
 
             if (Files.notExists(file.getParent())) {
                 Files.createDirectories(file.getParent());
@@ -174,7 +174,7 @@ public abstract class SimpleCryptProvider {
      * @param value Value to be checked
      * @return Returns true when value is identified as an encrypted value.
      */
-    public boolean isEncryptedValue(@Nullable String value) {
+    public boolean isEncryptedValue(@Nullable final String value) {
         return value != null && value.startsWith("{") && value.endsWith("}");
     }
 
@@ -186,7 +186,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     @NotNull
-    protected byte[] readPrivateKey(@NotNull Path file) throws SimpleCryptException {
+    protected byte[] readPrivateKey(@NotNull final Path file) throws SimpleCryptException {
         try {
             if (Files.notExists(file)) {
                 throw new FileNotFoundException("Unable to find settings file. At first you have to create a private key.");
@@ -237,7 +237,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    public String encrypt(char[] decrypted) throws SimpleCryptException {
+    public String encrypt(final char[] decrypted) throws SimpleCryptException {
         // TODO Safe cast of char array to byte array
         return decrypted == null ? null : encrypt(new String(decrypted).getBytes(StandardCharsets.UTF_8));
     }
@@ -250,7 +250,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    public char[] decryptToChars(@Nullable String encryptedBase64) throws SimpleCryptException {
+    public char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
         return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8).toCharArray();
     }
 

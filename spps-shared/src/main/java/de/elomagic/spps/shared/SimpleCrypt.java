@@ -44,13 +44,13 @@ public final class SimpleCrypt {
     SimpleCrypt() {
     }
 
-    boolean hasArgumentForOption(@NotNull List<String> args, @NotNull String option) {
+    boolean hasArgumentForOption(@NotNull final List<String> args, @NotNull final String option) {
         int index = args.indexOf(option);
 
         return (index != -1 && args.size() > index+1);
     }
 
-    String getArgument(@NotNull List<String> args, @NotNull String option) {
+    String getArgument(@NotNull final List<String> args, @NotNull final String option) {
         int index = args.indexOf(option);
 
         if (index == -1 || args.size() <= index+1) {
@@ -69,7 +69,7 @@ public final class SimpleCrypt {
         return System.console() == null ? new PrintWriter(System.out, true) : System.console().writer();
     }
 
-    int run(@Nullable String[] args) {
+    int run(@Nullable final String[] args) {
         try {
             List<String> argList = args == null ? Collections.emptyList() : Arrays.asList(args);
 
@@ -107,7 +107,7 @@ public final class SimpleCrypt {
      *
      * @param args First argument must contain value to encrypt
      */
-    public static void main(@Nullable String[] args) {
+    public static void main(@Nullable final String[] args) {
         int exitCode = new SimpleCrypt().run(args);
         System.exit(exitCode);
     }

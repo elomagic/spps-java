@@ -31,7 +31,7 @@ public class SimpleCryptException extends RuntimeException {
 
      * @param message The detail message (which is saved for later retrieval by the getMessage() method)
      */
-    public SimpleCryptException(String message) {
+    public SimpleCryptException(final String message) {
         super(message);
     }
 
@@ -43,7 +43,7 @@ public class SimpleCryptException extends RuntimeException {
      * @param message The detail message (which is saved for later retrieval by the getMessage() method)
      * @param cause The cause (which is saved for later retrieval by the getCause() method). (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
      */
-    public SimpleCryptException(String message, Throwable cause) {
+    public SimpleCryptException(final String message, final Throwable cause) {
         super(message, cause);
     }
 

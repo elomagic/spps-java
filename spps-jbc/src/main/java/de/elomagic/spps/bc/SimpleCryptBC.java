@@ -78,7 +78,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
      * @return Returns cipher
      */
     @NotNull
-    private Cipher createCypher(int opmode, @NotNull IvParameterSpec iv) throws SimpleCryptException {
+    private Cipher createCypher(int opmode, @NotNull final IvParameterSpec iv) throws SimpleCryptException {
         try {
             Key key = new SecretKeySpec(readPrivateKey(), ALGORITHM_AES);
             Cipher cipher = Cipher.getInstance(TRANSFORMATION, new BouncyCastleProvider());
@@ -99,7 +99,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
      */
     @Nullable
     @Override
-    public String encrypt(byte[] decrypted) throws SimpleCryptException {
+    public String encrypt(final byte[] decrypted) throws SimpleCryptException {
         if (decrypted == null) {
             return null;
         }
@@ -132,7 +132,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    public String encrypt(@Nullable String decrypted) throws SimpleCryptException {
+    public String encrypt(@Nullable final String decrypted) throws SimpleCryptException {
         return decrypted == null ? null : encrypt(decrypted.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -145,7 +145,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
      */
     @Nullable
     @Override
-    public byte[] decrypt(@Nullable String encryptedBase64) throws SimpleCryptException {
+    public byte[] decrypt(@Nullable final String encryptedBase64) throws SimpleCryptException {
         if(!isEncryptedValue(encryptedBase64)) {
             return encryptedBase64 == null ? null : encryptedBase64.getBytes(StandardCharsets.UTF_8);
         }
@@ -172,7 +172,7 @@ public final class SimpleCryptBC extends SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    public String decryptToString(@Nullable String encryptedBase64) throws SimpleCryptException {
+    public String decryptToString(@Nullable final String encryptedBase64) throws SimpleCryptException {
         return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8);
     }
 
