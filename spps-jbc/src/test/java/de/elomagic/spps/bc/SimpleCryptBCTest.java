@@ -2,6 +2,7 @@ package de.elomagic.spps.bc;
 
 import de.elomagic.spps.shared.SimpleCryptException;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
@@ -138,6 +139,12 @@ class SimpleCryptBCTest {
         String encrypted2 = sc.encrypt(value);
         sc.setSettingsFile(null);
         Assertions.assertThrows(SimpleCryptException.class, () -> sc.decrypt(encrypted2));
+    }
+
+    @Test
+    void testMetaInf() throws Exception {
+        String className = IOUtils.resourceToString("/META-INF/de.elomagic.spps/provider", StandardCharsets.UTF_8).trim();
+        Assertions.assertNotNull(Class.forName(className));
     }
 
 }
