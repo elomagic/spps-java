@@ -152,7 +152,9 @@ Remember, secrets which are already encrypted with the old key cannot be decrypt
 Enter following command in your terminal:
 
 ```bash 
-java -jar spps-jbc-1.0.0.jar -Secret YourSecret 
+java -jar spps-jbc-1.0.0.jar -Secret YourSecret
+
+Enter secret to encrypt: ********* 
 ```
 
 Output should look like:
@@ -160,12 +162,12 @@ Output should look like:
 {MLaFzwpNyKJbJSCg4xY5g70WDAKnOhVe3oaaDAGWtH4KXR4=}
 ```
 
-### How can my application use an alternative settings file instead of the default
+### Using an alternative settings file instead of the default 
 
 *Supported since version 1.1.0*
 
-The method ```SimpleCrypt.setSettingsFile([file])``` can be used to set application wide an alternative settings file instead of "/.spps/settings" in the 
-users home folder.
+The method ```SimpleCryptFactory.getInstance().setSettingsFile([file])``` can be used to set application wide an 
+alternative settings file instead of "~/.spps/settings" in the users home folder.
 
 ```java
 import de.elomagic.spps.shared.SimpleCryptFactory;
@@ -192,17 +194,20 @@ class Sample {
 
 *Supported since version 1.3.0*
 
-Note if your Tomee run with a different account then yours. In this case you have to encrypt your secret in context of 
-the account which will run the service in the future. One solution idea is to deploy the spps-wet web application tool. This 
-app provides a simple UI for encryption secret.  
+SPPS provides another password cipher implementation.
 
 Set ```spps``` as password cipher and the encrypted secret in property ```password``` WITHOUT the surrounding brackets
 in the ```[tomme_inst_folder]\conf\tomee.xml``` file.
+
+Note if your Tomee run with a different account then yours. In this case you have to encrypt your secret in context of 
+the account which will run the service in the future. One solution idea is to deploy the spps-wet web application tool.
+This app provides a simple UI for encryption secrets.  
 
 For some unknown reason, Tomee removes the closing bracket from the encrypted SPPS secret when try to decrypt, so we 
 have to remove the brackets in the ```tomee.xml``` file.
 
 #### Example resource in the tomee.xml
+
 ```xml
 <Resource id="MySQL Database" type="DataSource">
     #  MySQL example
@@ -222,9 +227,25 @@ have to remove the brackets in the ```tomee.xml``` file.
 
 For more information see https://tomee.apache.org/latest/docs/datasource-password-encryption.html or
 
-## Requirements 
+#### Requirements 
 
 Put all JAR files in the latest version into the lib folder of your Tomee. Usually ```[tomme_inst_folder]\lib```
+
+* SPPS with Bouncy Castle support
+  * spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
+  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
+
+* SPPS with Apache Shiro support
+  * spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
+  * shiro-all-1.x.0.jar - https://shiro.apache.org/download.html#latestBinary
+  * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
+  * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
 
 ## WebEncryption Tool
 
@@ -234,24 +255,6 @@ The tool offers the feature to generate passwords in the service context of the 
 Just deploy the latest version of the tool to your application server and open web-browser with the
 URL ```[BASE_URL]/spps-wet-[VERSION]```, enter your secret, press the "Encrypt" button and the encrypted secret will be generated
 and presented.
-
-### SPPS with Bouncy Castle support
-
-* spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
-* spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
-* bcprov-jdk15on-170.jar - https://www.bouncycastle.org/latest_releases.html
-* log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-* log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-* disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
-
-### SPPS with Apache Shiro support
-
-* spps-jshiro-2.x.x.jar - https://github.com/elomagic/spps-jbc
-* spps-shared-2.x.x.jar - https://github.com/elomagic/spps-jbc
-* shiro-all-1.x.0.jar - https://shiro.apache.org/download.html#latestBinary
-* log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-* log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
-* disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
 
 ## Migration
 
