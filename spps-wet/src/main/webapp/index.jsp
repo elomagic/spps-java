@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>SPPS - Secret Encryption WebTool</title>
     <style>
@@ -46,7 +47,7 @@
             <hr/>
 
             <div class="footer">
-                <span>Powered by SPPS - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
+                <span>Powered by SPPS ${project.version} - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
             </div>
         </form>
     </body>

@@ -1,6 +1,6 @@
 Usage:
 * java -jar spps-jshiro-x.x.x.jar -CreatePrivateKey [-Force] [-Relocation <file>]|[-File <file>]
-* java -jar spps-jshiro-x.x.x.jar -Secret <secret> [-File <file>]
+* java -jar spps-jshiro-x.x.x.jar [-File <file>] -Secret [secret]
 * java -jar spps-jshiro-x.x.x.jar -Help | -?
 
 More SPPS online help on https://github.com/elomagic/spps-jshiro
@@ -20,8 +20,9 @@ More SPPS online help on https://github.com/elomagic/spps-jshiro
     of the default '.spps' folder of the current users home. iThe default settings file points to the other settings file.
     Works only together with option "-CreatePrivateKey"
 
--Secret <secret>
-    Creates and print an encrypted.
+-Secret [secret]
+    Creates and print an encrypted. It's recommended to leave parameter 'secret' empty and to enter password via
+    secured input to prevent readable secret in your command line history.
 
 -Help
     Prints this help

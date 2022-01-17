@@ -32,6 +32,12 @@
         </dependency>
 
         <dependency>
+            <groupId>de.elomagic</groupId>
+            <artifactId>spps-shared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
         </dependency>

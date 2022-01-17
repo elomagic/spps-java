@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 module spps.jshiro {
+    requires de.elomagic.spps.shared;
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
     requires shiro.core;

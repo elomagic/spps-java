@@ -1,14 +1,21 @@
 package de.elomagic.spps.bc;
 
-import org.apache.commons.io.IOUtils;
+import de.elomagic.spps.shared.SimpleCryptFactory;
+import de.elomagic.spps.shared.SppsPasswordCipher;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class SppsPasswordCipherTest {
+
+    private static final SimpleCryptBC sc = new SimpleCryptBC();
+
+    @BeforeAll
+    static void beforeAll() {
+        SimpleCryptFactory.setProvider(SimpleCryptBC.class);
+    }
 
     @Test
     void testEncrypt() {
@@ -19,7 +26,7 @@ public class SppsPasswordCipherTest {
 
         char[] encryptedSecret = cipher.encrypt("MyTestSecret");
 
-        Assertions.assertEquals(secret, SimpleCrypt.decryptToString(String.valueOf(encryptedSecret)));
+        Assertions.assertEquals(secret, sc.decryptToString(String.valueOf(encryptedSecret)));
         Assertions.assertNull(cipher.encrypt(null));
 
     }
@@ -31,20 +38,11 @@ public class SppsPasswordCipherTest {
 
         String secret = "MyTestSecret";
 
-        char[] encryptedSecret = SimpleCrypt.encrypt(secret).toCharArray();
+        char[] encryptedSecret = sc.encrypt(secret).toCharArray();
 
         Assertions.assertEquals(secret, cipher.decrypt(encryptedSecret));
         Assertions.assertEquals(secret, cipher.decrypt(Arrays.copyOfRange(encryptedSecret, 1, encryptedSecret.length-1)));
         Assertions.assertNull(cipher.decrypt(null));
-
-    }
-
-    @Test
-    void testMetaInf() throws IOException {
-
-        String className = IOUtils.resourceToString("/META-INF/org.apache.openejb.cipher.PasswordCipher/spps", StandardCharsets.UTF_8);
-
-        Assertions.assertEquals(SppsPasswordCipher.class.getName(), className.trim());
 
     }
 
