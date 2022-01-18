@@ -80,7 +80,7 @@ public abstract class SimpleCryptProvider {
      *
      * @return Returns true when exists otherwise false
      */
-    protected boolean existsSettingsFile() {
+    protected final boolean existsSettingsFile() {
         return Files.exists(SETTINGS_FILE.get());
     }
 
@@ -91,7 +91,7 @@ public abstract class SimpleCryptProvider {
      *
      * @return Returns true if exists.
      */
-    public boolean isInitialize() {
+    public final boolean isInitialize() {
         return Files.exists(SETTINGS_FILE.get());
     }
 
@@ -102,7 +102,7 @@ public abstract class SimpleCryptProvider {
      *
      * @param file Alternative settings file or null to use the default file.
      */
-    public void setSettingsFile(@Nullable final Path file) {
+    public final void setSettingsFile(@Nullable final Path file) {
         LOGGER.info("Changing default settings file to {}", SETTINGS_FILE.get());
         SETTINGS_FILE.set(file == null ? DEFAULT_SETTINGS_FILE : file);
     }
@@ -115,7 +115,7 @@ public abstract class SimpleCryptProvider {
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    public void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
+    public final void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
         try {
             Path file = settingsFile == null ? SETTINGS_FILE.get() : settingsFile;
 
@@ -164,7 +164,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     @NotNull
-    protected byte[] readPrivateKey() throws SimpleCryptException {
+    protected final byte[] readPrivateKey() throws SimpleCryptException {
         return readPrivateKey(SETTINGS_FILE.get());
     }
 
@@ -174,7 +174,7 @@ public abstract class SimpleCryptProvider {
      * @param value Value to be checked
      * @return Returns true when value is identified as an encrypted value.
      */
-    public boolean isEncryptedValue(@Nullable final String value) {
+    public final boolean isEncryptedValue(@Nullable final String value) {
         return value != null && value.startsWith("{") && value.endsWith("}");
     }
 
@@ -186,7 +186,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     @NotNull
-    protected byte[] readPrivateKey(@NotNull final Path file) throws SimpleCryptException {
+    protected final byte[] readPrivateKey(@NotNull final Path file) throws SimpleCryptException {
         try {
             if (Files.notExists(file)) {
                 throw new FileNotFoundException("Unable to find settings file. At first you have to create a private key.");
@@ -220,7 +220,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to create private key file
      * @return Returns true when settings file was created and false when settings file already exist.
      */
-    public boolean init() throws SimpleCryptException {
+    public final boolean init() throws SimpleCryptException {
         if (!isInitialize()) {
             createPrivateKeyFile(null, null, false);
             return true;
@@ -237,7 +237,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    public String encrypt(final char[] decrypted) throws SimpleCryptException {
+    public final String encrypt(final char[] decrypted) throws SimpleCryptException {
         // TODO Safe cast of char array to byte array
         return decrypted == null ? null : encrypt(new String(decrypted).getBytes(StandardCharsets.UTF_8));
     }
@@ -250,7 +250,7 @@ public abstract class SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    public char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
+    public final char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
         return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8).toCharArray();
     }
 
