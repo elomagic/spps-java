@@ -55,9 +55,9 @@
 
                         <configuration>
                             <descriptors>
-                                <descriptor>src/assembly/distribution.xml</descriptor>
+                                <descriptor>src/assembly/bin.xml</descriptor>
                             </descriptors>
-                            <finalName>spps-console-binaries-${pom.version}</finalName>
+                            <finalName>spps-shell-${pom.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>

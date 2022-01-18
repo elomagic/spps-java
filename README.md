@@ -22,7 +22,8 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
   * [Encrypt a secret](#encrypt-a-secret)
   * [Apache Tomee Password Cipher](#apache-tomee-password-cipher)
   * [Hibernate C3PO Connection Provider](#hibernate-c3po-connection-provider)
-  * [WebEncryption Tool](#webencryption-tool)
+- [WebEncryption Tool](#webencryption-tool)
+- [Shell Tool](#shell-tool)
 - [Migration](#migration)
 - [Contributing](#contributing)
 
@@ -127,7 +128,8 @@ class Sample {
 
 ### Create a private key file
 
-To create a private key, you need the console binary package which can be downloaded [here](../../releases).
+To create a private key via shell, you need the console binary package which can be downloaded 
+[here](../../releases).
 
 #### Create a private in your home folder:
 
@@ -135,7 +137,7 @@ As a feature, if the private key does not exist, it will be created automaticall
 
 If you want to create it manually then continue with the following steps.
 
-Enter following command in your terminal:
+Enter following command in your shell:
 
 ```bash
 spps -CreatePrivateKey
@@ -152,7 +154,7 @@ As a feature, if the private key does not exist, it will be created automaticall
 
 #### Alternative, create a private key file on a removable device:
 
-Enter following command in your terminal:
+Enter following command in your shell:
 
 ```bash
 spps -CreatePrivateKey -Relocation /Volumes/usb-stick
@@ -174,12 +176,13 @@ relocation=
 
 ### Encrypt a secret
 
-To encrypt a secret, you need the console binary package which can be downloaded [here](../../releases).
+To encrypt a secret via shell, you need the console binary package which can be downloaded 
+[here](../../releases).
 
 Important Note: Usually you do not need to execute this command unless you want to create a new private key. 
 Remember, secrets which are already encrypted with the old key cannot be decrypted with the new key!
 
-Enter following command in your terminal:
+Enter following command in your shell:
 
 ```bash
 spps -Secret
@@ -278,6 +281,19 @@ The tool offers the feature to generate passwords in the service context of the 
 Just deploy the latest version of the tool to your application server and open web-browser with the
 URL ```[BASE_URL]/spps-wet-[VERSION]```, enter your secret, press the "Encrypt" button and the encrypted secret will be generated
 and presented.
+
+## Shell Tool
+
+*Supported since version 2.0.0*
+
+Another tool for creating a private key or to encrypt a secret in your user context is the shell tool and can 
+be downloaded [here](../../releases).
+
+To get an overview of support commands just enter following command:
+
+```bash
+spps
+```
 
 ## Migration
 

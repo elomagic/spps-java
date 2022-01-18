@@ -38,7 +38,7 @@
         <module>spps-jbc</module>
         <module>spps-jshiro</module>
         <module>spps-wet</module>
-        <module>spps-ct</module>
+        <module>spps-shell</module>
     </modules>
 
     <prerequisites>
