@@ -127,6 +127,8 @@ class Sample {
 
 ### Create a private key file
 
+To create a private key, you need the console binary package which can be downloaded [here](../../releases).
+
 #### Create a private in your home folder:
 
 As a feature, if the private key does not exist, it will be created automatically when you encrypt a new secret!
@@ -135,8 +137,8 @@ If you want to create it manually then continue with the following steps.
 
 Enter following command in your terminal:
 
-```bash  
-java -jar spps-jbc-2.0.0.jar -CreatePrivateKey
+```bash
+spps -CreatePrivateKey
 ```
 
 The settings file ```'~/.spps/settings'``` in your home folder will look like:
@@ -153,7 +155,7 @@ As a feature, if the private key does not exist, it will be created automaticall
 Enter following command in your terminal:
 
 ```bash
-java -jar spps-jbc-1.0.0.jar -CreatePrivateKey -Relocation /Volumes/usb-stick
+spps -CreatePrivateKey -Relocation /Volumes/usb-stick
 ```
 
 The settings file ```'~/.spps/settings'``` in your home folder will look like:
@@ -172,13 +174,15 @@ relocation=
 
 ### Encrypt a secret
 
+To encrypt a secret, you need the console binary package which can be downloaded [here](../../releases).
+
 Important Note: Usually you do not need to execute this command unless you want to create a new private key. 
 Remember, secrets which are already encrypted with the old key cannot be decrypted with the new key!
 
 Enter following command in your terminal:
 
-```bash 
-java -jar spps-jbc-1.0.0.jar -Secret YourSecret
+```bash
+spps -Secret
 
 Enter secret to encrypt: ********* 
 ```

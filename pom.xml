@@ -38,6 +38,7 @@
         <module>spps-jbc</module>
         <module>spps-jshiro</module>
         <module>spps-wet</module>
+        <module>spps-ct</module>
     </modules>
 
     <prerequisites>
@@ -129,6 +130,11 @@
                             </goals>
                         </execution>
                     </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %msg%ex{0}%n"/>
+        </Console>
+        <!--
+        <File name="MyFile" fileName="jam4j.log" immediateFlush="false" append="false">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+        -->
+        <RollingFile name="MyFile"
+                     fileName="${sys:user.dir}/logs/spps-ct.log"
+                     filePattern="spps-ct-%d{yyyy-MM-dd}-%i.log.zip">
+            <!--<XMLLayout/>-->
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %msg [%logger{36}%l]%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1024 kB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="de.elomagic" level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="MyFile"/>
+        </Logger>
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="MyFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

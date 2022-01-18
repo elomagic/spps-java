@@ -1,0 +1,74 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+
+    <id>distribution</id>
+
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>libs</outputDirectory>
+            <unpack>false</unpack>
+            <includes>
+                <include>${groupId}</include>
+                <include>org.apache.logging.log4j</include>
+                <include>org.bouncycastle</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+
+    <fileSets>
+        <fileSet>
+            <directory>${basedir}/src/assembly/resources</directory>
+            <outputDirectory></outputDirectory>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </fileSet>
+
+        <fileSet>
+            <directory>${basedir}/target/assembly/libs</directory>
+            <outputDirectory>libs</outputDirectory>
+            <includes>
+                <include>**/*.*</include>
+            </includes>
+        </fileSet>
+
+        <!-- Create empty folder -->
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>logs</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
+    </fileSets>
+
+    <files>
+        <!--
+        <file>
+            <source>${basedir}/target/${project.build.finalName}.jar</source>
+            <outputDirectory>libs</outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        -->
+        <file>
+            <source>${basedir}/../README.md</source>
+            <outputDirectory></outputDirectory>
+            <filtered>false</filtered>
+        </file>
+        <file>
+            <source>${basedir}/../LICENSE</source>
+            <destName>LICENSE</destName>
+            <outputDirectory></outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
+
+</assembly>
