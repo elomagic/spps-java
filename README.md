@@ -23,8 +23,9 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
   * [Decrypt a secret](#decrypt-a-secret)
   * [Apache Tomee Password Cipher](#apache-tomee-password-cipher)
   * [Hibernate C3PO Connection Provider](#hibernate-c3po-connection-provider)
-- [WebEncryption Tool](#webencryption-tool)
-- [Shell Tool](#shell-tool)
+- [Secret Encryption Tools](#secret-encryption-tools)
+  * [Web Tool](#web-tool)
+  * [Command Line Tool](#command-line-tool)
 - [Migration](#migration)
 - [Contributing](#contributing)
 
@@ -276,7 +277,11 @@ Supported attributes in your ```persistence.xml``` are:
 * hibernate.connection.username
 * hibernate.connection.password
 
-## WebEncryption Tool
+## Secret Encryption Tools
+
+Tools for encrypting a secret
+
+### Web Tool
 
 *Supported since version 2.0.0*
 
@@ -285,11 +290,11 @@ Just deploy the latest version of the tool to your application server and open w
 URL ```[BASE_URL]/spps-wet-[VERSION]```, enter your secret, press the "Encrypt" button and the encrypted secret will be generated
 and presented.
 
-## Shell Tool
+### Command Line Tool
 
 *Supported since version 2.0.0*
 
-Another tool for creating a private key or to encrypt a secret in your user context is the shell tool and can 
+Another tool for creating a private key or to encrypt a secret in your user context is the command line tool and can 
 be downloaded [here](../../releases).
 
 To get an overview of support commands just enter following command:
