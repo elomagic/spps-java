@@ -37,11 +37,11 @@ import java.util.List;
 /**
  * Class to be used as a simple command line tool.
  */
-public final class SimpleCrypt {
+public final class SimpleCryptCommandTool {
 
-    private static final Logger LOGGER = LogManager.getLogger(SimpleCrypt.class);
+    private static final Logger LOGGER = LogManager.getLogger(SimpleCryptCommandTool.class);
 
-    SimpleCrypt() {
+    SimpleCryptCommandTool() {
     }
 
     boolean hasArgumentForOption(@NotNull final List<String> args, @NotNull final String option) {
@@ -89,8 +89,8 @@ public final class SimpleCrypt {
                 Path file = argList.contains("-File") ? Paths.get(getArgument(argList, "-File")) : null;
                 provider.createPrivateKeyFile(file, relocationFile, force);
             } else {
-                String resource = "/" + SimpleCrypt.class.getPackage().getName().replace(".", "/") + "/Help.txt";
-                try (InputStream in = SimpleCrypt.class.getResourceAsStream(resource); InputStreamReader reader = new InputStreamReader(in)) {
+                String resource = "/" + SimpleCryptCommandTool.class.getPackage().getName().replace(".", "/") + "/Help.txt";
+                try (InputStream in = SimpleCryptCommandTool.class.getResourceAsStream(resource); InputStreamReader reader = new InputStreamReader(in)) {
                     String text = IOUtils.toString(reader);
                     out().println(text);
                 }
@@ -108,7 +108,7 @@ public final class SimpleCrypt {
      * @param args First argument must contain value to encrypt
      */
     public static void main(@Nullable final String[] args) {
-        int exitCode = new SimpleCrypt().run(args);
+        int exitCode = new SimpleCryptCommandTool().run(args);
         System.exit(exitCode);
     }
 

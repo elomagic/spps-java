@@ -25,7 +25,7 @@ set CMD_LINE_ARGS=%*
 
 :endInit
 
-set CLASS_LAUNCHER=de.elomagic.spps.shared.SimpleCrypt
+set CLASS_LAUNCHER=de.elomagic.spps.shared.SimpleCryptCommandTool
 
 "%JAVACMD%" ^
     -cp "%J2C_HOME%\libs\*" ^

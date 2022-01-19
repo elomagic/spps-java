@@ -13,11 +13,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.*;
+class SimpleCryptCommandToolTest {
 
-class SimpleCryptTest {
-
-    private final SimpleCrypt sc = new SimpleCrypt();
+    private final SimpleCryptCommandTool sc = new SimpleCryptCommandTool();
 
     private Path createEmptyTempFile() throws IOException {
         Path file = File.createTempFile("SimpleCryptTest-", ".tmp").toPath();
