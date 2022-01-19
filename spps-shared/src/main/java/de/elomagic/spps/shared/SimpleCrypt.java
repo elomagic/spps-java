@@ -23,7 +23,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
 
-public interface SimpleCryptProvider {
+/**
+ * Deprecated class.
+ *
+ * @deprecated This class is deprecated since version 2.0 and will be removed at the latest with version 3.0.
+ *             Please use {@link SimpleCryptFactory#getInstance()} instead.
+ * @see SimpleCryptFactory#getInstance()
+ */
+@Deprecated
+public class SimpleCrypt {
 
     /**
      * Returns true when value is encrypted, tagged by surrounding braces "{" and "}".
@@ -31,7 +39,9 @@ public interface SimpleCryptProvider {
      * @param value Value to be checked
      * @return Returns true when value is identified as an encrypted value.
      */
-    boolean isEncryptedValue(@Nullable final String value);
+    static boolean isEncryptedValue(@Nullable final String value) {
+        return SimpleCryptFactory.getInstance().isEncryptedValue(value);
+    }
 
     /**
      * Set an alternative default settings file instead of default "${user.home}/.spps/settings".
@@ -40,7 +50,9 @@ public interface SimpleCryptProvider {
      *
      * @param file Alternative settings file or null to use the default file.
      */
-    void setSettingsFile(@Nullable final Path file);
+    static void setSettingsFile(@Nullable Path file) {
+        SimpleCryptFactory.getInstance().setSettingsFile(file);
+    }
 
     /**
      * Creates a private key file.
@@ -50,7 +62,9 @@ public interface SimpleCryptProvider {
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException;
+    static void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
+        SimpleCryptFactory.getInstance().createPrivateKeyFile(settingsFile, relocationFile, force);
+    }
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
@@ -60,7 +74,9 @@ public interface SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    String encrypt(final byte[] decrypted) throws SimpleCryptException;
+    static String encrypt(final byte[] decrypted) throws SimpleCryptException {
+        return SimpleCryptFactory.getInstance().encrypt(decrypted);
+    }
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
@@ -70,7 +86,9 @@ public interface SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
      */
     @Nullable
-    String encrypt(final char[] decrypted) throws SimpleCryptException;
+    static String encrypt(final char[] decrypted) throws SimpleCryptException {
+        return SimpleCryptFactory.getInstance().encrypt(decrypted);
+    }
 
     /**
      * Decrypt an encrypted, Base64 encoded data string.
@@ -80,6 +98,8 @@ public interface SimpleCryptProvider {
      * @throws SimpleCryptException Thrown when unable to decrypt data .
      */
     @Nullable
-    char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException;
+    static char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
+        return SimpleCryptFactory.getInstance().decryptToChars(encryptedBase64);
+    }
 
 }

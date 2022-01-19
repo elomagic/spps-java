@@ -297,7 +297,20 @@ spps
 
 ## Migration
 
-tbd @TODO Migration from 1.x to 2.0
+In summary, please use the class ```de.elomagic.shared.SimpleCryptFactory``` instead 
+```de.elomagic.SimpleCrypt``` in the future.  
+
+### Classpath changed
+
+Classpath of class ```SimpleCrypt``` was changed from ```de.elomagic.spps.[bc|shiro]``` to ```de.elomagic.spps.shared```.
+
+### Methods removed
+
+For safety relevant reasons some methods were removed from class ```SimpleCrypt```.
+
+* ```boolean init()```
+* ```String encrypt(String decrypted)```
+* ```String decryptToString(String encryptedBase64)```
 
 ## Contributing
 

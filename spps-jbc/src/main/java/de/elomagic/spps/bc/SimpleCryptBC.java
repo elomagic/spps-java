@@ -153,7 +153,7 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
         try {
             byte[] encryptedBytes = Base64.decode(encryptedBase64.substring(1, encryptedBase64.length() - 1));
 
-            // Next IDE warning can be ignored because we need the IV from the encrypted string and we don't want to generate a new one.
+            // Next IDE warning can be ignored because we need the IV from the encrypted string. We don't want to generate a new one.
             IvParameterSpec iv = new IvParameterSpec(encryptedBytes, 0, 16);
 
             Cipher cipher = createCypher(Cipher.DECRYPT_MODE, iv);
