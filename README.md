@@ -20,6 +20,7 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
 - [Using the API](#using-the-api)
   * [Create a private key file](#create-a-private-key-file)
   * [Encrypt a secret](#encrypt-a-secret)
+  * [Decrypt a secret](#decrypt-a-secret)
   * [Apache Tomee Password Cipher](#apache-tomee-password-cipher)
   * [Hibernate C3PO Connection Provider](#hibernate-c3po-connection-provider)
 - [WebEncryption Tool](#webencryption-tool)
@@ -82,7 +83,7 @@ crypto engine in your project.
 
 ### JAR libraries
 
-Instead of using Maven, put all JAR files in the latest version into the lib folder of your application like Tomee.
+Instead of using Maven, put all these JAR files in the latest version into the lib folder of your application like Tomee.
 
 * SPPS with Bouncy Castle support
   * spps-jbc-2.x.x.jar - https://github.com/elomagic/spps-jbc
@@ -99,30 +100,6 @@ Instead of using Maven, put all JAR files in the latest version into the lib fol
   * log4j-core-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
   * log4j-api-2.x.x.jar - https://logging.apache.org/log4j/2.x/download.html
   * disruptor-3.x.x.jar - https://github.com/LMAX-Exchange/disruptor/releases
-
-#### Simple example for encrypting and decrypting a secret
-
-```java
-import de.elomagic.spps.shared.SimpleCryptFactory;
-
-class Sample {
-
-    void testEncryptDecryptWithString() throws Exception {
-        String value = "My Secret";
-        
-        SimpleCryptProvider provider = SimpleCryptFactory.getInstance(); 
-
-        String encrypted = provider.encrypt(value);
-
-        System.out.println("My encrypted secret is " + encryptedSecret);
-
-        String decrypted = provider.decryptToString(encrypted);
-
-        System.out.println("...and my secret is " + decrypted);
-    }
-    
-}
-```
 
 ## Using the API
 
@@ -193,6 +170,32 @@ Enter secret to encrypt: *********
 Output should look like:
 ```
 {MLaFzwpNyKJbJSCg4xY5g70WDAKnOhVe3oaaDAGWtH4KXR4=}
+```
+
+### Decrypt a secret
+
+Secrets can only be decrypted by API.
+
+```java
+import de.elomagic.spps.shared.SimpleCryptFactory;
+
+class Sample {
+
+    void testEncryptDecryptWithString() throws Exception {
+        String value = "My Secret";
+        
+        SimpleCryptProvider provider = SimpleCryptFactory.getInstance(); 
+
+        String encrypted = provider.encrypt(value);
+
+        System.out.println("My encrypted secret is " + encryptedSecret);
+
+        String decrypted = provider.decryptToString(encrypted);
+
+        System.out.println("...and my secret is " + decrypted);
+    }
+    
+}
 ```
 
 ### Using an alternative settings file instead of the default 
@@ -297,8 +300,8 @@ spps
 
 ## Migration
 
-In summary, please use the class ```de.elomagic.shared.SimpleCryptFactory``` instead 
-```de.elomagic.SimpleCrypt``` in the future.  
+In summary, please use the class ```de.elomagic.spps.shared.SimpleCryptFactory``` instead 
+```de.elomagic.spps.SimpleCrypt``` in the future.  
 
 ### Classpath changed
 
@@ -316,11 +319,11 @@ For safety relevant reasons some methods were removed from class ```SimpleCrypt`
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
-### Releasing new version / hotfix (Only for users who have repository permissions)
-
-#### Versioning
+### Versioning
 
 Versioning follows the semantic of [Semantic Versioning 2.0.0](https://semver.org/)
+
+### Releasing new version / hotfix (Only for users who have repository permissions)
 
 #### Releasing new version / hotfix
 
