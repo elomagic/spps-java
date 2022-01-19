@@ -34,7 +34,7 @@ public class SimpleCryptFactory {
 
     private static final String META_INF_PATH = "/META-INF/de.elomagic.spps/provider";
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptFactory.class);
-    private static final AtomicReference<SimpleCryptProvider> ACTIVE_PROVIDER_INSTANCE = new AtomicReference<>();
+    private static final AtomicReference<AbstractSimpleCryptProvider> ACTIVE_PROVIDER_INSTANCE = new AtomicReference<>();
 
     private SimpleCryptFactory() {
     }
@@ -66,8 +66,8 @@ public class SimpleCryptFactory {
             String className = readProviderClassNameFromMataInf();
             try {
                 LOGGER.debug("Creating default instance of SPPS provider '{}'.", className);
-                Class<? extends SimpleCryptProvider> providerClass = (Class<? extends SimpleCryptProvider>)Class.forName(className);
-                SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
+                Class<? extends AbstractSimpleCryptProvider> providerClass = (Class<? extends AbstractSimpleCryptProvider>)Class.forName(className);
+                AbstractSimpleCryptProvider instance = providerClass.getConstructor().newInstance();
                 ACTIVE_PROVIDER_INSTANCE.set(instance);
             } catch (Exception ex) {
                 throw new SimpleCryptException("Unable to create default instance of provider class '" + className + "': " + ex.getMessage(), ex);
@@ -77,13 +77,13 @@ public class SimpleCryptFactory {
         return ACTIVE_PROVIDER_INSTANCE.get();
     }
 
-    public static void setProvider(@Nullable final SimpleCryptProvider provider) {
+    public static void setProvider(@Nullable final AbstractSimpleCryptProvider provider) {
         ACTIVE_PROVIDER_INSTANCE.set(provider);
     }
 
-    public static void setProvider(@NotNull final Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
+    public static void setProvider(@NotNull final Class<? extends AbstractSimpleCryptProvider> providerClass) throws SimpleCryptException {
         try {
-            SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
+            AbstractSimpleCryptProvider instance = providerClass.getConstructor().newInstance();
 
             ACTIVE_PROVIDER_INSTANCE.set(instance);
         } catch (Exception ex) {

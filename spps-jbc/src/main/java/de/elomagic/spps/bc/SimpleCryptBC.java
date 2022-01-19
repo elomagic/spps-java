@@ -20,7 +20,7 @@
 package de.elomagic.spps.bc;
 
 import de.elomagic.spps.shared.SimpleCryptException;
-import de.elomagic.spps.shared.SimpleCryptProvider;
+import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -39,7 +39,7 @@ import java.security.SecureRandom;
 /**
  * Simple crypt tool class by using BouncyCastle framework.
  */
-public final class SimpleCryptBC extends SimpleCryptProvider {
+public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptBC.class);
     private static final String ALGORITHM_AES = "AES";

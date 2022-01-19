@@ -6,7 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import java.security.Key;
 import java.util.Base64;
 
-public class SimpleCryptProviderMock extends SimpleCryptProvider {
+public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
 
     @Override
     @NotNull

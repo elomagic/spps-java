@@ -305,7 +305,13 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 
 ### Releasing new version / hotfix (Only for users who have repository permissions)
 
-Steps for release a new version / hotfix
+#### Versioning
+
+Versioning follows the semantic of [Semantic Versioning 2.0.0](https://semver.org/)
+
+#### Releasing new version / hotfix
+
+Execute following steps:
 
 ```bash
 mvn clean install release:prepare -P release

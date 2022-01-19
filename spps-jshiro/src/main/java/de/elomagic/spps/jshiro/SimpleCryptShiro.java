@@ -20,7 +20,7 @@
 package de.elomagic.spps.jshiro;
 
 import de.elomagic.spps.shared.SimpleCryptException;
-import de.elomagic.spps.shared.SimpleCryptProvider;
+import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.codec.Base64;
@@ -36,7 +36,7 @@ import java.security.Key;
 /**
  * Simple crypt tool class by using Apache Shiro framework.
  */
-public final class SimpleCryptShiro extends SimpleCryptProvider {
+public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptShiro.class);
     private static final DefaultBlockCipherService CIPHER = new AesCipherService();

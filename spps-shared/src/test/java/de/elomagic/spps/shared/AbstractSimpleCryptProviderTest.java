@@ -11,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
-class SimpleCryptProviderTest {
+class AbstractSimpleCryptProviderTest {
 
     private Path createEmptyTempFile() throws IOException {
         Path file = File.createTempFile("SimpleCryptTest-", ".tmp").toPath();

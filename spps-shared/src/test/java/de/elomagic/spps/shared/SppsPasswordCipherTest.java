@@ -16,7 +16,7 @@ class SppsPasswordCipherTest {
 
     @BeforeAll
     static void beforeAll() {
-        SimpleCryptProvider provider = mock(SimpleCryptProvider.class, CALLS_REAL_METHODS);
+        AbstractSimpleCryptProvider provider = mock(AbstractSimpleCryptProvider.class, CALLS_REAL_METHODS);
         when(provider.encrypt(any(byte[].class))).thenAnswer(i -> "{" + new String(i.getArgument(0, byte[].class), StandardCharsets.UTF_8) + "}");
         when(provider.decrypt(any(String.class))).thenAnswer(i -> i.getArgument(0, String.class).getBytes(StandardCharsets.UTF_8));
 
