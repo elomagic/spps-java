@@ -57,6 +57,7 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
         <build.date>${maven.build.timestamp}</build.date>
+        <tag-format>v${project.version}</tag-format>
 
         <compiler-plugin.version>3.9.0</compiler-plugin.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
@@ -177,7 +178,7 @@
                 <artifactId>maven-release-plugin</artifactId>
                 <version>${maven-release-plugin}</version>
                 <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <tagNameFormat>${tag-format}</tagNameFormat>
                 </configuration>
             </plugin>
 
@@ -219,8 +220,8 @@
                 </executions>
                 <configuration>
                     <description>Please see https://github.com/elomagic/spps-java/blob/main/CHANGELOG.md for release notes.</description>
-                    <releaseName>v${project.version}</releaseName>
-                    <tag>v${project.version}</tag>
+                    <releaseName>${tag-format}</releaseName>
+                    <tag>${tag-format}</tag>
                     <serverId>github-oauth</serverId>
                 </configuration>
             </plugin>
