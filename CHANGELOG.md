@@ -7,13 +7,28 @@ to [Semantic Versioning](https://semver.org/).
 
 ## [2.0.0] - Upcomming
 
+### Removed
+
+* For safety relevant reasons some methods ```init()```, ```encrypt(String)``` and ```decryptToString(String)```
+  were removed from class ```SimpleCrypt```.
+
 ### Changed
 
-* Project [spps-jbc]https://github.com/elomagic/spps-jbc and [spps-jshiro]https://github.com/elomagic/spps-jshiro merged into this project as modules
+* Project [spps-jbc]https://github.com/elomagic/spps-jbc and [spps-jshiro]https://github.com/elomagic/spps-jshiro merged
+  into this project as modules
+* Classpath of class ```SimpleCrypt``` was changed from ```de.elomagic.spps.[bc|shiro]``` to
+  ```de.elomagic.spps.shared```.
+
+### Deprecated
+
+* Class ```de.elomagic.spps.SimpleCrypt``` is deprecated
 
 ### Added
 
-* Web application tool "spps-wet" for encrypting secret in service context.
+* Web application tool "spps-wet" for encrypting secret in application server context.
+* Command line tool "spps-shell" for encrypting secret in the user context.
+* DataSource password cipher support for Apache Tomee added 
+* C3PO connection provider support for Hibernate ORM added 
 
 ## Previous Releases
 
