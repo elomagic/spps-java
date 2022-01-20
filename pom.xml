@@ -205,6 +205,7 @@
             </plugin>
 
             <plugin>
+                <!-- https://github.com/jutzig/github-release-plugin -->
                 <groupId>de.jutzig</groupId>
                 <artifactId>github-release-plugin</artifactId>
                 <executions>
@@ -224,6 +225,7 @@
                     <!--<serverId>github</serverId>-->
                     <!--<deleteRelease>true</deleteRelease>-->
 
+                    <!--
                     <fileSets>
                         <fileSet>
                             <directory>${project.basedir}/spps-shell/target</directory>
@@ -239,6 +241,7 @@
                             </includes>
                         </fileSet>
                     </fileSets>
+                    -->
                 </configuration>
             </plugin>
 

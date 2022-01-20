@@ -64,6 +64,32 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <!-- https://github.com/jutzig/github-release-plugin -->
+                <groupId>de.jutzig</groupId>
+                <artifactId>github-release-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>release</goal>
+                        </goals>
+                        <id>shell-upload</id>
+                    </execution>
+                </executions>
+                <configuration>
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>${project.artifactId}-${project.version}-bin.zip</include>
+                                <include>${project.artifactId}-${project.version}-bin.tgz</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
