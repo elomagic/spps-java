@@ -9,7 +9,7 @@
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spps-ct</artifactId>
+    <artifactId>spps-shell</artifactId>
     <packaging>pom</packaging>
 
     <name>Simple Password Protection Solution Console Tool</name>
@@ -22,8 +22,10 @@
         </license>
     </licenses>
 
+    <!--
     <properties>
     </properties>
+    -->
 
     <dependencies>
         <dependency>
@@ -57,7 +59,7 @@
                             <descriptors>
                                 <descriptor>src/assembly/bin.xml</descriptor>
                             </descriptors>
-                            <finalName>spps-shell-${pom.version}</finalName>
+                            <finalName>spps-shell-${project.version}</finalName>
                         </configuration>
                     </execution>
                 </executions>
