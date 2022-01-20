@@ -222,26 +222,6 @@
                     <releaseName>v${project.version}</releaseName>
                     <tag>v${project.version}</tag>
                     <serverId>github-oauth</serverId>
-                    <!--<serverId>github</serverId>-->
-                    <!--<deleteRelease>true</deleteRelease>-->
-
-                    <!--
-                    <fileSets>
-                        <fileSet>
-                            <directory>${project.basedir}/spps-shell/target</directory>
-                            <includes>
-                                <include>${project.artifactId}-${project.version}-bin.zip</include>
-                                <include>${project.artifactId}-${project.version}-bin.tgz</include>
-                            </includes>
-                        </fileSet>
-                        <fileSet>
-                            <directory>${project.basedir}/spps-wet/target</directory>
-                            <includes>
-                                <include>${project.artifactId}-${project.version}.war</include>
-                            </includes>
-                        </fileSet>
-                    </fileSets>
-                    -->
                 </configuration>
             </plugin>
 
