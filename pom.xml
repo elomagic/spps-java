@@ -58,11 +58,11 @@
 
         <build.date>${maven.build.timestamp}</build.date>
 
-        <compiler-plugin.version>3.8.1</compiler-plugin.version>
+        <compiler-plugin.version>3.9.0</compiler-plugin.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 
         <maven-surefire.version>3.0.0-M5</maven-surefire.version>
-        <maven-release-plugin>3.0.0-M4</maven-release-plugin>
+        <maven-release-plugin>3.0.0-M5</maven-release-plugin>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
 
         <javax.activation.version>1.1.1</javax.activation.version>
@@ -148,7 +148,7 @@
             <plugin>
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
-                <version>6.5.2</version>
+                <version>6.5.3</version>
                 <executions>
                     <execution>
                         <goals>
@@ -255,7 +255,7 @@
             <dependency>
                 <groupId>org.apache.tomee</groupId>
                 <artifactId>openejb-core</artifactId>
-                <version>8.0.7</version>
+                <version>8.0.9</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -332,7 +332,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
