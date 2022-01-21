@@ -4,7 +4,7 @@
 
 [![GitHub tag](https://img.shields.io/github/tag/elomagic/spps-java.svg)](https://GitHub.com/elomagic/spps-java/tags/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://img.shields.io/travis/com/elomagic/spps-java)](https://travis-ci.com/github/elomagic/spps-java)
+![Build Status](https://github.com/elomagic/spps-java/actions/workflows/maven.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/elomagic/spps-java/badge.svg)](https://coveralls.io/github/elomagic/spps-java)
 [![GitHub issues](https://img.shields.io/github/issues-raw/elomagic/spps-java)](https://github.com/elomagic/spps-java/issues)
 
