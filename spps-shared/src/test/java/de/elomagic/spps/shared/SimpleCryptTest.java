@@ -1,7 +1,6 @@
 package de.elomagic.spps.shared;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -20,11 +19,6 @@ class SimpleCryptTest {
         file.toFile().deleteOnExit();
 
         return file;
-    }
-
-    @BeforeAll
-    static void beforeAll() {
-        SimpleCryptFactory.setProvider(SimpleCryptProviderMock.class);
     }
 
     @Test
