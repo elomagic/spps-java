@@ -19,8 +19,9 @@
  */
 package de.elomagic.spps.bc;
 
-import de.elomagic.spps.shared.SimpleCryptException;
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
+import de.elomagic.spps.shared.SimpleCryptException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -122,18 +123,6 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
             LOGGER.error(ex.getMessage(), ex);
             throw new SimpleCryptException(ex.getMessage(), ex);
         }
-    }
-
-    /**
-     * Encrypt, encode as Base64 and encapsulate with curly bracket of a string.
-     *
-     * @param decrypted a non encrypted string
-     * @return Returns an encrypted, Base64 encoded string, surrounded with curly brackets.
-     * @throws SimpleCryptException Thrown when an error occurred during encrypting.
-     */
-    @Nullable
-    public String encrypt(@Nullable final String decrypted) throws SimpleCryptException {
-        return decrypted == null ? null : encrypt(decrypted.getBytes(StandardCharsets.UTF_8));
     }
 
     /**

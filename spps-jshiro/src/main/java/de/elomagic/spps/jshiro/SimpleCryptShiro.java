@@ -19,8 +19,9 @@
  */
 package de.elomagic.spps.jshiro;
 
-import de.elomagic.spps.shared.SimpleCryptException;
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
+import de.elomagic.spps.shared.SimpleCryptException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.codec.Base64;
@@ -74,19 +75,6 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
             throw new SimpleCryptException(ex.getMessage(), ex);
         }
     }
-
-    /**
-     * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
-     *
-     * @param decrypted a non encrypted string
-     * @return Returns an encrypted, Base64 encoded string, surrounded with curly brackets.
-     * @throws SimpleCryptException Thrown when an error occurred during encrypting.
-     */
-    @Nullable
-    public String encrypt(final String decrypted) throws SimpleCryptException {
-        return decrypted == null ? null : encrypt(decrypted.getBytes(StandardCharsets.UTF_8));
-    }
-
 
     /**
      * Decrypt an encrypted, Base64 encoded data string.
