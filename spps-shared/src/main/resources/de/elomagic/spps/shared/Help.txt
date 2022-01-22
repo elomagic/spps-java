@@ -1,31 +1,34 @@
 Usage:
-* java -jar spps-jbc-x.x.x.jar -CreatePrivateKey [-Force] [-Relocation <file>]|[-File <file>]
-* java -jar spps-jbc-x.x.x.jar -Secret <secret> [-File <file>]
-* java -jar spps-jbc-x.x.x.jar -Help | -?
+* spps -CreatePrivateKey [-Force] [-Print] [-Relocation <file>]|[-File <file>]
+* spps -Import [-File <file>] [-Force]
+* spps -Secret <secret> [-File <file>]
+* spps -Help | -?
 
-* java -jar spps-jshiro-x.x.x.jar -CreatePrivateKey [-Force] [-Relocation <file>]|[-File <file>]
-* java -jar spps-jshiro-x.x.x.jar -Secret <secret> [-File <file>]
-* java -jar spps-jshiro-x.x.x.jar -Help | -?
-
-More SPPS online help on https://github.com/elomagic/spps-jshiro
+More SPPS online help on https://github.com/elomagic/spps-java
 
 -CreatePrivateKey
     Creates a settings file with a new generated private key
+
+-Secret <secret>
+    Creates and print an encrypted.
+
+-Import
+    Imports a private key
 
 -File <file>
     Set an alternative setting file.
 
 -Force
     Use this parameter in case when a private key file already exists. With this
-    parameter you agree to overwrite it. Works only together with option "-CreatePrivateKey"
+    parameter you agree to overwrite it. Works only together with option "-CreatePrivateKey" or "-Import"
 
 -Relocation <file>
     Use this parameters to persist the private key at another location instead
     of the default '.spps' folder of the current users home. iThe default settings file points to the other settings file.
     Works only together with option "-CreatePrivateKey"
 
--Secret <secret>
-    Creates and print an encrypted.
+-Print
+    Prints created private key to console
 
 -Help
     Prints this help

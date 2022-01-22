@@ -19,6 +19,7 @@ The SPPS is a lightweight solution to protect / hide your password or anything e
   * [JAR libraries](#jar-libraries)
 - [Using the API](#using-the-api)
   * [Create a private key file](#create-a-private-key-file)
+  * [Import private key](#import-private-key)
   * [Encrypt a secret](#encrypt-a-secret)
   * [Decrypt a secret](#decrypt-a-secret)
   * [Apache Tomee Password Cipher](#apache-tomee-password-cipher)
@@ -152,6 +153,26 @@ key=5C/Yi6+hbgRwIBhXT9PQGi83EVw2Oe6uttRSl4/kLzc=
 relocation=
 ```
 
+### Import private key
+
+*Supported since version 2.0.0.0*
+
+Import a private key. An existing private key will be replaced.
+
+Enter following command in your shell:
+
+```bash
+spps -ImportPrivateKey
+
+Enter secret: ********* 
+```
+
+...or import from file. The file contains the Base64 encoded private key.
+
+```bash
+spps -ImportPrivateKey -File privatekey 
+```
+
 ### Encrypt a secret
 
 To encrypt a secret via shell, you need the console binary package which can be downloaded 
@@ -165,7 +186,7 @@ Enter following command in your shell:
 ```bash
 spps -Secret
 
-Enter secret to encrypt: ********* 
+Enter secret: ********* 
 ```
 
 Output should look like:

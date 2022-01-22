@@ -19,6 +19,7 @@
  */
 package de.elomagic.spps.shared;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Path;
@@ -48,9 +49,12 @@ public interface SimpleCryptProvider {
      * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
+     * @return Returns the created private key
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException;
+    byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException;
+
+    void importPrivateKey(@NotNull final byte[] privateKey, boolean force) throws SimpleCryptException;
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.

@@ -6,9 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-public class SppsPasswordCipherTest {
+class SppsPasswordCipherTest {
 
     private static final SimpleCryptBC sc = new SimpleCryptBC();
 
@@ -38,7 +39,7 @@ public class SppsPasswordCipherTest {
 
         String secret = "MyTestSecret";
 
-        char[] encryptedSecret = sc.encrypt(secret).toCharArray();
+        char[] encryptedSecret = sc.encrypt(secret.getBytes(StandardCharsets.UTF_8)).toCharArray();
 
         Assertions.assertEquals(secret, cipher.decrypt(encryptedSecret));
         Assertions.assertEquals(secret, cipher.decrypt(Arrays.copyOfRange(encryptedSecret, 1, encryptedSecret.length-1)));

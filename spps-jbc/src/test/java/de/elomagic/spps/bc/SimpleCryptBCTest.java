@@ -75,7 +75,7 @@ class SimpleCryptBCTest {
 
         String value = "secret";
 
-        String encrypted = sc.encrypt(value);
+        String encrypted = sc.encrypt(value.getBytes(StandardCharsets.UTF_8));
 
         Assertions.assertNotEquals(value, encrypted);
         Assertions.assertEquals(54, encrypted.length());
@@ -84,8 +84,8 @@ class SimpleCryptBCTest {
 
         Assertions.assertEquals(value, decrypted);
 
-        String e1 = sc.encrypt(value);
-        String e2 = sc.encrypt(value);
+        String e1 = sc.encrypt(value.getBytes(StandardCharsets.UTF_8));
+        String e2 = sc.encrypt(value.toCharArray());
         Assertions.assertNotEquals(e1, e2);
 
         Assertions.assertThrows(SimpleCryptException.class, () -> sc.decryptToString("{bullshit}"));
@@ -105,7 +105,7 @@ class SimpleCryptBCTest {
 
         Assertions.assertArrayEquals(chars, decryptedChars);
 
-        Assertions.assertNull(sc.encrypt((String)null));
+        Assertions.assertNull(sc.encrypt((char[])null));
         Assertions.assertNull(sc.encrypt((byte[])null));
         Assertions.assertNull(sc.decryptToString(null));
         Assertions.assertNull(sc.decrypt(null));
@@ -125,7 +125,7 @@ class SimpleCryptBCTest {
         Path file1 = createEmptyTempFile();
         sc.createPrivateKeyFile(file1, null, true);
         sc.setSettingsFile(file1);
-        String encrypted1 = sc.encrypt(value);
+        String encrypted1 = sc.encrypt(value.getBytes(StandardCharsets.UTF_8));
         Assertions.assertTrue(sc.isEncryptedValue(encrypted1));
         Assertions.assertEquals(value, sc.decryptToString(encrypted1));
 
@@ -136,7 +136,7 @@ class SimpleCryptBCTest {
         sc.createPrivateKeyFile(file2, null,true);
         Assertions.assertTrue(Files.exists(file2));
 
-        String encrypted2 = sc.encrypt(value);
+        String encrypted2 = sc.encrypt(value.toCharArray());
         sc.setSettingsFile(null);
         Assertions.assertThrows(SimpleCryptException.class, () -> sc.decrypt(encrypted2));
     }

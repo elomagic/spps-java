@@ -25,7 +25,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
@@ -107,18 +106,12 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
         SETTINGS_FILE.set(file == null ? DEFAULT_SETTINGS_FILE : file);
     }
 
-    /**
-     * Creates a private key file.
-     *
-     * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
-     * @param relocationFile Alternative file where to write file with private key
-     * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
-     * @throws SimpleCryptException Thrown when unable to create private key
-     */
-    public final void createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
+    private void writePrivateKeyFile(
+            @NotNull final Path file,
+            final byte[] privateKey,
+            @Nullable final Path relocationFile,
+            boolean force) throws SimpleCryptException {
         try {
-            Path file = settingsFile == null ? SETTINGS_FILE.get() : settingsFile;
-
             if (Files.notExists(file.getParent())) {
                 Files.createDirectories(file.getParent());
             }
@@ -127,34 +120,64 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
                 throw new SimpleCryptException("Private key file \"" + file+ "\" already exists. Use parameter \"-Force\" to overwrite it.");
             }
 
+            // TODO Replace by secure writing file
             Properties p = new Properties();
 
-            if (relocationFile == null || file.equals(relocationFile)) {
-                Key key = createPrivateKey();
-                byte[] result = key.getEncoded();
-
-                String base64 = Base64.getEncoder().encodeToString(result);
-
-                p.put(KEY_KEY, base64);
-                p.put(RELOCATION_KEY, "");
-            } else {
-                p.put(KEY_KEY, "");
-                p.put(RELOCATION_KEY, relocationFile.toString());
-                createPrivateKeyFile(relocationFile, null, force);
-            }
+            p.put(KEY_KEY, privateKey == null ? "" :Base64.getEncoder().encodeToString(privateKey));
+            p.put(RELOCATION_KEY, relocationFile == null ? "" : relocationFile.toString());
 
             LOGGER.info("Creating settings file");
 
             try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
                 p.store(writer, "SPPS Settings");
             }
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new IllegalStateException("Unable to create private key", ex);
+            throw new SimpleCryptException("Unable to write private key.", ex);
+        }
+    }
+
+    /**
+     * Creates a private key file.
+     *
+     * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the
+     *                     user folder, will be used.
+     * @param relocationFile Alternative file where to write file with private key
+     * @param force When true and private key file already exists then it will be overwritten otherwise an exception
+     *              will be thrown
+     * @return Returns the created private key
+     * @throws SimpleCryptException Thrown when unable to create private key
+     */
+    public final byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
+        try {
+            Path file = settingsFile == null ? SETTINGS_FILE.get() : settingsFile;
+
+            byte[] result;
+            if (relocationFile == null || file.equals(relocationFile)) {
+                Key key = createPrivateKey();
+                result = key.getEncoded();
+
+                writePrivateKeyFile(file, result, null, force);
+                return result;
+            } else {
+                result = createPrivateKeyFile(relocationFile, null, force);
+                writePrivateKeyFile(file, null, relocationFile, force);
+            }
+
+            LOGGER.info("Creating settings file");
+            return result;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw new SimpleCryptException("Unable to create or read private key.", ex);
         }
+    }
+
+    public void importPrivateKey(final byte[] privateKey, boolean force) throws SimpleCryptException {
+        if (privateKey == null) {
+            throw new SimpleCryptException("Private key must be set");
+        }
+
+        writePrivateKeyFile(DEFAULT_SETTINGS_FILE, privateKey, null, force);
     }
 
     /**

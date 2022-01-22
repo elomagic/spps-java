@@ -28,9 +28,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +43,10 @@ import java.util.List;
 public final class SimpleCryptCommandTool {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptCommandTool.class);
+
+    private static final String ARG_FILE = "-File";
+    private static final String ARG_FORCE = "-Force";
+    private static final String ARG_SECRET = "-Secret";
 
     SimpleCryptCommandTool() {
     }
@@ -60,8 +67,8 @@ public final class SimpleCryptCommandTool {
         return args.get(index+1);
     }
 
-    private char[] getPasswordInput() {
-        return System.console().readPassword("Enter secret to encrypt: ");
+    private char[] enterSecret() {
+        return System.console().readPassword("Enter secret: ");
     }
 
     private PrintWriter out() {
@@ -75,19 +82,37 @@ public final class SimpleCryptCommandTool {
 
             SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
 
-            if (argList.contains("-Secret")) {
+            if (argList.contains(ARG_SECRET)) {
                 char[] secret;
-                if (hasArgumentForOption(argList,"-Secret")) {
-                    secret = getArgument(argList, "-Secret").toCharArray();
+                if (hasArgumentForOption(argList, ARG_SECRET)) {
+                    secret = getArgument(argList, ARG_SECRET).toCharArray();
                 } else {
-                    secret = getPasswordInput();
+                    secret = enterSecret();
                 }
                 out().println(provider.encrypt(secret));
             } else if (argList.contains("-CreatePrivateKey")) {
-                boolean force = argList.contains("-Force");
+                boolean force = argList.contains(ARG_FORCE);
                 Path relocationFile = argList.contains("-Relocation") ? Paths.get(getArgument(argList, "-Relocation")) : null;
-                Path file = argList.contains("-File") ? Paths.get(getArgument(argList, "-File")) : null;
-                provider.createPrivateKeyFile(file, relocationFile, force);
+                Path file = argList.contains(ARG_FILE) ? Paths.get(getArgument(argList, ARG_FILE)) : null;
+                byte[] privateKey = provider.createPrivateKeyFile(file, relocationFile, force);
+
+                if (argList.contains("-Print")) {
+                    out().println(Base64.getEncoder().encodeToString(privateKey));
+                }
+
+                Arrays.fill(privateKey, (byte)0);
+            } else if (argList.contains("-ImportPrivateKey")) {
+                boolean force = argList.contains(ARG_FORCE);
+                byte[] privateKey;
+                if (hasArgumentForOption(argList, ARG_FILE)) {
+                    Path file = Paths.get(getArgument(argList, ARG_FILE));
+                    privateKey = Files.readAllBytes(file);
+                } else {
+                    // TODO Change to secure type cast
+                    privateKey = new String(enterSecret()).getBytes(StandardCharsets.UTF_8);
+                }
+
+                provider.importPrivateKey(privateKey, force);
             } else {
                 String resource = "/" + SimpleCryptCommandTool.class.getPackage().getName().replace(".", "/") + "/Help.txt";
                 try (InputStream in = SimpleCryptCommandTool.class.getResourceAsStream(resource); InputStreamReader reader = new InputStreamReader(in)) {
