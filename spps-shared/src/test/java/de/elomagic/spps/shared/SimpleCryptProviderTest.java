@@ -50,7 +50,10 @@ class SimpleCryptProviderTest {
             p.load(reader);
         }
 
-        Assertions.assertEquals(2, p.keySet().size());
+        Assertions.assertEquals(3, p.keySet().size());
+        Assertions.assertTrue(p.keySet().contains("created"));
+        Assertions.assertTrue(p.keySet().contains("key"));
+        Assertions.assertTrue(p.keySet().contains("relocation"));
     }
 
 }

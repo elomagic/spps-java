@@ -25,20 +25,20 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileNotFoundException;
-import java.io.Reader;
-import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider {
 
     private static final Logger LOGGER = LogManager.getLogger(AbstractSimpleCryptProvider.class);
+    protected static final String KEY_CREATED = "created";
     protected static final String KEY_KEY = "key";
     protected static final String RELOCATION_KEY = "relocation";
     protected static final int PRIVATE_KEY_SIZE = 256;
@@ -120,16 +120,14 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
                 throw new SimpleCryptException("Private key file \"" + file+ "\" already exists. Use parameter \"-Force\" to overwrite it.");
             }
 
-            // TODO Replace by secure writing file
-            Properties p = new Properties();
-
-            p.put(KEY_KEY, privateKey == null ? "" :Base64.getEncoder().encodeToString(privateKey));
-            p.put(RELOCATION_KEY, relocationFile == null ? "" : relocationFile.toString());
-
             LOGGER.info("Creating settings file");
 
-            try (Writer writer = Files.newBufferedWriter(file, StandardCharsets.UTF_8)) {
-                p.store(writer, "SPPS Settings");
+            try (SecureProperties properties = new SecureProperties()) {
+                properties.setKey(KEY_KEY, Base64.getEncoder().encode(privateKey));
+                properties.setKey(RELOCATION_KEY, relocationFile == null ? null : relocationFile.toString().getBytes(StandardCharsets.UTF_8));
+                properties.setKey(KEY_CREATED, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()).getBytes(StandardCharsets.UTF_8));
+
+                properties.write(file);
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -215,15 +213,13 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
                 throw new FileNotFoundException("Unable to find settings file. At first you have to create a private key.");
             }
 
-            Properties p = new Properties();
-            try (Reader reader = Files.newBufferedReader(file)) {
-                p.load(reader);
-
-                if (p.getProperty(RELOCATION_KEY, "").trim().length() != 0) {
-                    return readPrivateKey(Paths.get(p.getProperty(RELOCATION_KEY)));
+            try (SecureProperties properties = new SecureProperties()) {
+                properties.read(file);
+                if (properties.containsValue(RELOCATION_KEY)) {
+                    return readPrivateKey(Paths.get(new String(properties.getValueAsBytes(RELOCATION_KEY), StandardCharsets.UTF_8)));
                 } else {
-                    String key = p.getProperty(KEY_KEY, "");
-                    if ("".equals(key)) {
+                    byte[] key = properties.getValueAsBytes(KEY_KEY);
+                    if (key == null) {
                         throw new SimpleCryptException("No private key set.");
                     }
                     return Base64.getDecoder().decode(key);

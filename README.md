@@ -327,7 +327,9 @@ spps
 ## Migration
 
 In summary, please use the class ```de.elomagic.spps.shared.SimpleCryptFactory``` instead 
-```de.elomagic.spps.SimpleCrypt``` in the future.  
+```de.elomagic.spps.SimpleCrypt``` in the future.
+
+TODO tbd settings file format (UTF-8, No char escaping. Simple key value delimited by equal character)
 
 ### Classpath changed
 
@@ -363,6 +365,15 @@ Execute following steps:
   mvn clean install release:prepare -P release
   mvn release:perform -P release
   ```
+  
+### Settings file format
+
+Typical key value format with following rules.
+
+* File is UTF-8 formatted
+* Comments starting with hash ```#``` character at the beginning of the line
+* Key and value is delimited by the ```=``` character.
+* Escaped characters are not supported
 
 ## License
 

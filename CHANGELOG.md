@@ -18,6 +18,7 @@ to [Semantic Versioning](https://semver.org/).
   into this project as modules
 * Classpath of class ```SimpleCrypt``` was changed from ```de.elomagic.spps.[bc|shiro]``` to
   ```de.elomagic.spps.shared```.
+* Format of the settings file ```~/.spps/settings``` normalized.
 
 ### Deprecated
 
