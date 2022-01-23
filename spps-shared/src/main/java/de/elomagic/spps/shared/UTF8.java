@@ -21,6 +21,7 @@ package de.elomagic.spps.shared;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
@@ -33,7 +34,7 @@ public final class UTF8 {
     }
 
     /**
-     * Convert a UTF8 encoded char array into a byte array.
+     * Convert a UTF-16 (two-byte) encoded char array into a UTF-8 encoded byte array.
      *
      * Input parameter will be wiped
      *
@@ -45,16 +46,55 @@ public final class UTF8 {
             return null;
         }
 
-        // TODO Change to save type cast
-        byte[] result = new String(chars).getBytes(StandardCharsets.UTF_8);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(chars.length * 2);
+
+        int i = 0;
+        while (i < chars.length) {
+            char ch = chars[i];
+
+            if (ch < 0x0080) {
+                // ASCII char
+                out.write(ch);
+            } else if (ch < 0x0800) {
+                // 2 byte char
+                out.write(0xc0 | (ch >> 6));
+                out.write(0x80 | (ch & 0x3f));
+            } else if (ch >= 0xD800 && ch <= 0xDFFF) {
+                // 4 byte char
+                if (i + 1 >= chars.length) {
+                    throw new IllegalStateException("Invalid UTF-16 codepoint");
+                }
+
+                char w1 = ch;
+                ch = chars[++i];
+                char w2 = ch;
+
+                if (w1 > 0xDBFF) {
+                    throw new IllegalStateException("Invalid UTF-16 codepoint");
+                }
+
+                int codePoint = (((w1 & 0x03FF) << 10) | (w2 & 0x03FF)) + 0x10000;
+                out.write(0xf0 | (codePoint >> 18));
+                out.write(0x80 | ((codePoint >> 12) & 0x3F));
+                out.write(0x80 | ((codePoint >> 6) & 0x3F));
+                out.write(0x80 | (codePoint & 0x3F));
+            } else {
+                // 3 byte char
+                out.write(0xe0 | (ch >> 12));
+                out.write(0x80 | ((ch >> 6) & 0x3F));
+                out.write(0x80 | (ch & 0x3F));
+            }
+
+            i++;
+        }
 
         Arrays.fill(chars, '*');
 
-        return result;
+        return out.toByteArray();
     }
 
     /**
-     * Convert a UTF8 encoded byte array into a char array.
+     * Convert a UTF-8 encoded byte array into a UTF-16 encoded char array.
      *
      * Input parameter will be wiped
      *
