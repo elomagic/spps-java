@@ -105,7 +105,7 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
             return null;
         }
 
-        if (!existsSettingsFile()) {
+        if (!isInitialize()) {
             createPrivateKeyFile(null, null, false);
         }
 

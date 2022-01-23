@@ -76,15 +76,6 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     public abstract byte[] decrypt(@Nullable final String encryptedBase64) throws SimpleCryptException;
 
     /**
-     * Check is the settings file exists.
-     *
-     * @return Returns true when exists otherwise false
-     */
-    protected final boolean existsSettingsFile() {
-        return Files.exists(SETTINGS_FILE.get());
-    }
-
-    /**
      * Checks if settings file exists.
      *
      * Settings file can be "${user.home}/.spps/settings" or an alternative file which set with {@link AbstractSimpleCryptProvider#setSettingsFile(Path)}

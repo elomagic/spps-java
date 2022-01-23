@@ -62,7 +62,7 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
             return null;
         }
 
-        if (!existsSettingsFile()) {
+        if (!isInitialize()) {
             createPrivateKeyFile(null, null, false);
         }
 
