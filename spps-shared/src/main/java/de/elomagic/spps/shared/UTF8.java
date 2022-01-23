@@ -22,7 +22,6 @@ package de.elomagic.spps.shared;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayOutputStream;
-import java.io.CharArrayWriter;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
@@ -194,49 +193,52 @@ public final class UTF8 {
             return null;
         }
 
-        // TODO Unsafe CharArrayWriter and mustr be replaced
-        CharArrayWriter out = new CharArrayWriter(utf8.length);
+        char[] result;
+        try (SecureCharArrayWriter out = new SecureCharArrayWriter()) {
 
-        int i = 0;
+            int i = 0;
 
-        while (i < utf8.length) {
-            byte codeUnit = utf8[i++];
-            if (codeUnit >= 0) {
-                out.write(codeUnit);
-                continue;
-            }
+            while (i < utf8.length) {
+                byte codeUnit = utf8[i++];
+                if (codeUnit >= 0) {
+                    out.write(codeUnit);
+                    continue;
+                }
 
-            short first = firstUnitTable[codeUnit & 0x7F];
-            int codePoint = first >>> 8;
-            byte state = (byte)first;
+                short first = firstUnitTable[codeUnit & 0x7F];
+                int codePoint = first >>> 8;
+                byte state = (byte) first;
 
-            while (state >= 0) {
-                if (i >= utf8.length) {
+                while (state >= 0) {
+                    if (i >= utf8.length) {
+                        throw new SimpleCryptException("Invalid UTF-8 encoded byte array input parameter.");
+                    }
+
+                    codeUnit = utf8[i++];
+                    codePoint = (codePoint << 6) | (codeUnit & 0x3F);
+                    state = transitionTable[state + ((codeUnit & 0xFF) >>> 4)];
+                }
+
+                if (state == S_ERR) {
                     throw new SimpleCryptException("Invalid UTF-8 encoded byte array input parameter.");
                 }
 
-                codeUnit = utf8[i++];
-                codePoint = (codePoint << 6) | (codeUnit & 0x3F);
-                state = transitionTable[state + ((codeUnit & 0xFF) >>> 4)];
+                if (codePoint <= 0xFFFF) {
+                    // Code points from U+D800 to U+DFFF are caught by the DFA
+                    out.write(codePoint);
+                } else {
+                    // Code points above U+10FFFF are caught by the DFA
+                    out.write(0xD7C0 + (codePoint >>> 10));
+                    out.write(0xDC00 | (codePoint & 0x3FF));
+                }
             }
 
-            if (state == S_ERR) {
-                throw new SimpleCryptException("Invalid UTF-8 encoded byte array input parameter.");
-            }
-
-            if (codePoint <= 0xFFFF) {
-                // Code points from U+D800 to U+DFFF are caught by the DFA
-                out.write(codePoint);
-            } else {
-                // Code points above U+10FFFF are caught by the DFA
-                out.write(0xD7C0 + (codePoint >>> 10));
-                out.write(0xDC00 | (codePoint & 0x3FF));
-            }
+            result = out.toCharArray();
+        } finally {
+            Arrays.fill(utf8, (byte) 0);
         }
 
-        Arrays.fill(utf8, (byte)0);
-
-        return out.toCharArray();
+        return result;
     }
 
 }
