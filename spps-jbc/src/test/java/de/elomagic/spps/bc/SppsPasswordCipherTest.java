@@ -27,7 +27,7 @@ class SppsPasswordCipherTest {
 
         char[] encryptedSecret = cipher.encrypt("MyTestSecret");
 
-        Assertions.assertEquals(secret, sc.decryptToString(String.valueOf(encryptedSecret)));
+        Assertions.assertEquals(secret, new String(sc.decrypt(String.valueOf(encryptedSecret)), StandardCharsets.UTF_8));
         Assertions.assertNull(cipher.encrypt(null));
 
     }

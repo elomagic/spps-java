@@ -9,6 +9,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.mockito.Mockito.*;
@@ -39,6 +40,6 @@ class FormEncryptServletTest {
         servlet.doPost(request, response);
 
         Assertions.assertEquals("encryptedSecret", key.get());
-        Assertions.assertEquals(secret, new SimpleCryptBC().decryptToString(value.get()));
+        Assertions.assertEquals(secret, new String(new SimpleCryptBC().decrypt(value.get()), StandardCharsets.UTF_8));
     }
 }

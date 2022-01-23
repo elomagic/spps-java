@@ -95,7 +95,7 @@ class SimpleCryptShiroTest {
         Assertions.assertNotEquals(value, encrypted);
         Assertions.assertEquals(54, encrypted.length());
 
-        String decrypted = sc.decryptToString(encrypted);
+        String decrypted = new String(sc.decrypt(encrypted), StandardCharsets.UTF_8);
 
         Assertions.assertEquals(value, decrypted);
 
@@ -103,7 +103,7 @@ class SimpleCryptShiroTest {
         String e2 = sc.encrypt(value.toCharArray());
         Assertions.assertNotEquals(e1, e2);
 
-        Assertions.assertThrows(SimpleCryptException.class, () -> sc.decryptToString("{bullshit}"));
+        Assertions.assertThrows(SimpleCryptException.class, () -> sc.decrypt("{bullshit}"));
     }
 
     @Test
@@ -122,14 +122,14 @@ class SimpleCryptShiroTest {
 
         Assertions.assertNull(sc.encrypt((char[])null));
         Assertions.assertNull(sc.encrypt((byte[])null));
-        Assertions.assertNull(sc.decryptToString(null));
+        Assertions.assertNull(sc.decrypt(null));
         Assertions.assertNull(sc.decrypt(null));
     }
 
     @Test
     void testDecrypt1() {
-        Assertions.assertEquals("NOT_NULL", sc.decryptToString("NOT_NULL"));
-        Assertions.assertEquals("", sc.decryptToString(""));
+        Assertions.assertEquals("NOT_NULL", new String(sc.decrypt("NOT_NULL"), StandardCharsets.UTF_8));
+        Assertions.assertEquals("", new String(sc.decrypt(""), StandardCharsets.UTF_8));
         Assertions.assertNull(sc.decrypt(null));
         Assertions.assertThrows(SimpleCryptException.class, ()-> sc.decrypt("{fake}"));
     }
@@ -142,7 +142,7 @@ class SimpleCryptShiroTest {
         sc.setSettingsFile(file1);
         String encrypted1 = sc.encrypt(value.getBytes(StandardCharsets.UTF_8));
         Assertions.assertTrue(sc.isEncryptedValue(encrypted1));
-        Assertions.assertEquals(value, sc.decryptToString(encrypted1));
+        Assertions.assertEquals(value, new String(sc.decrypt(encrypted1), StandardCharsets.UTF_8));
 
         Path file2 = createEmptyTempFile();
         sc.setSettingsFile(file2);

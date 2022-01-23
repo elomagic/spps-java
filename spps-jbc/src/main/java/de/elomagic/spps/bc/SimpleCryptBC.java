@@ -153,16 +153,4 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
         }
     }
 
-    /**
-     * Decrypt an encrypted, Base64 encoded data string.
-     *
-     * @param encryptedBase64 Base64 encoded data string, encapsulated with curly brackets.
-     * @return The encrypted data as string.
-     * @throws SimpleCryptException Thrown when unable to decrypt data .
-     */
-    @Nullable
-    public String decryptToString(@Nullable final String encryptedBase64) throws SimpleCryptException {
-        return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8);
-    }
-
 }
