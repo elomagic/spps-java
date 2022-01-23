@@ -22,6 +22,7 @@ package de.elomagic.spps.shared;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Provides util method to handle UTF8 encoded chars and bytes.
@@ -31,14 +32,44 @@ public final class UTF8 {
     private UTF8() {
     }
 
+    /**
+     * Convert a UTF8 encoded char array into a byte array.
+     *
+     * Input parameter will be wiped
+     *
+     * @param chars Char array
+     * @return Returns a byte array
+     */
     public static byte[] toByteArray(@Nullable final char[] chars) {
+        if (chars == null) {
+            return null;
+        }
+
         // TODO Change to save type cast
-        return chars == null ? null : new String(chars).getBytes(StandardCharsets.UTF_8);
+        byte[] result = new String(chars).getBytes(StandardCharsets.UTF_8);
+
+        Arrays.fill(chars, '*');
+
+        return result;
     }
 
+    /**
+     * Convert a UTF8 encoded byte array into a char array.
+     *
+     * @param bytes Byte array
+     * @return Returns a char array
+     */
     public static char[] toCharArray(@Nullable final byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+
         // TODO Change to save type cast
-        return bytes == null ? null : new String(bytes, StandardCharsets.UTF_8).toCharArray();
+        char[] chars = new String(bytes, StandardCharsets.UTF_8).toCharArray();
+
+        Arrays.fill(bytes, (byte)0);
+
+        return chars;
     }
 
 }
