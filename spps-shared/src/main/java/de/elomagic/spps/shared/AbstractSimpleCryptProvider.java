@@ -270,6 +270,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      */
     @Nullable
     public final char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
+        // TODO Secure casting
         return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8).toCharArray();
     }
 
