@@ -32,10 +32,12 @@ public class SecureCharArrayWriter extends Writer {
 
     public void write(int b) {
         char[] a = new char[] { (char)b };
-        write(a, 0, 1);
-
-        b = 0;
-        wipe(a);
+        try {
+            write(a, 0, 1);
+        } finally {
+            b = 0;
+            wipe(a);
+        }
     }
 
     @Override
