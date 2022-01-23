@@ -33,6 +33,9 @@ import java.nio.file.Path;
 @Deprecated
 public class SimpleCrypt {
 
+    private SimpleCrypt() {
+    }
+
     /**
      * Returns true when value is encrypted, tagged by surrounding braces "{" and "}".
      *
