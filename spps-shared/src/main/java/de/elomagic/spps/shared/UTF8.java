@@ -37,7 +37,7 @@ public final class UTF8 {
      *
      * Input parameter will be wiped
      *
-     * @param chars Char array
+     * @param chars Char array. Supports also null arrays
      * @return Returns a byte array
      */
     public static byte[] toByteArray(@Nullable final char[] chars) {
@@ -56,7 +56,9 @@ public final class UTF8 {
     /**
      * Convert a UTF8 encoded byte array into a char array.
      *
-     * @param bytes Byte array
+     * Input parameter will be wiped
+     *
+     * @param bytes Byte array. Supports also null arrays
      * @return Returns a char array
      */
     public static char[] toCharArray(@Nullable final byte[] bytes) {
