@@ -44,8 +44,12 @@ public final class SimpleCryptCommandTool {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptCommandTool.class);
 
+    private static final String ARG_CREATE_PRIVATE_KEY = "-CreatePrivateKey";
     private static final String ARG_FILE = "-File";
     private static final String ARG_FORCE = "-Force";
+    private static final String ARG_IMPORT_PRIVATE_KEY = "-ImportPrivateKey";
+    private static final String ARG_PRINT = "-Print";
+    private static final String ARG_RELOCATION = "-Relocation";
     private static final String ARG_SECRET = "-Secret";
 
     SimpleCryptCommandTool() {
@@ -76,6 +80,14 @@ public final class SimpleCryptCommandTool {
         return System.console() == null ? new PrintWriter(System.out, true) : System.console().writer();
     }
 
+    private void wipeSecret(final byte[] secret) {
+        if (secret == null) {
+            return;
+        }
+
+        Arrays.fill(secret, (byte)0);
+    }
+
     int run(@Nullable final String[] args) {
         try {
             List<String> argList = args == null ? Collections.emptyList() : Arrays.asList(args);
@@ -83,33 +95,42 @@ public final class SimpleCryptCommandTool {
             SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
 
             if (argList.contains(ARG_SECRET)) {
-                char[] secret;
-                if (hasArgumentForOption(argList, ARG_SECRET)) {
-                    secret = getArgument(argList, ARG_SECRET).toCharArray();
-                } else {
-                    secret = enterSecret();
+                char[] secret = new char[0];
+                try {
+                    if (hasArgumentForOption(argList, ARG_SECRET)) {
+                        secret = getArgument(argList, ARG_SECRET).toCharArray();
+                    } else {
+                        secret = enterSecret();
+                    }
+                    out().println(provider.encrypt(secret));
+                } finally {
+                    Arrays.fill(secret, '*');
                 }
-                out().println(provider.encrypt(secret));
-            } else if (argList.contains("-CreatePrivateKey")) {
+            } else if (argList.contains(ARG_CREATE_PRIVATE_KEY)) {
                 boolean force = argList.contains(ARG_FORCE);
-                Path relocationFile = argList.contains("-Relocation") ? Paths.get(getArgument(argList, "-Relocation")) : null;
+                Path relocationFile = argList.contains(ARG_RELOCATION) ? Paths.get(getArgument(argList, ARG_RELOCATION)) : null;
                 Path file = argList.contains(ARG_FILE) ? Paths.get(getArgument(argList, ARG_FILE)) : null;
                 byte[] privateKey = provider.createPrivateKeyFile(file, relocationFile, force);
-
-                if (argList.contains("-Print")) {
-                    out().println(Base64.getEncoder().encodeToString(privateKey));
+                try {
+                    if (argList.contains(ARG_PRINT)) {
+                        out().println(Base64.getEncoder().encodeToString(privateKey));
+                    }
+                } finally {
+                    wipeSecret(privateKey);
                 }
-
-                Arrays.fill(privateKey, (byte)0);
-            } else if (argList.contains("-ImportPrivateKey")) {
+            } else if (argList.contains(ARG_IMPORT_PRIVATE_KEY)) {
                 boolean force = argList.contains(ARG_FORCE);
-                byte[] privateKey;
-                if (hasArgumentForOption(argList, ARG_FILE)) {
-                    Path file = Paths.get(getArgument(argList, ARG_FILE));
-                    privateKey = Files.readAllBytes(file);
-                } else {
-                    // TODO Change to secure type cast
-                    privateKey = new String(enterSecret()).getBytes(StandardCharsets.UTF_8);
+                byte[] privateKey = new byte[0];
+                try {
+                    if (hasArgumentForOption(argList, ARG_FILE)) {
+                        Path file = Paths.get(getArgument(argList, ARG_FILE));
+                        privateKey = Files.readAllBytes(file);
+                    } else {
+                        // TODO Change to secure type cast
+                        privateKey = new String(enterSecret()).getBytes(StandardCharsets.UTF_8);
+                    }
+                } finally {
+                    wipeSecret(privateKey);
                 }
 
                 provider.importPrivateKey(privateKey, force);
