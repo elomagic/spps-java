@@ -3,6 +3,7 @@ package de.elomagic.spps.shared;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Base64;
 
@@ -24,7 +25,7 @@ public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
 
             @Override
             public byte[] getEncoded() {
-                return new byte[] { 1, 2, 3, 4, 5 };
+                return "ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8);
             }
         };
     }

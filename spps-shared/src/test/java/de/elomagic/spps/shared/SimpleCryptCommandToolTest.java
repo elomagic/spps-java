@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -57,9 +59,17 @@ class SimpleCryptCommandToolTest {
     void testCreatePrivateKey() throws Exception {
         Path file = createEmptyTempFile();
 
-        Assertions.assertEquals(1, sc.run(new String[]{"-CreatePrivateKey", "-File", file.toString()}));
+        try (PrintStreamMock out = new PrintStreamMock()) {
+            Assertions.assertEquals(1, sc.run(new String[]{"-CreatePrivateKey", "-File", file.toString()}));
+            Assertions.assertTrue(out.toString().isEmpty());
 
-        Assertions.assertEquals(0, sc.run(new String[]{"-CreatePrivateKey", "-Force", "-File", file.toString()}));
+            Assertions.assertEquals(0, sc.run(new String[]{"-CreatePrivateKey", "-Force", "-Print", "-File", file.toString()}));
+
+            String base64 = out.toString().trim();
+            String decrypted = new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
+
+            Assertions.assertEquals("ThisIsAPrivateKeyMock", decrypted);
+        }
 
         Properties p = new Properties();
         try (Reader reader = Files.newBufferedReader(file)) {
@@ -70,12 +80,17 @@ class SimpleCryptCommandToolTest {
         Assertions.assertTrue(p.keySet().contains("created"));
         Assertions.assertTrue(p.keySet().contains("key"));
         Assertions.assertTrue(p.keySet().contains("relocation"));
-
-        // TODO Test Print
     }
 
     @Test
-    void testImport() {
+    void testImport() throws Exception {
+
+        // Create private key if doesn't exists
+        //sc.run(new String[]{"-ImportPrivateKey", "-File", file.toString()})
+
+        //Path file = createEmptyTempFile();
+        //Assertions.assertEquals(1, sc.run(new String[]{"-ImportPrivateKey", "-File", file.toString()}));
+
         // TODO Test Import
     }
 
