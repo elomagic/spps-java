@@ -28,7 +28,6 @@ import org.jetbrains.annotations.Nullable;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -126,8 +125,7 @@ public final class SimpleCryptCommandTool {
                         Path file = Paths.get(getArgument(argList, ARG_FILE));
                         privateKey = Files.readAllBytes(file);
                     } else {
-                        // TODO Change to secure type cast
-                        privateKey = new String(enterSecret()).getBytes(StandardCharsets.UTF_8);
+                        privateKey = UTF8.toByteArray(enterSecret());
                     }
 
                     provider.importPrivateKey(privateKey, force);

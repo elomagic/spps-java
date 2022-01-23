@@ -281,8 +281,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      */
     @Nullable
     public final String encrypt(final char[] decrypted) throws SimpleCryptException {
-        // TODO Safe cast of char array to byte array
-        return decrypted == null ? null : encrypt(new String(decrypted).getBytes(StandardCharsets.UTF_8));
+        return decrypted == null ? null : encrypt(UTF8.toByteArray(decrypted));
     }
 
     /**
@@ -294,8 +293,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      */
     @Nullable
     public final char[] decryptToChars(@Nullable final String encryptedBase64) throws SimpleCryptException {
-        // TODO Secure casting
-        return encryptedBase64 == null ? null : new String(decrypt(encryptedBase64), StandardCharsets.UTF_8).toCharArray();
+        return encryptedBase64 == null ? null : UTF8.toCharArray(decrypt(encryptedBase64));
     }
 
 }
