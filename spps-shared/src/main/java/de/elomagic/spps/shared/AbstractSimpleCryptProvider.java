@@ -266,6 +266,8 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
      *
+     * Note: Input parameter will be wiped.
+     *
      * @param decrypted a non encrypted char array
      * @return Returns an encrypted, Base64 encoded string, surrounded with curly brackets.
      * @throws SimpleCryptException Thrown when an error occurred during encrypting.
@@ -277,6 +279,8 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
     /**
      * Decrypt an encrypted, Base64 encoded data string.
+     *
+     * Note: Input parameter will be wiped.
      *
      * @param encryptedBase64 Base64 encoded data string, encapsulated with curly brackets.
      * @return The encrypted data as char array.

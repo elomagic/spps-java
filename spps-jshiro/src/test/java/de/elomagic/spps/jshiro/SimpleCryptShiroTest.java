@@ -112,7 +112,7 @@ class SimpleCryptShiroTest {
 
         char[] chars = CodecSupport.toChars(value.getBytes(StandardCharsets.UTF_8));
 
-        String encrypted = sc.encrypt(chars);
+        String encrypted = sc.encrypt(chars.clone());
 
         Assertions.assertNotEquals(value, encrypted);
 

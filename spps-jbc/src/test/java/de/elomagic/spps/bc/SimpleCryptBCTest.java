@@ -97,7 +97,7 @@ class SimpleCryptBCTest {
 
         char[] chars = ByteUtils.toCharArray(value.getBytes(StandardCharsets.UTF_8));
 
-        String encrypted = sc.encrypt(chars);
+        String encrypted = sc.encrypt(chars.clone());
 
         Assertions.assertNotEquals(value, encrypted);
 
