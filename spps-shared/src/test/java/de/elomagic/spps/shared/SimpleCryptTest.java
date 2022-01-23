@@ -43,7 +43,9 @@ class SimpleCryptTest {
         System.out.println("Running testCreatePrivateKeyFile");
         Path file = createEmptyTempFile();
 
-        Assertions.assertThrows(SimpleCryptException.class, () -> SimpleCrypt.createPrivateKeyFile(file, null, false));
+        SimpleCrypt.setSettingsFile(file);
+
+        Assertions.assertThrows(SimpleCryptException.class, () -> SimpleCrypt.createPrivateKeyFile(null, null, false));
 
         Assertions.assertDoesNotThrow(() -> SimpleCrypt.createPrivateKeyFile(file, null, true));
 
@@ -70,6 +72,10 @@ class SimpleCryptTest {
         String decrypted = new String(SimpleCrypt.decryptToChars(encrypted));
 
         Assertions.assertEquals(secret, decrypted);
+
+        encrypted = SimpleCrypt.encrypt(secret.toCharArray());
+
+        Assertions.assertEquals(secret, new String(SimpleCrypt.decryptToChars(encrypted)));
     }
 
 }
