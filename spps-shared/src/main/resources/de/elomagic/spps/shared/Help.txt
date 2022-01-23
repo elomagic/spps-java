@@ -13,7 +13,7 @@ More SPPS online help on https://github.com/elomagic/spps-java
     Creates and print an encrypted.
 
 -Import
-    Imports a private key
+    Imports a Base64 encoded private key
 
 -File <file>
     Set an alternative setting file.
@@ -28,7 +28,7 @@ More SPPS online help on https://github.com/elomagic/spps-java
     Works only together with option "-CreatePrivateKey"
 
 -Print
-    Prints created private key to console
+    Prints created private key as Base64 encoded string to console
 
 -Help
     Prints this help

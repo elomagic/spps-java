@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -106,6 +107,16 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
         SETTINGS_FILE.set(file == null ? DEFAULT_SETTINGS_FILE : file);
     }
 
+    /**
+     * Writes a settings file.
+     *
+     * @param file File to write
+     * @param privateKey Non Base64 encoded private key
+     * @param relocationFile When set then relocation file name will be written in the settinga file. Can be null.
+     * @param force If file already exists and force is true then it will overwrite it otherwise it will fail with a
+     *              {@link SimpleCryptException}.
+     * @throws SimpleCryptException Thrown when unable to write file
+     */
     private void writePrivateKeyFile(
             @NotNull final Path file,
             final byte[] privateKey,
@@ -170,12 +181,25 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
         }
     }
 
-    public void importPrivateKey(final byte[] privateKey, boolean force) throws SimpleCryptException {
-        if (privateKey == null) {
+    /**
+     * Imports a private key and replace an existing private key in the setting file.
+     *
+     * @param encodedPrivateKey Base64 encoded private key.
+     * @param force Force overwriting existing setting file. Otherwise, it will fail with an exception when already
+     *              exists.
+     * @throws SimpleCryptException Thrown when unable to import private key
+     */
+    public void importPrivateKey(final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException {
+        if (encodedPrivateKey == null) {
             throw new SimpleCryptException("Private key must be set");
         }
 
-        writePrivateKeyFile(DEFAULT_SETTINGS_FILE, privateKey, null, force);
+        byte[] privateKey = Base64.getDecoder().decode(encodedPrivateKey);
+        try {
+            writePrivateKeyFile(SETTINGS_FILE.get(), privateKey, null, force);
+        } finally {
+            Arrays.fill(privateKey, (byte)0);
+        }
     }
 
     /**

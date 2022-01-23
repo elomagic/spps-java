@@ -329,7 +329,10 @@ spps
 In summary, please use the class ```de.elomagic.spps.shared.SimpleCryptFactory``` instead 
 ```de.elomagic.spps.SimpleCrypt``` in the future.
 
-TODO tbd settings file format (UTF-8, No char escaping. Simple key value delimited by equal character)
+### Settings file format changed
+
+The settings file format of "/.spps/settings" has been changed. Remove all backslashes in the value of 
+property ```key``` and also update the path of property ```relocation``` if required. The file format is now fix UTF-8.
 
 ### Classpath changed
 

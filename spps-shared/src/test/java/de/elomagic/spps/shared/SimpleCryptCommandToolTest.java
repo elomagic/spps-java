@@ -20,7 +20,7 @@ class SimpleCryptCommandToolTest {
     private final SimpleCryptCommandTool sc = new SimpleCryptCommandTool();
 
     private Path createEmptyTempFile() throws IOException {
-        Path file = File.createTempFile("SimpleCryptTest-", ".tmp").toPath();
+        Path file = File.createTempFile("SimpleCryptTest-Temp-", ".txt").toPath();
         file.toFile().deleteOnExit();
 
         return file;
@@ -85,13 +85,26 @@ class SimpleCryptCommandToolTest {
     @Test
     void testImport() throws Exception {
 
-        // Create private key if doesn't exists
-        //sc.run(new String[]{"-ImportPrivateKey", "-File", file.toString()})
+        byte[] privateKey = Base64.getEncoder().encode("AnotherTestPrivateKey".getBytes(StandardCharsets.UTF_8));
 
-        //Path file = createEmptyTempFile();
-        //Assertions.assertEquals(1, sc.run(new String[]{"-ImportPrivateKey", "-File", file.toString()}));
+        Path alternateKeyFile = createEmptyTempFile();
+        Path importFile = createEmptyTempFile();
+        Files.write(importFile, privateKey);
 
-        // TODO Test Import
+        SimpleCryptFactory.getInstance().setSettingsFile(alternateKeyFile);
+
+        Assertions.assertTrue(Files.exists(alternateKeyFile), "Settings file not created");
+
+        Assertions.assertEquals(1, sc.run(new String[]{"-ImportPrivateKey", "-File", importFile.toString()}));
+        Assertions.assertFalse(Arrays.equals(privateKey, Files.readAllBytes(alternateKeyFile)));
+
+        Assertions.assertEquals(0, sc.run(new String[]{"-ImportPrivateKey", "-Force", "-File", importFile.toString()}));
+
+        SecureProperties properties = new SecureProperties();
+        properties.read(alternateKeyFile);
+
+        Assertions.assertArrayEquals(privateKey, properties.getValueAsBytes("key"));
+
     }
 
 }

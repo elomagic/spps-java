@@ -129,11 +129,11 @@ public final class SimpleCryptCommandTool {
                         // TODO Change to secure type cast
                         privateKey = new String(enterSecret()).getBytes(StandardCharsets.UTF_8);
                     }
+
+                    provider.importPrivateKey(privateKey, force);
                 } finally {
                     wipeSecret(privateKey);
                 }
-
-                provider.importPrivateKey(privateKey, force);
             } else {
                 String resource = "/" + SimpleCryptCommandTool.class.getPackage().getName().replace(".", "/") + "/Help.txt";
                 try (InputStream in = SimpleCryptCommandTool.class.getResourceAsStream(resource); InputStreamReader reader = new InputStreamReader(in)) {
