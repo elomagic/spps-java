@@ -6,14 +6,63 @@
     <style>
         body {
             font-family: sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-control {
+            border-radius: .2rem;
+            border: 1px solid #ced4da;
+            padding: .25rem .5rem;
+        }
+
+        .btn {
+            margin: .25rem .125rem;
+            padding: .25rem .5rem;
+            font-size: .875rem;
+            cursor: pointer;
+            border-radius: .2rem;
+            border: 1px solid transparent;
+            border-color: lightgray;
         }
 
         .mono {
             font-family: "Lucida Console", monospace;
         }
 
-        .co {
-            color: darkorange;
+        .hide {
+            display: none;
+        }
+
+        .alert {
+            position: relative;
+            padding: 1rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+        }
+
+        .info {
+            color: #084298;
+            background-color: #cfe2ff;
+            border-color: #b6d4fe;
+        }
+
+        .success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+        }
+
+        .warn {
+            color: #664d03;
+            background-color: #fff3cd;
+            border-color: #ffecb5;
+        }
+
+        .error {
+            color: #842029;
+            background-color: #f8d7da;
+            border-color: #f5c2c7;
         }
 
         .footer {
@@ -28,27 +77,60 @@
     <body>
         <h3>SPPS Web Encryption Tool</h3>
 
+        <div class="alert warn">It is recommended to disable or to remove this web application after using it!</div>
+
         <form name="encryptSecretForm" action="encrypt" method="POST">
-            <div>
-                <label>Secret to encrypt:</label>
-                <input type="password" name="secret"/>
+            <div class="mb-10">
+                <label for="encryptSecret">Secret to encrypt:</label>
+                <input class="form-control" type="password" id="encryptSecret" name="encryptSecret"/>
             </div>
 
             <div class="mb-10">
-                <input type="submit" value="Encrypt" name="find"/>
-                <input type="reset" value="Reset" name="reset" />
-            </div>
-
-            <div>
-                <label>Encrypted secret:</label>
-                <span class="mono co">${encryptedSecret}</span>
-            </div>
-
-            <hr/>
-
-            <div class="footer">
-                <span>Powered by SPPS ${project.version} - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
+                <input class="btn" type="submit" value="Encrypt Secret" name="encrypt"/>
+                <input class="btn" type="reset" value="Reset" name="reset" />
             </div>
         </form>
+
+        <div class="mono alert success ${encryptedSecret == null ? 'hide' : ''}">${encryptedSecret}</div>
+
+        <div class="mono alert error ${encryptErrorText == null ? 'hide' : ''}">${encryptErrorText}</div>
+
+        <hr/>
+
+        <form name="generatePrivateKeyForm" action="generate" method="POST">
+            <div class="mb-10">
+                <input class="btn" type="submit" value="Generate Private Key" name="generate"/>
+            </div>
+        </form>
+
+        <div class="mono alert success ${generateResultText == null ? 'hide' : ''}">${generateResultText}</div>
+
+        <div class="mono alert error ${generateErrorText == null ? 'hide' : ''}">${generateErrorText}</div>
+
+        <hr/>
+
+        <form name="importSecretForm" action="import" method="POST">
+            <div class="mb-10">
+                <label for="importKey">Private key to import:</label>
+                <input class="form-control" type="password" id="importKey" name="importKey"/>
+                <input type="checkbox" id="importForce" name="importForce"/>
+                <label for="importForce">Force Import</label>
+            </div>
+
+            <div class="mb-10">
+                <input class="btn" type="submit" value="Import Key" name="import"/>
+                <input class="btn" type="reset" value="Reset" name="reset" />
+            </div>
+        </form>
+
+        <div class="mono alert success ${importResultText == null ? 'hide' : ''}">${importResultText}</div>
+
+        <div class="mono alert error ${importErrorText == null ? 'hide' : ''}">${importErrorText}</div>
+
+        <hr/>
+
+        <div class="footer">
+            <span>Powered by SPPS ${project.version} - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
+        </div>
     </body>
 </html>

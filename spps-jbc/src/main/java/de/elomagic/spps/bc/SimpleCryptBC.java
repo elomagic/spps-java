@@ -59,13 +59,19 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
         return new IvParameterSpec(iv);
     }
 
+    /**
+     * Creates a random AES key with 256 ke size.
+     *
+     * @return Returns the non Base64 encoded key
+     * @throws SimpleCryptException Thrown when something went wring on creation of the key.
+     */
     @Override
     @NotNull
-    protected Key createPrivateKey() throws SimpleCryptException {
+    public byte[] createPrivateKey() throws SimpleCryptException {
         try {
             KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM_AES);
             kg.init(PRIVATE_KEY_SIZE);
-            return kg.generateKey();
+            return kg.generateKey().getEncoded();
         } catch (Exception ex) {
             throw new SimpleCryptException(ex.getMessage(), ex);
         }

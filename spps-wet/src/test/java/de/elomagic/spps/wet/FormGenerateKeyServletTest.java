@@ -1,6 +1,5 @@
 package de.elomagic.spps.wet;
 
-import de.elomagic.spps.bc.SimpleCryptBC;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,18 +10,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
-class FormEncryptServletTest {
+class FormGenerateKeyServletTest {
 
     private final Map<String, Object> attributes = new HashMap<>();
     private final Map<String, String> parameters = new HashMap<>();
 
-    private final FormEncryptServlet servlet = new FormEncryptServlet();
+    private final FormGenerateKeyServlet servlet = new FormGenerateKeyServlet();
 
     @BeforeEach
     void beforeEach() {
@@ -37,10 +35,6 @@ class FormEncryptServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
 
-        String secret = "MySecret";
-
-        parameters.put("encryptSecret", secret);
-
         when(request.getParameter(Mockito.anyString())).thenAnswer(args ->parameters.get(args.getArgument(0)));
         when(request.getRequestDispatcher("index.jsp")).thenReturn(dispatcher);
         doAnswer(i -> {
@@ -51,13 +45,7 @@ class FormEncryptServletTest {
         // Start test
         servlet.doPost(request, response);
 
-        Assertions.assertTrue(attributes.containsKey("encryptedSecret"));
-
-        String encryptedSecret = attributes.get("encryptedSecret").toString();
-
-        Assertions.assertNotEquals(secret, encryptedSecret);
-        Assertions.assertEquals(secret, new String(new SimpleCryptBC().decrypt(encryptedSecret), StandardCharsets.UTF_8));
-
-        Assertions.assertFalse(attributes.containsKey("encryptErrorText"));
+        Assertions.assertTrue(attributes.get("generateResultText").toString().length() > 10);
+        Assertions.assertFalse(attributes.containsKey("generateHideError") && attributes.get("generateErrorText").toString().isEmpty());
     }
 }

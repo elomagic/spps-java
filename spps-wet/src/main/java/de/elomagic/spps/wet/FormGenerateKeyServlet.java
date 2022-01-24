@@ -30,21 +30,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
-@WebServlet(name = "FormEncryptServlet", urlPatterns = "/encrypt")
-public class FormEncryptServlet extends HttpServlet {
+@WebServlet(name = "FormEncryptServlet", urlPatterns = "/generate")
+public class FormGenerateKeyServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LogManager.getLogger(FormEncryptServlet.class);
+    private static final Logger LOGGER = LogManager.getLogger(FormGenerateKeyServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            String secret = request.getParameter("encryptSecret");
-            String encryptedSecret = SimpleCryptFactory.getInstance().encrypt(secret.getBytes(StandardCharsets.UTF_8));
-            request.setAttribute("encryptedSecret", encryptedSecret);
+            String privateKey = Base64.getEncoder().encodeToString(SimpleCryptFactory.getInstance().createPrivateKey());
+            request.setAttribute("generateResultText", privateKey);
         } catch (Exception e) {
-            request.setAttribute("encryptErrorText", e.getMessage());
+            request.setAttribute("generateErrorText", e.getMessage());
             LOGGER.error(e.getMessage(), e);
         } finally{
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");

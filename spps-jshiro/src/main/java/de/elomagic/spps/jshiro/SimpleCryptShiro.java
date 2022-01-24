@@ -21,7 +21,6 @@ package de.elomagic.spps.jshiro;
 
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import de.elomagic.spps.shared.SimpleCryptException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.codec.Base64;
@@ -32,7 +31,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 
 /**
  * Simple crypt tool class by using Apache Shiro framework.
@@ -42,10 +40,16 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptShiro.class);
     private static final DefaultBlockCipherService CIPHER = new AesCipherService();
 
+    /**
+     * Creates a random AES key with 256 ke size.
+     *
+     * @return Returns the non Base64 encoded key
+     * @throws SimpleCryptException Thrown when something went wring on creation of the key.
+     */
     @Override
     @NotNull
-    protected Key createPrivateKey() {
-        return CIPHER.generateNewKey(PRIVATE_KEY_SIZE);
+    public byte[] createPrivateKey() {
+        return CIPHER.generateNewKey(PRIVATE_KEY_SIZE).getEncoded();
     }
 
     /**

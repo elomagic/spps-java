@@ -4,30 +4,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Base64;
 
 public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
 
     @Override
     @NotNull
-    protected Key createPrivateKey() throws SimpleCryptException {
-        return new Key() {
-            @Override
-            public String getAlgorithm() {
-                return "AlgorithmMock";
-            }
-
-            @Override
-            public String getFormat() {
-                return "FormatMock";
-            }
-
-            @Override
-            public byte[] getEncoded() {
-                return "ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8);
-            }
-        };
+    public byte[] createPrivateKey() throws SimpleCryptException {
+        return "ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8);
     }
 
     @Override

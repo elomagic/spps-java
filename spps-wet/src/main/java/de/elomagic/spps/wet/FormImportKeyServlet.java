@@ -32,19 +32,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-@WebServlet(name = "FormEncryptServlet", urlPatterns = "/encrypt")
-public class FormEncryptServlet extends HttpServlet {
+@WebServlet(name = "FormImportKeyServlet", urlPatterns = "/import")
+public class FormImportKeyServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LogManager.getLogger(FormEncryptServlet.class);
+    private static final Logger LOGGER = LogManager.getLogger(FormImportKeyServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            String secret = request.getParameter("encryptSecret");
-            String encryptedSecret = SimpleCryptFactory.getInstance().encrypt(secret.getBytes(StandardCharsets.UTF_8));
-            request.setAttribute("encryptedSecret", encryptedSecret);
+            byte[] secret = request.getParameter("importKey").getBytes(StandardCharsets.UTF_8);
+            boolean force = "on".equalsIgnoreCase(request.getParameter("importForce"));
+
+            SimpleCryptFactory.getInstance().importPrivateKey(secret, force);
+            request.setAttribute("importResultText", "Successful imported");
         } catch (Exception e) {
-            request.setAttribute("encryptErrorText", e.getMessage());
+            request.setAttribute("importErrorText", e.getMessage());
             LOGGER.error(e.getMessage(), e);
         } finally{
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");

@@ -44,17 +44,34 @@ public interface SimpleCryptProvider {
     void setSettingsFile(@Nullable final Path file);
 
     /**
+     * Creates a random AES key with 256 ke size.
+     *
+     * @return Returns the non Base64 encoded key
+     * @throws SimpleCryptException Thrown when something went wring on creation of the key.
+     */
+    @NotNull
+    byte[] createPrivateKey() throws SimpleCryptException;
+
+    /**
      * Creates a private key file.
      *
      * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
-     * @return Returns the created private key
+     * @return Returns the created (non Base64 encoded) private key
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException;
 
-    void importPrivateKey(@NotNull final byte[] privateKey, boolean force) throws SimpleCryptException;
+    /**
+     * Imports a private key and replace an existing private key in the setting file.
+     *
+     * @param encodedPrivateKey Base64 encoded private key.
+     * @param force Force overwriting existing setting file. Otherwise, it will fail with an exception when already
+     *              exists.
+     * @throws SimpleCryptException Thrown when unable to import private key
+     */
+    void importPrivateKey(@NotNull final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException;
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.

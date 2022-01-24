@@ -121,3 +121,5 @@ buildNumber.properties
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij
 /.idea/
 /spps-jbc.iml
+/spps-wet/spps-wet.iml
+/spps-shared/spps-shared.iml

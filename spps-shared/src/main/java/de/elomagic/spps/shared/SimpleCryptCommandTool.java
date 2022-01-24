@@ -109,7 +109,8 @@ public final class SimpleCryptCommandTool {
                 boolean force = argList.contains(ARG_FORCE);
                 Path relocationFile = argList.contains(ARG_RELOCATION) ? Paths.get(getArgument(argList, ARG_RELOCATION)) : null;
                 Path file = argList.contains(ARG_FILE) ? Paths.get(getArgument(argList, ARG_FILE)) : null;
-                byte[] privateKey = provider.createPrivateKeyFile(file, relocationFile, force);
+                boolean writeFile = relocationFile != null || file != null;
+                byte[] privateKey = writeFile ? provider.createPrivateKeyFile(file, relocationFile, force) : provider.createPrivateKey();
                 try {
                     if (argList.contains(ARG_PRINT)) {
                         out().println(Base64.getEncoder().encodeToString(privateKey));

@@ -29,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -45,15 +44,6 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     protected static final int PRIVATE_KEY_SIZE = 256;
     protected static final Path DEFAULT_SETTINGS_FILE = Paths.get(System.getProperty("user.home"), ".spps", "settings");
     protected static final AtomicReference<Path> SETTINGS_FILE = new AtomicReference<>(DEFAULT_SETTINGS_FILE);
-
-    /**
-     * Creates a random AES key with 256 ke size.
-     *
-     * @return Returns the key
-     * @throws SimpleCryptException Thrown when something went wring on creation of the key.
-     */
-    @NotNull
-    protected abstract Key createPrivateKey() throws SimpleCryptException;
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
@@ -102,7 +92,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * Writes a settings file.
      *
      * @param file File to write
-     * @param privateKey Non Base64 encoded private key
+     * @param privateKey Base64 encoded private key. Will be wiped after writen.
      * @param relocationFile When set then relocation file name will be written in the settinga file. Can be null.
      * @param force If file already exists and force is true then it will overwrite it otherwise it will fail with a
      *              {@link SimpleCryptException}.
@@ -110,7 +100,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      */
     private void writePrivateKeyFile(
             @NotNull final Path file,
-            final byte[] privateKey,
+            @Nullable final byte[] privateKey,
             @Nullable final Path relocationFile,
             boolean force) throws SimpleCryptException {
         try {
@@ -125,11 +115,13 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             LOGGER.info("Creating settings file");
 
             try (SecureProperties properties = new SecureProperties()) {
-                properties.setKey(KEY_KEY, Base64.getEncoder().encode(privateKey));
+                properties.setKey(KEY_KEY, privateKey);
                 properties.setKey(RELOCATION_KEY, relocationFile == null ? null : relocationFile.toString().getBytes(StandardCharsets.UTF_8));
                 properties.setKey(KEY_CREATED, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()).getBytes(StandardCharsets.UTF_8));
 
                 properties.write(file);
+            } finally {
+                Arrays.fill(privateKey, (byte)0);
             }
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
@@ -145,7 +137,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception
      *              will be thrown
-     * @return Returns the created private key
+     * @return Returns the created (non Base64 encoded) private key
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     public final byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
@@ -154,10 +146,9 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
             byte[] result;
             if (relocationFile == null || file.equals(relocationFile)) {
-                Key key = createPrivateKey();
-                result = key.getEncoded();
+                result = createPrivateKey();
 
-                writePrivateKeyFile(file, result, null, force);
+                writePrivateKeyFile(file, Base64.getEncoder().encode(result), null, force);
                 return result;
             } else {
                 result = createPrivateKeyFile(relocationFile, null, force);
@@ -185,11 +176,10 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             throw new SimpleCryptException("Private key must be set");
         }
 
-        byte[] privateKey = Base64.getDecoder().decode(encodedPrivateKey);
         try {
-            writePrivateKeyFile(SETTINGS_FILE.get(), privateKey, null, force);
+            writePrivateKeyFile(SETTINGS_FILE.get(), encodedPrivateKey, null, force);
         } finally {
-            Arrays.fill(privateKey, (byte)0);
+            Arrays.fill(encodedPrivateKey, (byte)0);
         }
     }
 
