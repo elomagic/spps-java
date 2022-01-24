@@ -11,7 +11,7 @@ public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
     @Override
     @NotNull
     public byte[] createPrivateKey() throws SimpleCryptException {
-        return "ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8);
+        return Base64.getEncoder().encode("ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8));
     }
 
     @Override

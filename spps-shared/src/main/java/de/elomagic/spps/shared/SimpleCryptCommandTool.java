@@ -32,7 +32,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
@@ -113,7 +112,7 @@ public final class SimpleCryptCommandTool {
                 byte[] privateKey = writeFile ? provider.createPrivateKeyFile(file, relocationFile, force) : provider.createPrivateKey();
                 try {
                     if (argList.contains(ARG_PRINT)) {
-                        out().println(Base64.getEncoder().encodeToString(privateKey));
+                        out().println(UTF8.toCharArray(privateKey));
                     }
                 } finally {
                     wipeSecret(privateKey);

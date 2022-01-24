@@ -49,7 +49,7 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
     @Override
     @NotNull
     public byte[] createPrivateKey() {
-        return CIPHER.generateNewKey(PRIVATE_KEY_SIZE).getEncoded();
+        return Base64.encode(CIPHER.generateNewKey(PRIVATE_KEY_SIZE).getEncoded());
     }
 
     /**

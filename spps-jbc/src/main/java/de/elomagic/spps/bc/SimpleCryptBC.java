@@ -71,7 +71,7 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
         try {
             KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM_AES);
             kg.init(PRIVATE_KEY_SIZE);
-            return kg.generateKey().getEncoded();
+            return Base64.encode(kg.generateKey().getEncoded());
         } catch (Exception ex) {
             throw new SimpleCryptException(ex.getMessage(), ex);
         }

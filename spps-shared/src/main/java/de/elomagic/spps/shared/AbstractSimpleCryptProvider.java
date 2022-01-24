@@ -114,15 +114,12 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
             LOGGER.info("Creating settings file");
 
-            try (SecureProperties properties = new SecureProperties()) {
-                properties.setKey(KEY_KEY, privateKey);
-                properties.setKey(RELOCATION_KEY, relocationFile == null ? null : relocationFile.toString().getBytes(StandardCharsets.UTF_8));
-                properties.setKey(KEY_CREATED, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()).getBytes(StandardCharsets.UTF_8));
+            SecureProperties properties = new SecureProperties();
+            properties.setKey(KEY_KEY, privateKey);
+            properties.setKey(RELOCATION_KEY, relocationFile == null ? null : relocationFile.toString().getBytes(StandardCharsets.UTF_8));
+            properties.setKey(KEY_CREATED, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()).getBytes(StandardCharsets.UTF_8));
 
-                properties.write(file);
-            } finally {
-                Arrays.fill(privateKey, (byte)0);
-            }
+            properties.write(file);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw new SimpleCryptException("Unable to write private key.", ex);
@@ -137,7 +134,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception
      *              will be thrown
-     * @return Returns the created (non Base64 encoded) private key
+     * @return Returns the created and Base64 encoded private key
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     public final byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException {
@@ -148,7 +145,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             if (relocationFile == null || file.equals(relocationFile)) {
                 result = createPrivateKey();
 
-                writePrivateKeyFile(file, Base64.getEncoder().encode(result), null, force);
+                writePrivateKeyFile(file, result, null, force);
                 return result;
             } else {
                 result = createPrivateKeyFile(relocationFile, null, force);

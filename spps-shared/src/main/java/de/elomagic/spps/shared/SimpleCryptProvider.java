@@ -46,7 +46,7 @@ public interface SimpleCryptProvider {
     /**
      * Creates a random AES key with 256 ke size.
      *
-     * @return Returns the non Base64 encoded key
+     * @return Returns the Base64 encoded key
      * @throws SimpleCryptException Thrown when something went wring on creation of the key.
      */
     @NotNull
@@ -58,7 +58,7 @@ public interface SimpleCryptProvider {
      * @param settingsFile File where the private key will be stored. If null then default file, which be stored in the user folder, will be used.
      * @param relocationFile Alternative file where to write file with private key
      * @param force When true and private key file already exists then it will be overwritten otherwise an exception will be thrown
-     * @return Returns the created (non Base64 encoded) private key
+     * @return Returns the created Base64 encoded private key
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     byte[] createPrivateKeyFile(@Nullable final Path settingsFile, @Nullable final Path relocationFile, boolean force) throws SimpleCryptException;
