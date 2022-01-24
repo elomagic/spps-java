@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
-import java.util.Properties;
 
 class SimpleCryptCommandToolTest {
 
@@ -67,19 +65,28 @@ class SimpleCryptCommandToolTest {
 
             String base64 = out.toString().trim();
             String decrypted = new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
-
             Assertions.assertEquals("ThisIsAPrivateKeyMock", decrypted);
-        }
 
-        Properties p = new Properties();
-        try (Reader reader = Files.newBufferedReader(file)) {
-            p.load(reader);
-        }
+            SecureProperties p1 = new SecureProperties();
+            p1.read(file);
 
-        Assertions.assertEquals(3, p.keySet().size());
-        Assertions.assertTrue(p.keySet().contains("created"));
-        Assertions.assertTrue(p.keySet().contains("key"));
-        Assertions.assertTrue(p.keySet().contains("relocation"));
+            Assertions.assertEquals(3, p1.size());
+            Assertions.assertTrue(p1.containsValue("created"));
+            Assertions.assertTrue(p1.containsValue("key"));
+            Assertions.assertFalse(p1.containsValue("relocation"));
+
+            out.reset();
+
+            Assertions.assertEquals(0, sc.run(new String[]{"-CreatePrivateKey", "-PreventWrite", "-File", file.toString()}));
+            base64 = out.toString().trim();
+            decrypted = new String(Base64.getDecoder().decode(base64), StandardCharsets.UTF_8);
+            Assertions.assertEquals("ThisIsAPrivateKeyMock", decrypted);
+
+            SecureProperties p2 = new SecureProperties();
+            p2.read(file);
+
+            Assertions.assertArrayEquals(p1.getValueAsBytes("created"), p2.getValueAsBytes("created"));
+        }
     }
 
     @Test

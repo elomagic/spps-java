@@ -46,6 +46,7 @@ public final class SimpleCryptCommandTool {
     private static final String ARG_FILE = "-File";
     private static final String ARG_FORCE = "-Force";
     private static final String ARG_IMPORT_PRIVATE_KEY = "-ImportPrivateKey";
+    private static final String ARG_PREVENT_WRITE = "-PreventWrite";
     private static final String ARG_PRINT = "-Print";
     private static final String ARG_RELOCATION = "-Relocation";
     private static final String ARG_SECRET = "-Secret";
@@ -108,10 +109,10 @@ public final class SimpleCryptCommandTool {
                 boolean force = argList.contains(ARG_FORCE);
                 Path relocationFile = argList.contains(ARG_RELOCATION) ? Paths.get(getArgument(argList, ARG_RELOCATION)) : null;
                 Path file = argList.contains(ARG_FILE) ? Paths.get(getArgument(argList, ARG_FILE)) : null;
-                boolean writeFile = relocationFile != null || file != null;
-                byte[] privateKey = writeFile ? provider.createPrivateKeyFile(file, relocationFile, force) : provider.createPrivateKey();
+                boolean preventWrite = argList.contains(ARG_PREVENT_WRITE);
+                byte[] privateKey = preventWrite ? provider.createPrivateKey() : provider.createPrivateKeyFile(file, relocationFile, force);
                 try {
-                    if (argList.contains(ARG_PRINT)) {
+                    if (preventWrite || argList.contains(ARG_PRINT)) {
                         out().println(UTF8.toCharArray(privateKey));
                     }
                 } finally {

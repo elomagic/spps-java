@@ -1,5 +1,5 @@
 Usage:
-* spps -CreatePrivateKey [-Force] [-Print] [-Relocation <file>]|[-File <file>]
+* spps -CreatePrivateKey [-Force] [-Print] [-IgnoreWrite] [-Relocation <file>]|[-File <file>]
 * spps -Import [-File <file>] [-Force]
 * spps -Secret <secret> [-File <file>]
 * spps -Help | -?
@@ -22,13 +22,17 @@ More SPPS online help on https://github.com/elomagic/spps-java
     Use this parameter in case when a private key file already exists. With this
     parameter you agree to overwrite it. Works only together with option "-CreatePrivateKey" or "-Import"
 
+-PreventWrite
+    Use this parameter in combination with the command "-CreatePrivateKey" to prevent writing of the settings file.
+
+-Print
+    Prints created private key as Base64 encoded string to console
+
 -Relocation <file>
     Use this parameters to persist the private key at another location instead
     of the default '.spps' folder of the current users home. iThe default settings file points to the other settings file.
     Works only together with option "-CreatePrivateKey"
 
--Print
-    Prints created private key as Base64 encoded string to console
 
 -Help
     Prints this help

@@ -1,7 +1,6 @@
 package de.elomagic.spps.shared;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -9,8 +8,8 @@ import java.nio.charset.StandardCharsets;
 
 public class PrintStreamMock extends PrintStream {
 
-    private ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-    private PrintStream cache;
+    private final ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+    private final PrintStream cache;
 
     public PrintStreamMock() {
         super(System.out, true);
