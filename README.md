@@ -361,7 +361,8 @@ Versioning follows the semantic of [Semantic Versioning 2.0.0](https://semver.or
 Execute following steps:
 
 * Are the [CHANGELOG.md](https://github.com/elomagic/spps-java/blob/main/CHANGELOG.md) up to date?
-* Set release date and version in [CHANGELOG.md](https://github.com/elomagic/spps-java/blob/main/CHANGELOG.md)
+* Check the version in the ```pom.xml``` and [CHANGELOG.md](https://github.com/elomagic/spps-java/blob/main/CHANGELOG.md)
+* Set release date in the [CHANGELOG.md](https://github.com/elomagic/spps-java/blob/main/CHANGELOG.md)
 * Credentials (Nexus, GitHub) up to date? 
 * Execute Maven release process
   ```bash
@@ -373,10 +374,10 @@ Execute following steps:
 
 Typical key value format with following rules.
 
-* File is UTF-8 formatted
-* Comments starting with hash ```#``` character at the beginning of the line
-* Key and value is delimited by the ```=``` character.
-* Escaped characters are not supported
+* File is always UTF-8 formatted
+* Comments starting with hash ```#``` character at the beginning of a line
+* Key and value is delimited by the ```=``` character w/o any spaces.
+* Escaping characters are not supported
 
 ## License
 
