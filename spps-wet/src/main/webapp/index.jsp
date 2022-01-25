@@ -5,8 +5,17 @@
     <title>SPPS - Secret Encryption WebTool</title>
     <style>
         body {
-            font-family: sans-serif;
+            font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans", sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
             font-size: 1rem;
+        }
+
+        hr {
+            border: 1px solid #ced4da;
+        }
+
+        h1 {
+            font-weight: 500;
+            line-height: 1.2;
         }
 
         .form-control {
@@ -21,8 +30,8 @@
             font-size: .875rem;
             cursor: pointer;
             border-radius: .2rem;
-            border: 1px solid transparent;
-            border-color: lightgray;
+            border: 1px solid lightgray;
+            // border-color: lightgray;
         }
 
         .mono {
@@ -75,7 +84,7 @@
     </style>
 </head>
     <body>
-        <h3>SPPS Web Encryption Tool</h3>
+        <h1>SPPS Web Encryption Tool</h1>
 
         <div class="alert warn">It is recommended to disable or to remove this web application after using it!</div>
 
