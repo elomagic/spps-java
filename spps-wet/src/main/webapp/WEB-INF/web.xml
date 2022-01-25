@@ -8,34 +8,4 @@
 
     <display-name>SPPS - WebEncryption Tool</display-name>
 
-    <servlet>
-        <servlet-name>FormEncryptServlet</servlet-name>
-        <servlet-class>de.elomagic.spps.wet.FormEncryptServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>FormGenerateKeyServlet</servlet-name>
-        <servlet-class>de.elomagic.spps.wet.FormGenerateKeyServlet</servlet-class>
-    </servlet>
-
-    <servlet>
-        <servlet-name>FormImportKeyServlet</servlet-name>
-        <servlet-class>de.elomagic.spps.wet.FormImportKeyServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>FormEncryptServlet</servlet-name>
-        <url-pattern>/encrypt</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>FormGenerateKeyServlet</servlet-name>
-        <url-pattern>/generate</url-pattern>
-    </servlet-mapping>
-
-    <servlet-mapping>
-        <servlet-name>FormImportKeyServlet</servlet-name>
-        <url-pattern>/import</url-pattern>
-    </servlet-mapping>
-
 </web-app>

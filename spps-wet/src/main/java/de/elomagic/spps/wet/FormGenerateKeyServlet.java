@@ -31,9 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
-@WebServlet(name = "FormEncryptServlet", urlPatterns = "/generate")
+@WebServlet(name = "FormGenerateKeyServlet", urlPatterns = "/generate")
 public class FormGenerateKeyServlet extends HttpServlet {
 
     private static final Logger LOGGER = LogManager.getLogger(FormGenerateKeyServlet.class);
@@ -41,7 +40,6 @@ public class FormGenerateKeyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            // TODO Safe key from string?
             String privateKey = new String(SimpleCryptFactory.getInstance().createPrivateKey(), StandardCharsets.UTF_8);
             request.setAttribute("generateResultText", privateKey);
         } catch (Exception e) {
