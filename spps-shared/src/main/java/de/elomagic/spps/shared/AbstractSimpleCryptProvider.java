@@ -221,10 +221,16 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
                     return readPrivateKey(Paths.get(new String(properties.getValueAsBytes(RELOCATION_KEY), StandardCharsets.UTF_8)));
                 } else {
                     byte[] key = properties.getValueAsBytes(KEY_KEY);
-                    if (key == null) {
-                        throw new SimpleCryptException("No private key set.");
+                    try {
+                        if (key == null) {
+                            throw new SimpleCryptException("No private key set.");
+                        }
+                        return Base64.getDecoder().decode(key);
+                    } finally {
+                        if (key != null) {
+                            Arrays.fill(key, (byte) 0);
+                        }
                     }
-                    return Base64.getDecoder().decode(key);
                 }
             }
         } catch (Exception ex) {

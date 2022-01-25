@@ -31,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 /**
  * Simple crypt tool class by using Apache Shiro framework.
@@ -97,9 +98,12 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
         try {
             byte[] encryptedBytes = Base64.decode(encryptedBase64.substring(1, encryptedBase64.length() - 1));
 
-            ByteSource decrypted = CIPHER.decrypt(encryptedBytes, readPrivateKey());
-
-            return decrypted.getBytes();
+            byte[] privateKey = readPrivateKey();
+            try {
+                return CIPHER.decrypt(encryptedBytes, privateKey).getBytes();
+            } finally {
+                Arrays.fill(privateKey, (byte)0);
+            }
         } catch(Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw new SimpleCryptException("Unable to decrypt data.", ex);

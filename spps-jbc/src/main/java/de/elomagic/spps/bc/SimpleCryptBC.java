@@ -36,6 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.SecureRandom;
+import java.util.Arrays;
 
 /**
  * Simple crypt tool class by using BouncyCastle framework.
@@ -87,11 +88,16 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
     @NotNull
     private Cipher createCypher(int opmode, @NotNull final IvParameterSpec iv) throws SimpleCryptException {
         try {
-            Key key = new SecretKeySpec(readPrivateKey(), ALGORITHM_AES);
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION, new BouncyCastleProvider());
-            cipher.init(opmode, key, iv);
+            byte[] privateKey = readPrivateKey();
+            try {
+                Key key = new SecretKeySpec(privateKey, ALGORITHM_AES);
+                Cipher cipher = Cipher.getInstance(TRANSFORMATION, new BouncyCastleProvider());
+                cipher.init(opmode, key, iv);
 
-            return cipher;
+                return cipher;
+            } finally {
+                Arrays.fill(privateKey, (byte)0);
+            }
         } catch (Exception ex) {
             throw new SimpleCryptException(ex.getMessage(), ex);
         }
