@@ -66,6 +66,13 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
                 <!-- https://github.com/jutzig/github-release-plugin -->
                 <groupId>de.jutzig</groupId>
                 <artifactId>github-release-plugin</artifactId>
