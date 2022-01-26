@@ -30,13 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "FormEncryptServlet", urlPatterns = "/onlylocalhost")
-public class OnlyLocalhostErrorServlet extends HttpServlet {
+@WebServlet(name = "LocalhostErrorServlet", urlPatterns = "/onlylocalhost")
+public class LocalhostErrorServlet extends HttpServlet {
 
     private static final Logger LOGGER = LogManager.getLogger(FormEncryptServlet.class);
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             request.setAttribute("errorText", "Access denied. Access only allowed from localhost.");
         } catch (Exception e) {

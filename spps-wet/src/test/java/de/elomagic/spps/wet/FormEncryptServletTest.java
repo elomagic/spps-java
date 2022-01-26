@@ -4,16 +4,22 @@ import de.elomagic.spps.bc.SimpleCryptBC;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.commons.support.AnnotationSupport;
+import org.junit.platform.commons.util.AnnotationUtils;
 import org.mockito.Mockito;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -28,6 +34,14 @@ class FormEncryptServletTest {
     void beforeEach() {
         attributes.clear();
         parameters.clear();
+    }
+
+    @Test
+    void testAnnotations() {
+        Optional<WebServlet> o = AnnotationSupport.findAnnotation(servlet.getClass(), WebServlet.class);
+        Assertions.assertEquals(servlet.getClass().getSimpleName(), o.map(WebServlet::name).get());
+        Assertions.assertEquals(1, o.map(a -> a.urlPatterns().length).get());
+        Assertions.assertEquals("/encrypt", o.map(a -> a.urlPatterns()[0]).get());
     }
 
     @Test

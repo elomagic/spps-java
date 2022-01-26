@@ -5,9 +5,11 @@ import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.support.AnnotationSupport;
 import org.mockito.Mockito;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -17,6 +19,7 @@ import java.nio.file.Path;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -38,6 +41,14 @@ class FormImportKeyServletTest {
     void beforeEach() {
         attributes.clear();
         parameters.clear();
+    }
+
+    @Test
+    void testAnnotations() {
+        Optional<WebServlet> o = AnnotationSupport.findAnnotation(servlet.getClass(), WebServlet.class);
+        Assertions.assertEquals(servlet.getClass().getSimpleName(), o.map(WebServlet::name).get());
+        Assertions.assertEquals(1, o.map(a -> a.urlPatterns().length).get());
+        Assertions.assertEquals("/import", o.map(a -> a.urlPatterns()[0]).get());
     }
 
     @Test

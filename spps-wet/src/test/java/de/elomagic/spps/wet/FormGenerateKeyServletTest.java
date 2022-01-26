@@ -3,15 +3,18 @@ package de.elomagic.spps.wet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.support.AnnotationSupport;
 import org.mockito.Mockito;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -26,6 +29,14 @@ class FormGenerateKeyServletTest {
     void beforeEach() {
         attributes.clear();
         parameters.clear();
+    }
+
+    @Test
+    void testAnnotations() {
+        Optional<WebServlet> o = AnnotationSupport.findAnnotation(servlet.getClass(), WebServlet.class);
+        Assertions.assertEquals(servlet.getClass().getSimpleName(), o.map(WebServlet::name).get());
+        Assertions.assertEquals(1, o.map(a -> a.urlPatterns().length).get());
+        Assertions.assertEquals("/generate", o.map(a -> a.urlPatterns()[0]).get());
     }
 
     @Test

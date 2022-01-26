@@ -19,11 +19,10 @@
  */
 package de.elomagic.spps.wet;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,18 +38,34 @@ import java.util.regex.Pattern;
 public final class LocalhostFilter implements Filter {
 
     private static final Pattern LOCALHOST_PATTERN = Pattern.compile("127\\.\\d+\\.\\d+\\.\\d+|::1|0:0:0:0:0:0:0:1|localhost");
+    private static final Logger LOGGER = LogManager.getLogger(LocalhostFilter.class);
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        // noop
+    }
 
     @Override
     public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
+        try {
+            HttpServletRequest request = (HttpServletRequest) req;
+            HttpServletResponse response = (HttpServletResponse) res;
 
-        String remoteAddress = request.getRemoteAddr();
-        if (!LOCALHOST_PATTERN.matcher(remoteAddress).matches()) {
-            response.sendRedirect(request.getContextPath() + "/onlylocalhost");
+            String remoteAddress = request.getRemoteAddr();
+            if (!LOCALHOST_PATTERN.matcher(remoteAddress).matches()) {
+                request.getSession(true);
+                response.sendRedirect(request.getContextPath() + "/onlylocalhost");
+            }
+
+            chain.doFilter(req, res);
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage(), ex);
+            throw ex;
         }
-
-        chain.doFilter(req, res);
     }
 
+    @Override
+    public void destroy() {
+        // noop
+    }
 }

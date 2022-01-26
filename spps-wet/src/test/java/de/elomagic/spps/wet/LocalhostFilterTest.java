@@ -1,28 +1,34 @@
 package de.elomagic.spps.wet;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.support.AnnotationSupport;
 import org.mockito.Mockito;
 
 import javax.servlet.FilterChain;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class LocalhostFilterTest {
 
     private static final LocalhostFilter filter = new LocalhostFilter();
     private String remoteAddress;
     private String redirectPage;
+
+    @Test
+    void testAnnotations() {
+        Optional<WebFilter> o = AnnotationSupport.findAnnotation(filter.getClass(), WebFilter.class);
+        Assertions.assertArrayEquals(new String[] { "/index.jsp", "/encrypt", "/generate", "/import" }, o.map(WebFilter::urlPatterns).get());
+    }
 
     @Test
     void testDoFilter() throws ServletException, IOException {
