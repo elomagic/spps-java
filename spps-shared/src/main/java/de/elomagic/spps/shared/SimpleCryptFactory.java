@@ -24,6 +24,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.enterprise.inject.Produces;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,6 +61,7 @@ public class SimpleCryptFactory {
         }
     }
 
+    @Produces
     @NotNull
     public static SimpleCryptProvider getInstance() {
         if (ACTIVE_PROVIDER_INSTANCE.get() == null) {
