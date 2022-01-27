@@ -25,11 +25,12 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-public class SecureCharArrayWriter extends Writer {
+public final class SecureCharArrayWriter extends Writer {
 
     private char[] buffer = new char[0];
     private int index = 0;
 
+    @Override
     public void write(int b) {
         char[] a = new char[] { (char)b };
         try {

@@ -1,12 +1,13 @@
 package de.elomagic.spps.wet;
 
 import de.elomagic.spps.bc.SimpleCryptBC;
+import de.elomagic.spps.shared.SimpleCryptFactory;
+import de.elomagic.spps.shared.SimpleCryptProvider;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.commons.support.AnnotationSupport;
-import org.junit.platform.commons.util.AnnotationUtils;
 import org.mockito.Mockito;
 
 import javax.servlet.RequestDispatcher;
@@ -14,14 +15,19 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class FormEncryptServletTest {
 
@@ -29,6 +35,13 @@ class FormEncryptServletTest {
     private final Map<String, String> parameters = new HashMap<>();
 
     private final FormEncryptServlet servlet = new FormEncryptServlet();
+
+    private Path createEmptyTempFile() throws IOException {
+        Path file = File.createTempFile("SimpleCryptTest-", ".tmp").toPath();
+        file.toFile().deleteOnExit();
+
+        return file;
+    }
 
     @BeforeEach
     void beforeEach() {
@@ -46,6 +59,12 @@ class FormEncryptServletTest {
 
     @Test
     void testDoPost() throws IOException, ServletException {
+        Path file = createEmptyTempFile();
+        Files.deleteIfExists(file);
+        SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
+        provider.createPrivateKeyFile(file, null, false);
+        provider.setSettingsFile(file);
+
         // Preparing test
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
