@@ -20,6 +20,7 @@
 package de.elomagic.spps.shared;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public final class SecureProperties implements Closeable {
         wipe();
     }
 
-    public void read(final Path file) throws IOException {
+    public void read(@NotNull final Path file) throws IOException {
         byte[] readData = Files.readAllBytes(file);
         try {
             read(readData);
@@ -59,14 +60,14 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private int indexOf(final byte[] data, final byte b, final int from) {
+    private int indexOf(@NotNull final byte[] data, final byte b, final int from) {
         return IntStream.range(from, data.length)
                 .filter(i -> data[i] == b)
                 .findFirst()
                 .orElse(-1);
     }
 
-    private void read(final byte[] readData) {
+    private void read(@Nullable final byte[] readData) {
         if (readData == null || readData.length == 0) {
             return;
         }
@@ -95,7 +96,7 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private void readLine(final byte[] line) {
+    private void readLine(@NotNull final byte[] line) {
         if (line.length < 2 || line[0] == '#') {
             return;
         }
@@ -130,7 +131,7 @@ public final class SecureProperties implements Closeable {
         return data.get(key);
     }
 
-    public void setKey(@NotNull final String key, final byte[] value) {
+    public void setKey(@NotNull final String key, @Nullable final byte[] value) {
         if (containsValue(key)) {
             Arrays.fill(getValueAsBytes(key), (byte)0);
         }
@@ -138,7 +139,7 @@ public final class SecureProperties implements Closeable {
         data.put(key, value == null ? new byte[0]:value);
     }
 
-    public void write(final Path file) {
+    public void write(@NotNull final Path file) {
         try (OutputStream out = Files.newOutputStream(file)) {
             // Write UTF-8 header
             // TODO FixIt out.write('\ufeef'); // emits 0xef
@@ -156,7 +157,7 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private void writeKey(@NotNull final OutputStream out, @NotNull final String key, final byte[] value) {
+    private void writeKey(@NotNull final OutputStream out, @NotNull final String key, @Nullable final byte[] value) {
         try {
             out.write(key.getBytes(StandardCharsets.UTF_8));
             out.write('=');
