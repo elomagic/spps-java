@@ -30,6 +30,11 @@ public final class SecureCharArrayWriter extends Writer {
     private char[] buffer = new char[0];
     private int index = 0;
 
+    /**
+     * Cast an integer to a char and append it to the internal char array.
+     *
+     * @param b Byte to append
+     */
     @Override
     public void write(int b) {
         char[] a = new char[] { (char)b };
@@ -41,6 +46,13 @@ public final class SecureCharArrayWriter extends Writer {
         }
     }
 
+    /**
+     * Append a char array to the internal char array.
+     *
+     * @param cbuf Array to append
+     * @param off Offset to append
+     * @param len Length to append
+     */
     @Override
     public void write(@NotNull final char[] cbuf, int off, int len) {
         ensureCapacity(index + len);
@@ -49,11 +61,17 @@ public final class SecureCharArrayWriter extends Writer {
         index += len;
     }
 
+    /**
+     * Do nothing.
+     */
     @Override
     public void flush() {
         // noop
     }
 
+    /**
+     * Wipes the internal char array.
+     */
     @Override
     public void close() {
         wipe();
@@ -73,6 +91,9 @@ public final class SecureCharArrayWriter extends Writer {
         buffer = newBuffer;
     }
 
+    /**
+     * Wipes the internal char array.
+     */
     public void wipe() {
         wipe(buffer);
     }
@@ -81,6 +102,12 @@ public final class SecureCharArrayWriter extends Writer {
         Arrays.fill(chars, '*');
     }
 
+    /**
+     * Returns a copy of the internal array buffer.
+     *
+     * @return A char array but never null
+     */
+    @NotNull
     public char[] toCharArray() {
         return Arrays.copyOf(buffer, index);
     }
