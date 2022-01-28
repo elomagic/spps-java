@@ -32,7 +32,9 @@ public interface SimpleCryptProvider {
      * @param value Value to be checked
      * @return Returns true when value is identified as an encrypted value.
      */
-    boolean isEncryptedValue(@Nullable final String value);
+    default boolean isEncryptedValue(@Nullable final String value) {
+        return value != null && value.startsWith("{") && value.endsWith("}");
+    }
 
     /**
      * Set an alternative default settings file instead of default "${user.home}/.spps/settings".

@@ -192,16 +192,6 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     }
 
     /**
-     * Returns true when value is encrypted, tagged by surrounding braces "{" and "}".
-     *
-     * @param value Value to be checked
-     * @return Returns true when value is identified as an encrypted value.
-     */
-    public final boolean isEncryptedValue(@Nullable final String value) {
-        return value != null && value.startsWith("{") && value.endsWith("}");
-    }
-
-    /**
      * Read a private key.
      *
      * @param file File of the private key. When relocation in file is set then key will be read from there.
