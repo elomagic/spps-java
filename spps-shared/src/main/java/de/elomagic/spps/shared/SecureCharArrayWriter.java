@@ -54,7 +54,7 @@ public final class SecureCharArrayWriter extends Writer {
      * @param len Length to append
      */
     @Override
-    public void write(@NotNull final char[] cbuf, int off, int len) {
+    public void write(final char @NotNull [] cbuf, int off, int len) {
         ensureCapacity(index + len);
 
         IntStream.range(index, index + len).forEach(i -> buffer[i] = cbuf[off + i - index]);

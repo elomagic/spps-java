@@ -33,6 +33,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+/**
+ * Properties class which can protects by wiping values from memory after use.
+ *
+ * Supported format when read/write file is very simple:
+ * <ul>
+ *     <li>The file must UTF-8 formatted</li>
+ *     <li>The key and value must divided by an equal char '=' w/o any spaces.</li>
+ *     <li>The key and value must be in one line. No line breaks allowed.</li>
+ *     <li>Comments must start from beginning of a line with a hash char '#'.</li>
+ *     <li>Escaped characters are not supported.</li>
+ *     <li>Supported line breaks are: CR, LF and CRLF</li>
+ * </ul>
+ */
 public final class SecureProperties implements Closeable {
 
     private static final byte CR = 0x0d;
@@ -41,22 +54,40 @@ public final class SecureProperties implements Closeable {
 
     private final Map<String, byte[]> data = new HashMap<>();
 
+    /**
+     * Wipes key and values from memory and clear properties.
+     */
     public void wipe() {
         data.values().forEach(v -> Arrays.fill(v, (byte)0));
         data.clear();
     }
 
+    /**
+     * Wipes key and values from memory and clear properties.
+     */
     @Override
     public void close() {
         wipe();
     }
 
-    public void read(@NotNull final Path file) throws IOException {
-        byte[] readData = Files.readAllBytes(file);
+    /**
+     * Read a key value file into the property map.
+     *
+     * @param file The file to read
+     * @throws SimpleCryptException Thrown when unable to read the file
+     */
+    public void read(@NotNull final Path file) throws SimpleCryptException {
         try {
-            read(readData);
-        } finally {
-            Arrays.fill(readData, (byte)0);
+            wipe();
+
+            byte[] readData = Files.readAllBytes(file);
+            try {
+                read(readData);
+            } finally {
+                Arrays.fill(readData, (byte)0);
+            }
+        } catch (Exception ex) {
+            throw new SimpleCryptException(ex.getMessage(), ex);
         }
     }
 
@@ -113,6 +144,11 @@ public final class SecureProperties implements Closeable {
         setKey(key, value);
     }
 
+    /**
+     * Returns the count of keys in the property map.
+     *
+     * @return Returns the count of keys
+     */
     public int size() {
         return data.size();
     }
@@ -127,10 +163,23 @@ public final class SecureProperties implements Closeable {
         return data.getOrDefault(key, new byte[0]).length != 0;
     }
 
+    /**
+     * Returns value of the key.
+     *
+     * @param key The key
+     * @return Returns the byte array value or null when key doesn't exist.
+     */
+    @NotNull
     public byte[] getValueAsBytes(@NotNull final String key) {
         return data.get(key);
     }
 
+    /**
+     * Put key with value to the property map.
+     *
+     * @param key The Key
+     * @param value The byte array value
+     */
     public void setKey(@NotNull final String key, @Nullable final byte[] value) {
         if (containsValue(key)) {
             Arrays.fill(getValueAsBytes(key), (byte)0);
@@ -139,6 +188,12 @@ public final class SecureProperties implements Closeable {
         data.put(key, value == null ? new byte[0]:value);
     }
 
+    /**
+     * Writes properties to the given file.
+     *
+     * @param file The file
+     * @throws SimpleCryptException Thrown when unable to write file.
+     */
     public void write(@NotNull final Path file) {
         try (OutputStream out = Files.newOutputStream(file)) {
             // Write UTF-8 header
