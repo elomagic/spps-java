@@ -21,6 +21,7 @@ package de.elomagic.spps.jshiro;
 
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import de.elomagic.spps.shared.SimpleCryptException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.codec.Base64;
@@ -31,7 +32,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 /**
  * Simple crypt tool class by using Apache Shiro framework.
@@ -68,16 +68,18 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
         }
 
         if (!isInitialize()) {
-            createPrivateKeyFile(null, null, false);
+            wipe(createPrivateKeyFile(null, null, false));
         }
 
+        byte[] privateKey = readPrivateKey();
         try {
-            ByteSource encrypted = CIPHER.encrypt(decrypted, readPrivateKey());
-
+            ByteSource encrypted = CIPHER.encrypt(decrypted, privateKey);
             return "{" + encrypted.toBase64() + "}";
         } catch(Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
             throw new SimpleCryptException(ex.getMessage(), ex);
+        } finally {
+            wipe(privateKey);
         }
     }
 
@@ -102,7 +104,7 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
             try {
                 return CIPHER.decrypt(encryptedBytes, privateKey).getBytes();
             } finally {
-                Arrays.fill(privateKey, (byte)0);
+                wipe(privateKey);
             }
         } catch(Exception ex) {
             LOGGER.error(ex.getMessage(), ex);

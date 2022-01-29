@@ -155,7 +155,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             return result;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new SimpleCryptException("Unable to create or read private key.", ex);
+            throw new SimpleCryptException("Unable to create private key.", ex);
         }
     }
 
@@ -177,6 +177,14 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
         } finally {
             Arrays.fill(encodedPrivateKey, (byte)0);
         }
+    }
+
+    protected void wipe(byte[] secret) {
+        if (secret == null) {
+            return;
+        }
+
+        Arrays.fill(secret, (byte)0);
     }
 
     /**
