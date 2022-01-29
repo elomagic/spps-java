@@ -31,7 +31,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class SimpleCryptFactory {
+/**
+ * This tooling class can be used to get the default/current instance class.
+ */
+public final class SimpleCryptFactory {
 
     private static final String META_INF_PATH = "/META-INF/de.elomagic.spps/provider";
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptFactory.class);
@@ -61,6 +64,13 @@ public class SimpleCryptFactory {
         }
     }
 
+    /**
+     * Returns current provider instance.
+     *
+     * This method will also be used by CDI when inject instance.
+     *
+     * @return The current provider
+     */
     @Produces
     @NotNull
     public static SimpleCryptProvider getInstance() {
@@ -78,10 +88,26 @@ public class SimpleCryptFactory {
         return ACTIVE_PROVIDER_INSTANCE.get();
     }
 
+    /**
+     * Set the current SPPS provider.
+     *
+     * @param provider Provider
+     * @see SimpleCryptFactory#getInstance()
+     */
     public static void setProvider(@Nullable final SimpleCryptProvider provider) {
         ACTIVE_PROVIDER_INSTANCE.set(provider);
     }
 
+    /**
+     * Set the current SPPS provider class.
+     *
+     * This class will be created a new current provider instance.
+     *
+     * @param providerClass Class type of the provider
+     * @throws SimpleCryptException Thrown when unable to create new instance of given provider class
+     * @see SimpleCryptFactory#getInstance()
+     * @see SimpleCryptFactory#setProvider(SimpleCryptProvider)
+     */
     public static void setProvider(@NotNull final Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
         try {
             SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
