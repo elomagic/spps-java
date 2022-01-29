@@ -103,7 +103,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             @Nullable final byte[] privateKey,
             @Nullable final Path relocationFile,
             boolean force) throws SimpleCryptException {
-        try {
+        try (SecureProperties properties = new SecureProperties()) {
             if (Files.notExists(file.getParent())) {
                 Files.createDirectories(file.getParent());
             }
@@ -114,7 +114,6 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
             LOGGER.info("Creating settings file");
 
-            SecureProperties properties = new SecureProperties();
             properties.setKey(KEY_KEY, privateKey);
             properties.setKey(RELOCATION_KEY, relocationFile == null ? null : relocationFile.toString().getBytes(StandardCharsets.UTF_8));
             properties.setKey(KEY_CREATED, DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(LocalDateTime.now()).getBytes(StandardCharsets.UTF_8));

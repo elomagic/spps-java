@@ -175,7 +175,7 @@ public final class SecureProperties implements Closeable {
     }
 
     /**
-     * Put key with value to the property map.
+     * Put a key with a copy of the value into the property map.
      *
      * @param key The Key
      * @param value The byte array value
@@ -185,7 +185,7 @@ public final class SecureProperties implements Closeable {
             Arrays.fill(getValueAsBytes(key), (byte)0);
         }
 
-        data.put(key, value == null ? new byte[0]:value);
+        data.put(key, value == null ? new byte[0]:value.clone());
     }
 
     /**
