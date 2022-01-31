@@ -28,4 +28,8 @@ public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
         return Base64.getDecoder().decode(encryptedBase64.substring(1, encryptedBase64.length()-1));
     }
 
+    public byte[] callReadPrivateKey() {
+        return readPrivateKey();
+    }
+
 }

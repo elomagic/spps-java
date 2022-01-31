@@ -190,7 +190,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     /**
      * Read private key from default location.
      *
-     * @return Returns the private key as byte array.
+     * @return Returns the non Base64 encoded private key as byte array.
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     @NotNull
@@ -202,7 +202,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * Read a private key.
      *
      * @param file File of the private key. When relocation in file is set then key will be read from there.
-     * @return Returns the private key as byte array.
+     * @return Returns the non Base64 encoded private key as byte array.
      * @throws SimpleCryptException Thrown when unable to create private key
      */
     @NotNull

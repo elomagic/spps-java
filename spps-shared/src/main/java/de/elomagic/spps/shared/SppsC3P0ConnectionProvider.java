@@ -41,25 +41,26 @@ public final class SppsC3P0ConnectionProvider extends C3P0ConnectionProvider {
 
         final String driver = props.getProperty(Environment.DRIVER);
         if (provider.isEncryptedValue(driver)) {
-            props.setProperty(Environment.DRIVER, new String(provider.decryptToChars(driver)));
+            props.setProperty(Environment.DRIVER, String.valueOf(provider.decryptToChars(driver)));
         }
 
         final String url = props.getProperty(Environment.URL);
         if (provider.isEncryptedValue(url)) {
-            props.setProperty(Environment.URL, new String(provider.decryptToChars(url)));
+            props.setProperty(Environment.URL, String.valueOf(provider.decryptToChars(url)));
         }
 
         final String user = props.getProperty(Environment.USER);
         if (provider.isEncryptedValue(user)) {
-            props.setProperty(Environment.USER, new String(provider.decryptToChars(user)));
+            props.setProperty(Environment.USER, String.valueOf(provider.decryptToChars(user)));
         }
 
         final String password = props.getProperty(Environment.PASS);
         if (provider.isEncryptedValue(password)) {
-            props.setProperty(Environment.PASS, new String(provider.decryptToChars(password)));
+            props.setProperty(Environment.PASS, String.valueOf(provider.decryptToChars(password)));
         }
 
         super.configure(props);
+
     }
 
 }
