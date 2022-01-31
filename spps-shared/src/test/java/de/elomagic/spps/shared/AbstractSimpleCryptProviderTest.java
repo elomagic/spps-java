@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractSimpleCryptProviderTest {
 
@@ -30,12 +29,25 @@ class AbstractSimpleCryptProviderTest {
 
         provider.setSettingsFile(file);
 
+        assertFalse(provider.isInitialize());
+
         assertThrows(SimpleCryptException.class, provider::callReadPrivateKey);
 
         Files.write(file, IOUtils.resourceToByteArray("/test-settings"));
 
+        assertTrue(provider.isInitialize());
+
         byte[] original = Base64.getDecoder().decode("JH/ysWODIUHB99Kh5UxxdUhSXQ4cj45iVm9qRWCWsXo=");
 
         assertArrayEquals(original, provider.callReadPrivateKey());
+    }
+
+    @Test
+    void testImportPrivateKey() {
+
+        SimpleCryptProviderMock provider = new SimpleCryptProviderMock();
+
+        assertThrows(SimpleCryptException.class, () -> provider.importPrivateKey(null, false));
+
     }
 }

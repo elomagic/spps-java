@@ -167,7 +167,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      *              exists.
      * @throws SimpleCryptException Thrown when unable to import private key
      */
-    public void importPrivateKey(final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException {
+    public final void importPrivateKey(final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException {
         if (encodedPrivateKey == null) {
             throw new SimpleCryptException("Private key must be set");
         }
