@@ -10,7 +10,7 @@
             <h1>SPPS Web Encryption Tool</h1>
         </header>
 
-        <div class="alert warn">It is recommended to disable or to remove this web application after using it!</div>
+        <div class="alert warn">⚠️ It is recommended to disable or to remove this web application after using it! ⚠️</div>
 
         <form name="encryptSecretForm" action="encrypt" method="POST">
             <div class="mb-10">
@@ -32,13 +32,32 @@
 
         <form name="generatePrivateKeyForm" action="generate" method="POST">
             <div class="mb-10">
+                <label for="encryptSecret">Generator Mode:</label>
+                <select class="form-select" name="generateMode" id="generateMode">
+                    <option value="generate-and-import" >Generate and import w/o print(Recommended mode)</option>
+                    <option value="generate-import-and-print">Generate, import and print key</option>
+                    <option value="print-only">Generate and print only key w/o import</option>
+                </select>
+                <input type="checkbox" id="generateAndImportForce" name="importForce"/>
+                <label for="generateAndImportForce">Force Import</label>
+            </div>
+
+            <div class="mb-10">
                 <input class="btn" type="submit" value="Generate Private Key" name="generate"/>
             </div>
         </form>
 
-        <div class="mono alert success ${generateResultText == null ? 'hide' : ''}">${generateResultText}</div>
+        <div class="mono alert success ${generateResultText == null ? 'hide' : ''}">
+            ${generateResultText}
+        </div>
 
-        <div class="mono alert error ${generateErrorText == null ? 'hide' : ''}">${generateErrorText}</div>
+        <div class="mono alert success ${generateResultKey == null ? 'hide' : ''}">
+            ${generateResultKey}
+        </div>
+
+        <div class="mono alert error ${generateErrorText == null ? 'hide' : ''}">
+            ${generateErrorText}
+        </div>
 
         <hr/>
 

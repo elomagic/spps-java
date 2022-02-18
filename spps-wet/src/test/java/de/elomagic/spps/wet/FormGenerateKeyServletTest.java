@@ -46,8 +46,9 @@ class FormGenerateKeyServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         RequestDispatcher dispatcher = mock(RequestDispatcher.class);
 
-        when(request.getParameter(Mockito.anyString())).thenAnswer(args ->parameters.get(args.getArgument(0)));
+        // when(request.getParameter(Mockito.anyString())).thenAnswer(args -> parameters.get(args.getArgument(0)));
         when(request.getRequestDispatcher("index.jsp")).thenReturn(dispatcher);
+        doAnswer(args -> parameters.get(args.getArgument(0))).when(request).getParameter(Mockito.anyString());
         doAnswer(i -> {
             attributes.put(i.getArgument(0).toString(), i.getArgument(1));
             return null;
@@ -55,8 +56,15 @@ class FormGenerateKeyServletTest {
 
         // Start test
         servlet.doPost(request, response);
+        Assertions.assertEquals("Invalid HTTP post call.", attributes.get("generateErrorText").toString());
+        Assertions.assertFalse(attributes.containsKey("generateResultText"));
+        Assertions.assertFalse(attributes.containsKey("generateResultKey"));
+        attributes.clear();
 
-        Assertions.assertTrue(attributes.get("generateResultText").toString().length() > 10);
-        Assertions.assertFalse(attributes.containsKey("generateHideError") && attributes.get("generateErrorText").toString().isEmpty());
+        parameters.put("generateMode", "print-only");
+        servlet.doPost(request, response);
+        Assertions.assertTrue(attributes.get("generateResultKey").toString().length() > 10);
+        Assertions.assertFalse(attributes.containsKey("generateErrorText"));
+        Assertions.assertFalse(attributes.containsKey("generateResultText"));
     }
 }

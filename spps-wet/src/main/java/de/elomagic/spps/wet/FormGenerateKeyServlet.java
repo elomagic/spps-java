@@ -31,24 +31,56 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Optional;
 
 @WebServlet(name = "FormGenerateKeyServlet", urlPatterns = "/generate")
 public class FormGenerateKeyServlet extends HttpServlet {
+
+
+    private static final String NAME_GEN_ERROR_TEXT = "generateErrorText";
+    private static final String NAME_GEN_RESULT_TEXT = "generateResultText";
+    private static final String NAME_GEN_RESULT_KEY = "generateResultKey";
 
     private static final Logger LOGGER = LogManager.getLogger(FormGenerateKeyServlet.class);
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
-            String privateKey = new String(SimpleCryptFactory.getInstance().createPrivateKey(), StandardCharsets.UTF_8);
-            request.setAttribute("generateResultText", privateKey);
+            Optional<GenerateMode> generateModeOptional = GenerateMode.parseString(request.getParameter("generateMode"));
+            boolean force = "on".equalsIgnoreCase(request.getParameter("importForce"));
+
+            if (generateModeOptional.isPresent()) {
+                GenerateMode mode = generateModeOptional.get();
+                switch (mode) {
+                    case GENERATE_AND_IMPORT:
+                        Arrays.fill(SimpleCryptFactory.getInstance().createPrivateKeyFile(null, null, force), (byte)0);
+                        request.setAttribute(NAME_GEN_RESULT_TEXT, "Private key successful generated and imported");
+                        break;
+                    case GENERATE_IMPORT_AND_PRINT:
+                        String privateKey = new String(SimpleCryptFactory.getInstance().createPrivateKeyFile(null, null, force), StandardCharsets.UTF_8);
+                        request.setAttribute(NAME_GEN_RESULT_TEXT, "Private key successful generated and imported");
+                        request.setAttribute(NAME_GEN_RESULT_KEY, privateKey);
+                        break;
+                    case GENERATE_AND_PRINT:
+                        privateKey = new String(SimpleCryptFactory.getInstance().createPrivateKey(), StandardCharsets.UTF_8);
+                        request.setAttribute(NAME_GEN_RESULT_KEY, privateKey);
+                        break;
+                }
+
+                request.setAttribute("generateMode", mode.getValue());
+            } else {
+                request.setAttribute(NAME_GEN_ERROR_TEXT, "Invalid HTTP post call.");
+            }
         } catch (Exception e) {
-            request.setAttribute("generateErrorText", e.getMessage());
+            request.removeAttribute(NAME_GEN_RESULT_KEY);
+            request.removeAttribute(NAME_GEN_RESULT_TEXT);
+            request.setAttribute(NAME_GEN_ERROR_TEXT, e.getMessage());
             LOGGER.error(e.getMessage(), e);
         } finally{
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
             dispatcher.forward(request, response);
-            response.sendRedirect("index.jsp");
+            //response.sendRedirect("index.jsp");
         }
     }
 
