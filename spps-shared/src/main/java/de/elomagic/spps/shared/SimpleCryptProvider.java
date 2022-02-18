@@ -71,7 +71,7 @@ public interface SimpleCryptProvider {
      * @param encodedPrivateKey Base64 encoded private key.
      * @param force Force overwriting existing setting file. Otherwise, it will fail with an exception when already
      *              exists.
-     * @throws SimpleCryptException Thrown when unable to import private key
+     * @throws SimpleCryptException Thrown when unable to import private key. e.g. private already exists
      */
     void importPrivateKey(@NotNull final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException;
 
