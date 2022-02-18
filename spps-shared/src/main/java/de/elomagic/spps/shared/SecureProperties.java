@@ -169,7 +169,7 @@ public final class SecureProperties implements Closeable {
      * @param key The key
      * @return Returns the byte array value or null when key doesn't exist.
      */
-    @NotNull
+    @Nullable
     public byte[] getValueAsBytes(@NotNull final String key) {
         return data.get(key);
     }

@@ -49,7 +49,6 @@ public class FormEncryptServlet extends HttpServlet {
         } finally{
             RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
             dispatcher.forward(request, response);
-            response.sendRedirect("index.jsp");
         }
     }
 

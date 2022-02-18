@@ -1,8 +1,5 @@
 package de.elomagic.spps.wet;
 
-import de.elomagic.spps.shared.SimpleCryptFactory;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.support.AnnotationSupport;
 import org.mockito.Mockito;
@@ -11,14 +8,13 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Base64;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class LocalhostErrorServletTest {
 
@@ -53,8 +49,6 @@ class LocalhostErrorServletTest {
         servlet.doGet(request, response);
 
         assertNotNull("errorText");
-        assertEquals("error.jsp", redirectPage);
-
     }
 
 }

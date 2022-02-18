@@ -82,7 +82,7 @@
         <hr/>
 
         <footer class="footer">
-            <span>Powered by SPPS ${project.version} (Build date ${build.date}) - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
+            <span>Powered by SPPS ${project.version} (Build date ${timestamp}) - <a href="https://github.com/elomagic/spps-java">https://github.com/elomagic/spps-java</a></span>
         </footer>
     </body>
 </html>

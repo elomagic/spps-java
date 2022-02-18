@@ -33,7 +33,7 @@ import java.io.IOException;
 @WebServlet(name = "LocalhostErrorServlet", urlPatterns = "/onlylocalhost")
 public class LocalhostErrorServlet extends HttpServlet {
 
-    private static final Logger LOGGER = LogManager.getLogger(FormEncryptServlet.class);
+    private static final Logger LOGGER = LogManager.getLogger(LocalhostErrorServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -45,7 +45,6 @@ public class LocalhostErrorServlet extends HttpServlet {
         } finally{
             RequestDispatcher dispatcher = request.getRequestDispatcher("error.jsp");
             dispatcher.forward(request, response);
-            response.sendRedirect("error.jsp");
         }
     }
 

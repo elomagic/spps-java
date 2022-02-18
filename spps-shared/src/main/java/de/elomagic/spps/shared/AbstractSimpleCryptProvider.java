@@ -24,7 +24,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,16 +43,6 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
     protected static final int PRIVATE_KEY_SIZE = 256;
     protected static final Path DEFAULT_SETTINGS_FILE = Paths.get(System.getProperty("user.home"), ".spps", "settings");
     protected static final AtomicReference<Path> SETTINGS_FILE = new AtomicReference<>(DEFAULT_SETTINGS_FILE);
-
-    /**
-     * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.
-     *
-     * @param decrypted a non encrypted byte array
-     * @return Returns an encrypted, Base64 encoded string, surrounded with curly brackets.
-     * @throws SimpleCryptException Thrown when an error occurred during encrypting.
-     */
-    @Nullable
-    public abstract String encrypt(final byte[] decrypted) throws SimpleCryptException;
 
     /**
      * Decrypt an encrypted, Base64 encoded data string.
@@ -109,7 +98,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             }
 
             if (Files.exists(file) && !force) {
-                throw new SimpleCryptException("Private key file \"" + file+ "\" already exists. Use parameter \"-Force\" to overwrite it.");
+                throw new SimpleCryptException("Private key file \"" + file+ "\" already exists. Use \"Force\" to overwrite it.");
             }
 
             LOGGER.info("Creating settings file");
@@ -121,7 +110,11 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             properties.write(file);
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new SimpleCryptException("Unable to write private key.", ex);
+            if (ex instanceof SimpleCryptException) {
+                throw new SimpleCryptException(ex.getMessage(), ex);
+            } else {
+                throw new SimpleCryptException("Unable to write private key.", ex);
+            }
         }
     }
 
@@ -155,7 +148,11 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
             return result;
         } catch (Exception ex) {
             LOGGER.error(ex.getMessage(), ex);
-            throw new SimpleCryptException("Unable to create private key.", ex);
+            if (ex instanceof SimpleCryptException) {
+                throw new SimpleCryptException(ex.getMessage(), ex);
+            } else {
+                throw new SimpleCryptException("Unable to write private key.", ex);
+            }
         }
     }
 
@@ -207,26 +204,26 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      */
     @NotNull
     protected final byte[] readPrivateKey(@NotNull final Path file) throws SimpleCryptException {
-        try {
-            if (Files.notExists(file)) {
-                throw new FileNotFoundException("Unable to find settings file. At first you have to create a private key.");
-            }
+        if (Files.notExists(file)) {
+            throw new SimpleCryptException("Unable to find settings file. At first you have to create a private key.");
+        }
 
+        try {
             try (SecureProperties properties = new SecureProperties()) {
                 properties.read(file);
                 if (properties.containsValue(RELOCATION_KEY)) {
                     return readPrivateKey(Paths.get(new String(properties.getValueAsBytes(RELOCATION_KEY), StandardCharsets.UTF_8)));
                 } else {
                     byte[] key = properties.getValueAsBytes(KEY_KEY);
+
+                    if (key == null) {
+                        throw new SimpleCryptException("No private key set.");
+                    }
+
                     try {
-                        if (key == null) {
-                            throw new SimpleCryptException("No private key set.");
-                        }
                         return Base64.getDecoder().decode(key);
                     } finally {
-                        if (key != null) {
-                            Arrays.fill(key, (byte) 0);
-                        }
+                        Arrays.fill(key, (byte) 0);
                     }
                 }
             }
