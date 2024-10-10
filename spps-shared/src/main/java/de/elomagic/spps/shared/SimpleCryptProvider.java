@@ -19,8 +19,8 @@
  */
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.nio.file.Path;
 
@@ -38,7 +38,7 @@ public interface SimpleCryptProvider {
 
     /**
      * Set an alternative default settings file instead of default "${user.home}/.spps/settings".
-     *
+     * <p/>
      * An application can use this feature to prevent sharing of the private key with other applications.
      *
      * @param file Alternative settings file or null to use the default file.
@@ -51,7 +51,7 @@ public interface SimpleCryptProvider {
      * @return Returns the Base64 encoded key
      * @throws SimpleCryptException Thrown when something went wring on creation of the key.
      */
-    @NotNull
+    @Nonnull
     byte[] createPrivateKey() throws SimpleCryptException;
 
     /**
@@ -73,7 +73,7 @@ public interface SimpleCryptProvider {
      *              exists.
      * @throws SimpleCryptException Thrown when unable to import private key. e.g. private already exists
      */
-    void importPrivateKey(@NotNull final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException;
+    void importPrivateKey(@Nonnull final byte[] encodedPrivateKey, boolean force) throws SimpleCryptException;
 
     /**
      * Encrypt, encoded as Base64 and encapsulate with curly bracket of a string.

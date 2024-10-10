@@ -19,11 +19,12 @@
  */
 package de.elomagic.spps.shared;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.util.IOUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -54,13 +55,13 @@ public final class SimpleCryptCommandTool {
     SimpleCryptCommandTool() {
     }
 
-    boolean hasArgumentForOption(@NotNull final List<String> args, @NotNull final String option) {
+    boolean hasArgumentForOption(@Nonnull final List<String> args, @Nonnull final String option) {
         int index = args.indexOf(option);
 
         return (index != -1 && args.size() > index+1);
     }
 
-    String getArgument(@NotNull final List<String> args, @NotNull final String option) {
+    String getArgument(@Nonnull final List<String> args, @Nonnull final String option) {
         int index = args.indexOf(option);
 
         if (index == -1 || args.size() <= index+1) {

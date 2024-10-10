@@ -19,7 +19,7 @@
  */
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.io.Writer;
 import java.util.Arrays;
@@ -54,7 +54,7 @@ public final class SecureCharArrayWriter extends Writer {
      * @param len Length to append
      */
     @Override
-    public void write(final char @NotNull [] cbuf, int off, int len) {
+    public void write(@Nonnull final char[] cbuf, int off, int len) {
         ensureCapacity(index + len);
 
         IntStream.range(index, index + len).forEach(i -> buffer[i] = cbuf[off + i - index]);
@@ -98,7 +98,7 @@ public final class SecureCharArrayWriter extends Writer {
         wipe(buffer);
     }
 
-    private void wipe(@NotNull final char[] chars) {
+    private void wipe(@Nonnull final char[] chars) {
         Arrays.fill(chars, '*');
     }
 
@@ -107,7 +107,7 @@ public final class SecureCharArrayWriter extends Writer {
      *
      * @return A char array but never null
      */
-    @NotNull
+    @Nonnull
     public char[] toCharArray() {
         return Arrays.copyOf(buffer, index);
     }

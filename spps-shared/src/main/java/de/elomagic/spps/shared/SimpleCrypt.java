@@ -19,7 +19,8 @@
  */
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.Nullable;
+
+import jakarta.annotation.Nullable;
 
 import java.nio.file.Path;
 
@@ -48,7 +49,7 @@ public class SimpleCrypt {
 
     /**
      * Set an alternative default settings file instead of default "${user.home}/.spps/settings".
-     *
+     * <p/>
      * An application can use this feature to prevent sharing of the private key with other applications.
      *
      * @param file Alternative settings file or null to use the default file.

@@ -19,6 +19,9 @@
  */
 package de.elomagic.spps.bc;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import de.elomagic.spps.shared.SimpleCryptException;
 
@@ -26,8 +29,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.util.encoders.Base64;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -51,7 +52,7 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
      *
      * @return Returns the initialization vector but never null
      */
-    @NotNull
+    @Nonnull
     private IvParameterSpec createInitializationVector() {
         SecureRandom random = new SecureRandom();
         byte[] iv = new byte[PRIVATE_KEY_SIZE / 16];
@@ -66,7 +67,7 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
      * @throws SimpleCryptException Thrown when something went wring on creation of the key.
      */
     @Override
-    @NotNull
+    @Nonnull
     public byte[] createPrivateKey() throws SimpleCryptException {
         try {
             KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM_AES);
@@ -84,8 +85,8 @@ public final class SimpleCryptBC extends AbstractSimpleCryptProvider {
      * @param iv Initialization vector for first block
      * @return Returns cipher
      */
-    @NotNull
-    private Cipher createCypher(int opmode, @NotNull final IvParameterSpec iv) throws SimpleCryptException {
+    @Nonnull
+    private Cipher createCypher(int opmode, @Nonnull final IvParameterSpec iv) throws SimpleCryptException {
         try {
             byte[] privateKey = readPrivateKey();
             try {

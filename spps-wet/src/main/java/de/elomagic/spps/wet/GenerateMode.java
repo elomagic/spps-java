@@ -19,8 +19,8 @@
  */
 package de.elomagic.spps.wet;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -37,12 +37,12 @@ public enum GenerateMode {
         this.value = value;
     }
 
-    @NotNull
+    @Nonnull
     public String getValue() {
         return value;
     }
 
-    @NotNull
+    @Nonnull
     public static Optional<GenerateMode> parseString(@Nullable String text) {
         return Arrays
                 .stream(values())

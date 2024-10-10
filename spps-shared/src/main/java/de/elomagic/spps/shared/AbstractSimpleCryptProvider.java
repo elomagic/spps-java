@@ -19,10 +19,11 @@
  */
 package de.elomagic.spps.shared;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -56,7 +57,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
     /**
      * Checks if settings file exists.
-     *
+     * <p/>
      * Settings file can be "${user.home}/.spps/settings" or an alternative file which set with {@link AbstractSimpleCryptProvider#setSettingsFile(Path)}
      *
      * @return Returns true if exists.
@@ -67,7 +68,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
 
     /**
      * Set an alternative default settings file instead of default "${user.home}/.spps/settings".
-     *
+     * <p/>
      * An application can use this feature to prevent sharing of the private key with other applications.
      *
      * @param file Alternative settings file or null to use the default file.
@@ -88,7 +89,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * @throws SimpleCryptException Thrown when unable to write file
      */
     private void writePrivateKeyFile(
-            @NotNull final Path file,
+            @Nonnull final Path file,
             @Nullable final byte[] privateKey,
             @Nullable final Path relocationFile,
             boolean force) throws SimpleCryptException {
@@ -190,7 +191,7 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * @return Returns the non Base64 encoded private key as byte array.
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    @NotNull
+    @Nonnull
     protected final byte[] readPrivateKey() throws SimpleCryptException {
         return readPrivateKey(SETTINGS_FILE.get());
     }
@@ -202,8 +203,8 @@ public abstract class AbstractSimpleCryptProvider implements SimpleCryptProvider
      * @return Returns the non Base64 encoded private key as byte array.
      * @throws SimpleCryptException Thrown when unable to create private key
      */
-    @NotNull
-    protected final byte[] readPrivateKey(@NotNull final Path file) throws SimpleCryptException {
+    @Nonnull
+    protected final byte[] readPrivateKey(@Nonnull final Path file) throws SimpleCryptException {
         if (Files.notExists(file)) {
             throw new SimpleCryptException("Unable to find settings file. At first you have to create a private key.");
         }
