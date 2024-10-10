@@ -55,9 +55,9 @@ class SimpleCryptTest {
         }
 
         Assertions.assertEquals(3, p.keySet().size());
-        Assertions.assertTrue(p.keySet().contains("created"));
-        Assertions.assertTrue(p.keySet().contains("key"));
-        Assertions.assertTrue(p.keySet().contains("relocation"));
+        Assertions.assertTrue(p.containsKey("created"));
+        Assertions.assertTrue(p.containsKey("key"));
+        Assertions.assertTrue(p.containsKey("relocation"));
     }
 
     @Test

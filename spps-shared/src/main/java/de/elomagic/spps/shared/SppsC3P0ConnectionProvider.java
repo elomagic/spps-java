@@ -22,43 +22,41 @@ package de.elomagic.spps.shared;
 import jakarta.annotation.Nonnull;
 
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
-import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.JdbcSettings;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class SppsC3P0ConnectionProvider extends C3P0ConnectionProvider {
+
+    private void decryptIfRequired(@Nonnull final Map<String, Object> cfg, final String property) {
+        if (!cfg.containsKey(property)) {
+            return;
+        }
+
+        String value = cfg.get(property).toString();
+
+        final SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
+        if (provider.isEncryptedValue(value)) {
+            cfg.put(property, String.valueOf(provider.decryptToChars(value)));
+        }
+    }
 
     /**
      * Configure the service.
      *
      * @param cfg The configuration properties.
      */
-    public void configure(@Nonnull final Properties cfg) {
+    @Override
+    public void configure(@Nonnull final Map<String, Object> cfg) {
 
         // Make a copy. Don't work with the original properties class!
-        Properties props = new Properties(cfg);
+        Map<String, Object> props = new HashMap<>(cfg);
 
-        final SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
-
-        final String driver = props.getProperty(AvailableSettings.DRIVER);
-        if (provider.isEncryptedValue(driver)) {
-            props.setProperty(AvailableSettings.DRIVER, String.valueOf(provider.decryptToChars(driver)));
-        }
-
-        final String url = props.getProperty(AvailableSettings.URL);
-        if (provider.isEncryptedValue(url)) {
-            props.setProperty(AvailableSettings.URL, String.valueOf(provider.decryptToChars(url)));
-        }
-
-        final String user = props.getProperty(AvailableSettings.USER);
-        if (provider.isEncryptedValue(user)) {
-            props.setProperty(AvailableSettings.USER, String.valueOf(provider.decryptToChars(user)));
-        }
-
-        final String password = props.getProperty(AvailableSettings.PASS);
-        if (provider.isEncryptedValue(password)) {
-            props.setProperty(AvailableSettings.PASS, String.valueOf(provider.decryptToChars(password)));
-        }
+        decryptIfRequired(props, JdbcSettings.JAKARTA_JDBC_DRIVER);
+        decryptIfRequired(props, JdbcSettings.JAKARTA_JDBC_URL);
+        decryptIfRequired(props, JdbcSettings.JAKARTA_JDBC_USER);
+        decryptIfRequired(props, JdbcSettings.JAKARTA_JDBC_PASSWORD);
 
         super.configure(props);
 
