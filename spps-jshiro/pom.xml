@@ -30,6 +30,12 @@
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.shiro</groupId>
+                    <artifactId>shiro-config-ogdl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
