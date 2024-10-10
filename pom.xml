@@ -51,9 +51,9 @@
         <project.scm.id>github</project.scm.id>
 
         <java.version>17</java.version>
-
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
         <build.date>${maven.build.timestamp}</build.date>
@@ -61,7 +61,6 @@
 
         <tag-format>v${project.version}</tag-format>
 
-        <compiler-plugin.version>3.9.0</compiler-plugin.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 
         <maven-surefire.version>3.5.1</maven-surefire.version>
@@ -152,7 +151,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <!--<release>${java.version}</release>-->
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
