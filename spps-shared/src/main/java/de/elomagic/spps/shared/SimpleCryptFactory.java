@@ -21,11 +21,11 @@ package de.elomagic.spps.shared;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
+import jakarta.enterprise.inject.Produces;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.enterprise.inject.Produces;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
