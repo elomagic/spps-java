@@ -6,7 +6,7 @@
     "prHourlyLimit": 0,
     "prConcurrentLimit": 0,
     "pinDigests": true,
-    "dependencyDashboard": false,
+    "dependencyDashboard": true,
     "packageRules": [
         {
             "matchUpdateTypes": ["minor", "patch"],
