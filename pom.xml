@@ -51,9 +51,9 @@
         <project.scm.id>github</project.scm.id>
 
         <java.version>17</java.version>
-
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
 
         <build.date>${maven.build.timestamp}</build.date>
@@ -61,7 +61,6 @@
 
         <tag-format>v${project.version}</tag-format>
 
-        <compiler-plugin.version>3.9.0</compiler-plugin.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 
         <maven-surefire.version>3.5.1</maven-surefire.version>
@@ -152,7 +151,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <!--<release>${java.version}</release>-->
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
@@ -253,24 +251,24 @@
 
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcprov-jdk15on</artifactId>
-                <version>1.70</version>
+                <artifactId>bcprov-jdk18on</artifactId>
+                <version>1.78.1</version>
             </dependency>
             <dependency>
                 <groupId>org.bouncycastle</groupId>
-                <artifactId>bcpkix-jdk15on</artifactId>
-                <version>1.70</version>
+                <artifactId>bcpkix-jdk18on</artifactId>
+                <version>1.78.1</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.shiro</groupId>
                 <artifactId>shiro-core</artifactId>
-                <version>1.9.1</version>
+                <version>1.10.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.apache.tomee</groupId>
                 <artifactId>openejb-core</artifactId>
-                <version>8.0.9</version>
+                <version>8.0.14</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -375,12 +373,6 @@
     </profiles>
 
     <distributionManagement>
-        <!--
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        -->
         <repository>
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>

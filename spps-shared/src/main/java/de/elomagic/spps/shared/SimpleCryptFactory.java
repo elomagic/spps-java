@@ -56,7 +56,7 @@ public final class SimpleCryptFactory {
                 throw new SimpleCryptException("Unable to read class name from SPPS provider file '" + META_INF_PATH + "'.");
             }
 
-            if (className.length() == 0) {
+            if (className.isEmpty()) {
                 throw new SimpleCryptException("Provider class name not set in file '" + META_INF_PATH + "'.");
             }
 
@@ -66,7 +66,7 @@ public final class SimpleCryptFactory {
 
     /**
      * Returns current provider instance.
-     *
+     * <p/>
      * This method will also be used by CDI when inject instance.
      *
      * @return The current provider
