@@ -20,7 +20,7 @@ package de.elomagic.spps.jshiro;
 import de.elomagic.spps.shared.SimpleCryptException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.shiro.codec.CodecSupport;
+import org.apache.shiro.lang.codec.CodecSupport;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
