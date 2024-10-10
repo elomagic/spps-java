@@ -27,10 +27,9 @@ import de.elomagic.spps.shared.SimpleCryptException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.shiro.codec.Base64;
-import org.apache.shiro.crypto.AesCipherService;
-import org.apache.shiro.crypto.DefaultBlockCipherService;
-import org.apache.shiro.util.ByteSource;
+import org.apache.shiro.crypto.cipher.DefaultBlockCipherService;
+import org.apache.shiro.lang.codec.Base64;
+import org.apache.shiro.lang.util.ByteSource;
 
 import java.nio.charset.StandardCharsets;
 
@@ -40,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
 
     private static final Logger LOGGER = LogManager.getLogger(SimpleCryptShiro.class);
-    private static final DefaultBlockCipherService CIPHER = new AesCipherService();
+    private static final DefaultBlockCipherService CIPHER = new org.apache.shiro.crypto.cipher.AesCipherService();
 
     /**
      * Creates a random AES key with 256 ke size.
@@ -103,7 +102,7 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
 
             byte[] privateKey = readPrivateKey();
             try {
-                return CIPHER.decrypt(encryptedBytes, privateKey).getBytes();
+                return CIPHER.decrypt(encryptedBytes, privateKey).getClonedBytes();
             } finally {
                 wipe(privateKey);
             }
