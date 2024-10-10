@@ -272,11 +272,11 @@
                 <scope>provided</scope>
             </dependency>
 
-            <!-- Helpful artifact for Intellij IDE ( https://www.jetbrains.com/help/idea/annotating-source-code.html ) -->
+            <!-- https://mvnrepository.com/artifact/jakarta.annotation/jakarta.annotation-api -->
             <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>26.0.0</version>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>3.0.0</version>
             </dependency>
 
             <!-- From here only dependencies with scope "test" -->

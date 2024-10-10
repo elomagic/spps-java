@@ -19,7 +19,7 @@
  */
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
@@ -28,7 +28,7 @@ import java.util.stream.IntStream;
 /**
  * Provides util method to handle UTF8 encoded chars and bytes.
  * <p>
- * Copyright (c) 2000-2021 The Legion of the Bouncy Castle Inc. (https://www.bouncycastle.org)
+ * Copyright (c) 2000-2021 The Legion of the Bouncy Castle Inc. (<a href="https://www.bouncycastle.org">https://www.bouncycastle.org</a>)
  * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the

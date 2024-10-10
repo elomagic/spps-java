@@ -19,6 +19,9 @@
  */
 package de.elomagic.spps.jshiro;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import de.elomagic.spps.shared.AbstractSimpleCryptProvider;
 import de.elomagic.spps.shared.SimpleCryptException;
 
@@ -28,8 +31,6 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.crypto.DefaultBlockCipherService;
 import org.apache.shiro.util.ByteSource;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 
@@ -48,7 +49,7 @@ public final class SimpleCryptShiro extends AbstractSimpleCryptProvider {
      * @throws SimpleCryptException Thrown when something went wring on creation of the key.
      */
     @Override
-    @NotNull
+    @Nonnull
     public byte[] createPrivateKey() {
         return Base64.encode(CIPHER.generateNewKey(PRIVATE_KEY_SIZE).getEncoded());
     }

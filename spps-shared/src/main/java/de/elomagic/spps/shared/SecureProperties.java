@@ -19,8 +19,8 @@
  */
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -35,7 +35,7 @@ import java.util.stream.IntStream;
 
 /**
  * Properties class which can protects by wiping values from memory after use.
- *
+ * <p/>
  * Supported format when read/write file is very simple:
  * <ul>
  *     <li>The file must UTF-8 formatted</li>
@@ -76,7 +76,7 @@ public final class SecureProperties implements Closeable {
      * @param file The file to read
      * @throws SimpleCryptException Thrown when unable to read the file
      */
-    public void read(@NotNull final Path file) throws SimpleCryptException {
+    public void read(@Nonnull final Path file) throws SimpleCryptException {
         try {
             wipe();
 
@@ -91,7 +91,7 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private int indexOf(@NotNull final byte[] data, final byte b, final int from) {
+    private int indexOf(@Nonnull final byte[] data, final byte b, final int from) {
         return IntStream.range(from, data.length)
                 .filter(i -> data[i] == b)
                 .findFirst()
@@ -127,7 +127,7 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private void readLine(@NotNull final byte[] line) {
+    private void readLine(@Nonnull final byte[] line) {
         if (line.length < 2 || line[0] == '#') {
             return;
         }
@@ -159,7 +159,7 @@ public final class SecureProperties implements Closeable {
      * @param key Key to check
      * @return Returns true when key exists and value is not empty
      */
-    public boolean containsValue(@NotNull final String key) {
+    public boolean containsValue(@Nonnull final String key) {
         return data.getOrDefault(key, new byte[0]).length != 0;
     }
 
@@ -170,7 +170,7 @@ public final class SecureProperties implements Closeable {
      * @return Returns the byte array value or null when key doesn't exist.
      */
     @Nullable
-    public byte[] getValueAsBytes(@NotNull final String key) {
+    public byte[] getValueAsBytes(@Nonnull final String key) {
         return data.get(key);
     }
 
@@ -180,7 +180,7 @@ public final class SecureProperties implements Closeable {
      * @param key The Key
      * @param value The byte array value
      */
-    public void setKey(@NotNull final String key, @Nullable final byte[] value) {
+    public void setKey(@Nonnull final String key, @Nullable final byte[] value) {
         if (containsValue(key)) {
             Arrays.fill(getValueAsBytes(key), (byte)0);
         }
@@ -194,13 +194,8 @@ public final class SecureProperties implements Closeable {
      * @param file The file
      * @throws SimpleCryptException Thrown when unable to write file.
      */
-    public void write(@NotNull final Path file) {
+    public void write(@Nonnull final Path file) {
         try (OutputStream out = Files.newOutputStream(file)) {
-            // Write UTF-8 header
-            // TODO FixIt out.write('\ufeef'); // emits 0xef
-            //out.write('\ufebb'); // emits 0xbb
-            //out.write('\ufebf'); // emits 0xbf
-
             out.write("# SPPS Settings - Created by spps-java".getBytes(StandardCharsets.UTF_8));
             out.write(CRLF);
 
@@ -212,7 +207,7 @@ public final class SecureProperties implements Closeable {
         }
     }
 
-    private void writeKey(@NotNull final OutputStream out, @NotNull final String key, @Nullable final byte[] value) {
+    private void writeKey(@Nonnull final OutputStream out, @Nonnull final String key, @Nullable final byte[] value) {
         try {
             out.write(key.getBytes(StandardCharsets.UTF_8));
             out.write('=');

@@ -19,10 +19,11 @@
  */
 package de.elomagic.spps.shared;
 
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import javax.enterprise.inject.Produces;
 import java.io.BufferedReader;
@@ -43,7 +44,7 @@ public final class SimpleCryptFactory {
     private SimpleCryptFactory() {
     }
 
-    @NotNull
+    @Nonnull
     private static String readProviderClassNameFromMataInf() {
          InputStream in = SimpleCryptFactory.class.getResourceAsStream(META_INF_PATH);
         if (in == null) {
@@ -72,7 +73,7 @@ public final class SimpleCryptFactory {
      * @return The current provider
      */
     @Produces
-    @NotNull
+    @Nonnull
     public static SimpleCryptProvider getInstance() {
         if (ACTIVE_PROVIDER_INSTANCE.get() == null) {
             String className = readProviderClassNameFromMataInf();
@@ -108,7 +109,7 @@ public final class SimpleCryptFactory {
      * @see SimpleCryptFactory#getInstance()
      * @see SimpleCryptFactory#setProvider(SimpleCryptProvider)
      */
-    public static void setProvider(@NotNull final Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
+    public static void setProvider(@Nonnull final Class<? extends SimpleCryptProvider> providerClass) throws SimpleCryptException {
         try {
             SimpleCryptProvider instance = providerClass.getConstructor().newInstance();
 

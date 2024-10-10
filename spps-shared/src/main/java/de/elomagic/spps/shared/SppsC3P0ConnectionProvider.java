@@ -19,9 +19,10 @@
  */
 package de.elomagic.spps.shared;
 
+import jakarta.annotation.Nonnull;
+
 import org.hibernate.c3p0.internal.C3P0ConnectionProvider;
-import org.hibernate.cfg.Environment;
-import org.jetbrains.annotations.NotNull;
+import org.hibernate.cfg.AvailableSettings;
 
 import java.util.Properties;
 
@@ -32,31 +33,31 @@ public final class SppsC3P0ConnectionProvider extends C3P0ConnectionProvider {
      *
      * @param cfg The configuration properties.
      */
-    public void configure(@NotNull final Properties cfg) {
+    public void configure(@Nonnull final Properties cfg) {
 
         // Make a copy. Don't work with the original properties class!
         Properties props = new Properties(cfg);
 
         final SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
 
-        final String driver = props.getProperty(Environment.DRIVER);
+        final String driver = props.getProperty(AvailableSettings.DRIVER);
         if (provider.isEncryptedValue(driver)) {
-            props.setProperty(Environment.DRIVER, String.valueOf(provider.decryptToChars(driver)));
+            props.setProperty(AvailableSettings.DRIVER, String.valueOf(provider.decryptToChars(driver)));
         }
 
-        final String url = props.getProperty(Environment.URL);
+        final String url = props.getProperty(AvailableSettings.URL);
         if (provider.isEncryptedValue(url)) {
-            props.setProperty(Environment.URL, String.valueOf(provider.decryptToChars(url)));
+            props.setProperty(AvailableSettings.URL, String.valueOf(provider.decryptToChars(url)));
         }
 
-        final String user = props.getProperty(Environment.USER);
+        final String user = props.getProperty(AvailableSettings.USER);
         if (provider.isEncryptedValue(user)) {
-            props.setProperty(Environment.USER, String.valueOf(provider.decryptToChars(user)));
+            props.setProperty(AvailableSettings.USER, String.valueOf(provider.decryptToChars(user)));
         }
 
-        final String password = props.getProperty(Environment.PASS);
+        final String password = props.getProperty(AvailableSettings.PASS);
         if (provider.isEncryptedValue(password)) {
-            props.setProperty(Environment.PASS, String.valueOf(provider.decryptToChars(password)));
+            props.setProperty(AvailableSettings.PASS, String.valueOf(provider.decryptToChars(password)));
         }
 
         super.configure(props);

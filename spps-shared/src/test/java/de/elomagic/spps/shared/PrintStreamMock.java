@@ -1,6 +1,6 @@
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.NotNull;
+import jakarta.annotation.Nonnull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -18,7 +18,7 @@ public class PrintStreamMock extends PrintStream {
     }
 
     @Override
-    public void write(@NotNull byte[] buf, int off, int len) {
+    public void write(@Nonnull byte[] buf, int off, int len) {
         buffer.write(buf, off, len);
         super.write(buf, off, len);
     }
@@ -39,7 +39,7 @@ public class PrintStreamMock extends PrintStream {
     }
 
     public String toString() {
-        return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+        return buffer.toString(StandardCharsets.UTF_8);
     }
 
 }
