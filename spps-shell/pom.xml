@@ -22,11 +22,6 @@
         </license>
     </licenses>
 
-    <!--
-    <properties>
-    </properties>
-    -->
-
     <dependencies>
         <dependency>
             <groupId>de.elomagic</groupId>
