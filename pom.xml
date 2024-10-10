@@ -64,7 +64,7 @@
         <compiler-plugin.version>3.9.0</compiler-plugin.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 
-        <maven-surefire.version>3.0.0-M5</maven-surefire.version>
+        <maven-surefire.version>3.5.1</maven-surefire.version>
         <maven-release-plugin>3.0.0-M5</maven-release-plugin>
         <junit-jupiter.version>5.8.2</junit-jupiter.version>
 
