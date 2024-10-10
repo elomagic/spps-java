@@ -3,7 +3,6 @@ package de.elomagic.spps.bc;
 import de.elomagic.spps.shared.SimpleCryptException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -95,7 +94,7 @@ class SimpleCryptBCTest {
     void testEncryptDecryptWithChars() {
         String value = "secretäöüß";
 
-        char[] chars = ByteUtils.toCharArray(value.getBytes(StandardCharsets.UTF_8));
+        char[] chars = value.toCharArray();
 
         String encrypted = sc.encrypt(chars.clone());
 
