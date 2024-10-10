@@ -1,67 +1,51 @@
 package de.elomagic.spps.shared;
 
-import org.hibernate.boot.registry.classloading.spi.ClassLoaderService;
 import org.hibernate.cfg.Environment;
-import org.hibernate.service.spi.ServiceRegistryImplementor;
+import org.hibernate.cfg.JdbcSettings;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Properties;
-
-import static org.mockito.Mockito.*;
+import java.util.HashMap;
+import java.util.Map;
 
 class SppsC3P0ConnectionProviderTest {
-
-    ClassLoaderService mockClassLoaderService() {
-        ClassLoaderService classLoaderService = mock(ClassLoaderService.class, CALLS_REAL_METHODS);
-        when(classLoaderService.classForName(anyString())).thenAnswer(cn -> Object.class);
-
-        return classLoaderService;
-    }
-
-    ServiceRegistryImplementor mockRegistry() {
-        ServiceRegistryImplementor serviceRegistryImplementor = mock(ServiceRegistryImplementor.class, CALLS_REAL_METHODS);
-        when(serviceRegistryImplementor.getService(any())).thenAnswer(s -> mockClassLoaderService());
-
-        return serviceRegistryImplementor;
-    }
 
     @Test
     void testConfigure() {
         SimpleCryptProvider provider = SimpleCryptFactory.getInstance();
 
-        Properties securedProperties = new Properties();
-        securedProperties.setProperty(Environment.DRIVER, provider.encrypt("driverSecret".toCharArray()));
-        securedProperties.setProperty(Environment.URL, provider.encrypt("urlSecret".toCharArray()));
-        securedProperties.setProperty(Environment.USER, provider.encrypt("userSecret".toCharArray()));
-        securedProperties.setProperty(Environment.PASS, provider.encrypt("passwordSecret".toCharArray()));
+        Map<String, Object> securedProperties = new HashMap<>();
+        securedProperties.put(JdbcSettings.JAKARTA_JDBC_DRIVER, provider.encrypt("driverSecret".toCharArray()));
+        securedProperties.put(JdbcSettings.JAKARTA_JDBC_URL, provider.encrypt("urlSecret".toCharArray()));
+        securedProperties.put(JdbcSettings.JAKARTA_JDBC_USER, provider.encrypt("userSecret".toCharArray()));
+        securedProperties.put(JdbcSettings.JAKARTA_JDBC_PASSWORD, provider.encrypt("passwordSecret".toCharArray()));
 
         SppsC3P0ConnectionProvider c3po = new SppsC3P0ConnectionProvider();
-        c3po.injectServices(mockRegistry());
+        c3po.injectServices(new ServiceRegistryImplementorMock());
         c3po.configure(securedProperties);
 
         // Implementation has made a copy of cfg?
-        Assertions.assertTrue(provider.isEncryptedValue(securedProperties.getProperty(Environment.DRIVER)));
+        Assertions.assertTrue(provider.isEncryptedValue(securedProperties.get(Environment.JAKARTA_JDBC_DRIVER).toString()));
 
-        Assertions.assertEquals("driverSecret", new String(provider.decryptToChars(securedProperties.getProperty(Environment.DRIVER))));
-        Assertions.assertEquals("urlSecret", new String(provider.decryptToChars(securedProperties.getProperty(Environment.URL))));
-        Assertions.assertEquals("userSecret", new String(provider.decryptToChars(securedProperties.getProperty(Environment.USER))));
-        Assertions.assertEquals("passwordSecret", new String(provider.decryptToChars(securedProperties.getProperty(Environment.PASS))));
+        Assertions.assertEquals("driverSecret", new String(provider.decryptToChars(securedProperties.get(JdbcSettings.JAKARTA_JDBC_DRIVER).toString())));
+        Assertions.assertEquals("urlSecret", new String(provider.decryptToChars(securedProperties.get(JdbcSettings.JAKARTA_JDBC_URL).toString())));
+        Assertions.assertEquals("userSecret", new String(provider.decryptToChars(securedProperties.get(JdbcSettings.JAKARTA_JDBC_USER).toString())));
+        Assertions.assertEquals("passwordSecret", new String(provider.decryptToChars(securedProperties.get(JdbcSettings.JAKARTA_JDBC_PASSWORD).toString())));
 
-        Properties unsecuredProperties = new Properties();
-        unsecuredProperties.setProperty(Environment.DRIVER, "driver");
-        unsecuredProperties.setProperty(Environment.URL, "url");
-        unsecuredProperties.setProperty(Environment.USER, "user");
-        unsecuredProperties.setProperty(Environment.PASS, "password");
+        Map<String, Object> unsecuredProperties = new HashMap<>();
+        unsecuredProperties.put(JdbcSettings.JAKARTA_JDBC_DRIVER, "driver");
+        unsecuredProperties.put(JdbcSettings.JAKARTA_JDBC_URL, "url");
+        unsecuredProperties.put(JdbcSettings.JAKARTA_JDBC_USER, "user");
+        unsecuredProperties.put(JdbcSettings.JAKARTA_JDBC_PASSWORD, "password");
 
         c3po.configure(unsecuredProperties);
 
-        Assertions.assertFalse(provider.isEncryptedValue(unsecuredProperties.getProperty(Environment.DRIVER)));
+        Assertions.assertFalse(provider.isEncryptedValue(unsecuredProperties.get(JdbcSettings.JAKARTA_JDBC_DRIVER).toString()));
 
-        Assertions.assertEquals("driver", unsecuredProperties.getProperty(Environment.DRIVER));
-        Assertions.assertEquals("url", unsecuredProperties.getProperty(Environment.URL));
-        Assertions.assertEquals("user", unsecuredProperties.getProperty(Environment.USER));
-        Assertions.assertEquals("password", unsecuredProperties.getProperty(Environment.PASS));
+        Assertions.assertEquals("driver", unsecuredProperties.get(JdbcSettings.JAKARTA_JDBC_DRIVER));
+        Assertions.assertEquals("url", unsecuredProperties.get(JdbcSettings.JAKARTA_JDBC_URL));
+        Assertions.assertEquals("user", unsecuredProperties.get(JdbcSettings.JAKARTA_JDBC_USER));
+        Assertions.assertEquals("password", unsecuredProperties.get(JdbcSettings.JAKARTA_JDBC_PASSWORD));
 
     }
 
