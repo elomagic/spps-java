@@ -1,7 +1,7 @@
 package de.elomagic.spps.shared;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -9,7 +9,7 @@ import java.util.Base64;
 public class SimpleCryptProviderMock extends AbstractSimpleCryptProvider {
 
     @Override
-    @NotNull
+    @Nonnull
     public byte[] createPrivateKey() throws SimpleCryptException {
         return Base64.getEncoder().encode("ThisIsAPrivateKeyMock".getBytes(StandardCharsets.UTF_8));
     }

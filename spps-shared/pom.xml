@@ -15,16 +15,6 @@
     <name>Simple Password Protection Solution Shared Classes</name>
     <description>Simple Password Protection Solution Shared Classes</description>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -45,10 +35,9 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Helpful artifact for Intellij IDE ( https://www.jetbrains.com/help/idea/annotating-source-code.html ) -->
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
 
         <!-- From here only dependencies with scope "test" -->

@@ -15,9 +15,6 @@
     <name>Simple Password Protection Solution with Bouncy Castle</name>
     <description>Simple Password Protection Solution for Java with Bouncy Castle</description>
 
-    <properties>
-    </properties>
-
     <dependencies>
 
         <dependency>
@@ -46,10 +43,9 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Helpful artifact for Intellij IDE ( https://www.jetbrains.com/help/idea/annotating-source-code.html ) -->
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
 
         <!-- From here only dependencies with scope "test" -->

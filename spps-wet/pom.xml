@@ -15,16 +15,6 @@
     <name>Simple Password Protection Solution WebTool</name>
     <description>Simple tool to encrypt secret in running context of an application server</description>
 
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
-
-    <properties>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -39,11 +29,9 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Helpful artifact for Intellij IDE ( https://www.jetbrains.com/help/idea/annotating-source-code.html ) -->
         <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-            <scope>provided</scope>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
         </dependency>
 
         <dependency>
