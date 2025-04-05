@@ -63,7 +63,7 @@
 
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
 
-        <maven-surefire.version>3.5.2</maven-surefire.version>
+        <maven-surefire.version>3.5.3</maven-surefire.version>
         <maven-release-plugin>3.1.1</maven-release-plugin>
         <junit-jupiter.version>5.12.0</junit-jupiter.version>
 
